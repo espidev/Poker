@@ -12,9 +12,16 @@ public class MainMenu {
 	
 		do {
 			if (userInput == 1){
-				
+				Poker.startGame();
+			} else if (userInput == 2) {
+				System.out.println("The rules");
+			} else if (userInput == 3) {
+				System.out.println("Developers: Devin Lin, Jack Li, John Li, Alex Chan");
+			} else if (userInput == 4) {
+				System.out.println("Thanks for playing!");
+				System.exit(0);
 			}
-		} 
+		} while (userInput == 0);
 	        
 	}
 }
