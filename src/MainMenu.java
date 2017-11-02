@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MainMenu 
+public class MainMenu {
 	public static void displayMainMenu() {
 		Scanner sc = new Scanner (System.in);
 	
@@ -14,7 +14,7 @@ public class MainMenu
 			if (userInput == 1){
 				
 			}
-		}
+		} 
 	        
 	}
 }
