@@ -15,8 +15,14 @@ public class Poker {
 	public static int getPot() {
 		int sum = 0;
 		for(Player p : players) {
-			
+			sum += p.betMoney;
 		}
+		return sum;
+	}
+	
+	public static void setBlinds() {
+		int rand = (int) Math.random()*players.size();
+		int n2 = (rand == players.size()-1) ? :;
 	}
 	
 	public static void main(String[] args) {
