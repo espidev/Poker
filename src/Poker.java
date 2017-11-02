@@ -32,4 +32,9 @@ public class Poker {
 			MainMenu.displayMainMenu();
 		}
 	}
+	
+	public static void startGame() {
+		// TODO Auto-generated method stub
+		
+	}
 }
