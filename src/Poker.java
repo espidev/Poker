@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Poker {
 	public static List<Card> cardsOnStack = new ArrayList<>(), cardsOnTable = new ArrayList<>();
@@ -35,6 +34,30 @@ public class Poker {
 	
 	public static void startGame() {
 		// TODO Auto-generated method stub
+		
+	}
+	public static void prepareGame() {
+		
+	}
+	public static void round() {
+		
+	}
+	public static void orbit() {
+		
+	}
+	public static List<Runnable> getOptions(Player player) {
+		
+	}
+	public static void resetRound() {
+		
+	}
+	public static void resetGame() {
+		
+	}
+	public static void calculateWinners() {
+		
+	}
+	public static void playerTurn(Player player, List<Runnable> options) {
 		
 	}
 }
