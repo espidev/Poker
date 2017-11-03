@@ -33,7 +33,6 @@ public class Poker {
 	}
 	
 	public static void startGame() {
-		// TODO Auto-generated method stub
 		
 	}
 	public static void prepareGame() {
