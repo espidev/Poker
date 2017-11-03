@@ -8,26 +8,29 @@ public class Actions {
 				max = Poker.players.get(i).betMoney;
 			}
 		}
-		
-		if (max - player.betMoney < player.money) {
-			return true;	
-		} else {
-			return false;
-		}
+		return true;
 	}
 	public static boolean bet(Player player, int money) {
 		return true;
 	}
 	public static boolean fold(Player player) {
+		player.stillInRound = false;
+		System.out.println(player.name + " has folded.");
 		return true;
 	}
 	public static boolean call(Player player) {
 		return true;
 	}
 	public static boolean raise(Player player, int money) {
+		
+		
 		return true;
 	}
 	public static boolean allIn(Player player) {
+		player.betMoney = player.money;
+		player.money = 0;
+		player.allIn = true;
+		System.out.println(player.name + " has gone all in.");
 		return true;
 	}
 }
