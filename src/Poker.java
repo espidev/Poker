@@ -33,6 +33,7 @@ public class Poker {
 	}
 	
 	public static void startGame() {
+		prepareGame();
 		
 	}
 	public static void prepareGame() {
@@ -48,10 +49,22 @@ public class Poker {
 		
 	}
 	public static void resetRound() {
+		cardsOnStack = new ArrayList<>();
+		cardsOnTable = new ArrayList<>();
+	
+		for(int i = 1; i < 13; i++) {
+			cardsOnStack.add(new Card(i, Suit.CLOVER));
+			cardsOnStack.add(new Card(i, Suit.DIAMOND));
+			cardsOnStack.add(new Card(i, Suit.HEART));
+			cardsOnStack.add(new Card(i, Suit.SPADE));
+		}
 		
 	}
 	public static void resetGame() {
-		
+		resetRound();
+		bigBlind = null;
+		smallBlind = null;
+		curOrbit = 0;
 	}
 	public static void calculateWinners() {
 		
