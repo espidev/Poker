@@ -30,7 +30,7 @@ public class Poker {
 	public static void main(String[] args) {
 		while(true) {
 			MainMenu.displayMainMenu();
-		}d
+		}
 	}
 	
 	public static void startGame() {
