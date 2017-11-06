@@ -1,6 +1,7 @@
 public class Actions {
 	public static boolean check(Player player) {
 		return true;
+                System.out.println("you checked")
 	}
 	public static boolean bet(Player player, int money) {
                 player.betMoney += money;
@@ -22,6 +23,7 @@ public class Actions {
 				max = Poker.players.get(i).betMoney;
 			}
 		}
+                System.out.println("you called")
 		return true;
 	}
 	public static boolean raise(Player player, int money) {
