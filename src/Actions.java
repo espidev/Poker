@@ -6,7 +6,7 @@ public class Actions {
 	public static boolean bet(Player player, int money) {
 		player.betMoney += money;
 		player.money -= money;
-		System.out.println("you bet"+money+"amount of money")
+		System.out.println("you bet"+money+"amount of money");
 		return true;
 	}
 	public static boolean fold(Player player) {
@@ -23,13 +23,13 @@ public class Actions {
 				max = Poker.players.get(i).betMoney;
 			}
 		}
-		System.out.println("you called")
+		System.out.println("you called");
 		return true;
 	}
 	public static boolean raise(Player player, int money) {
 		player.betMoney += money;
 		player.money -= money;
-		System.out.println("you bet"+money+"amount of money")
+		System.out.println("you bet"+money+"amount of money");
 		return true;
 	}
 	public static boolean allIn(Player player) {
