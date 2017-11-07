@@ -72,7 +72,9 @@ public class DisplayManager {
 		}
 		prepare.add(a);
 		//Print all the players in the game with their output.
-		
+		for(String pName : pNames) {
+			
+		}
 		
 		for(String str : prepare) {
 			System.out.println(str);
