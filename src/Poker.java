@@ -82,11 +82,12 @@ public class Poker {
 	}
 	public static int calculateScore(List<Card> card) {
 		boolean HC, P1, P2, K3, ST, FL, FH, K4, SF, RF;
+		
 		//Royal Flush
 		
-		//straight flush
+		//Straight flush
 		
-		
+		return 0;
 	}
 	public static void playerTurn(Player player, List<Runnable> options) {
 		
