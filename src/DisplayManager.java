@@ -19,7 +19,7 @@ public class DisplayManager {
 		//Print global console.
 		for(String str : globalConsole) {
 			str = "| " + str;
-			for(int i = 0; i < longest-str.length(); i++) {
+			for(int i = 0; i < longest-str.length()-2; i++) {
 				str += " ";
 			}
 			str += " |";
@@ -36,27 +36,39 @@ public class DisplayManager {
 		
 		//Print heading.
 		int optionLongest = getLongestStringLength(options.keySet(), "Key"),
-			valueLongest = getLongestStringLength((Set<String>) options.values()), 
-			playerLongest = getLongestStringLength((Set<String>) pNames),
-			totalMoneyLongest = getLongestStringLength((Set<String>) totalMoney),
-			betMoneyLongest = getLongestStringLength((Set<String>) betMoney);
+			valueLongest = getLongestStringLength((Set<String>) options.values(), "Option"), 
+			playerLongest = getLongestStringLength((Set<String>) pNames, "Players"),
+			totalMoneyLongest = getLongestStringLength((Set<String>) totalMoney, "Total Money"),
+			betMoneyLongest = getLongestStringLength((Set<String>) betMoney, "Bet Money");
 		
 		String heading = "| Key";
-		for(int i = 0; i < valueLongest-3; i++) heading += " ";
+		for(int i = 0; i < optionLongest-3; i++) heading += " ";
 		heading += " | Option";
-		for(int i = 0; i < optionLongest-5; i++) heading += " ";
+		for(int i = 0; i < valueLongest-5; i++) heading += " ";
 		heading += " | | Players";
 		for(int i =  0; i < playerLongest-7; i++) heading += " ";
 		heading += " | Total Money ";
 		for(int i = 0; i < totalMoneyLongest-11; i++) heading += " ";
-		heading += " | betMoney";
+		heading += " | Bet Money";
+		for(int i = 0; i < betMoneyLongest-9; i++) heading += " ";
+		heading += "|";
 		prepare.add(heading);
 		prepare.add(a);
-		int consoleDivide = prepare.size()-1;
-		//Print player options.
+		int consoleDivide = prepare.size(); //get the index of prepare in which the line is after the heading.
+		//Print player key options.
+		int cache = 0;
 		for(String key : options.keySet()) {
 			key = "| " + key;
-			
+			for(int i = 0; i < optionLongest-key.length()-2; i++) key += " ";
+			prepare.add(key);
+		}
+		//Print player options.
+		for(String val : options.values()) {
+			val = "| " + val;
+			for(int i = 0; i < valueLongest-val.length()-2; i++) val += " "; 
+			if(consoleDivide + cache > prepare.size()-1)
+			prepare.set(consoleDivide + cache, val);
+			cache++;
 		}
 		prepare.add(a);
 		//Print all the players in the game with their output.
