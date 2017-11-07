@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Poker {
@@ -35,12 +36,22 @@ public class Poker {
 	public static void startGame() {
 		prepareGame();
 		
+		Collections.sort(players); //TODO
 	}
 	public static void prepareGame() {
 		
 	}
 	public static void round() {
-		
+		setBlinds();
+		for (int i = curOrbit; i < 4 && inRound; i++) {
+			orbit();
+		}
+		//Show everyone's cards in the output
+		calculateWinners();
+		for (int i = 0; i < players.size(); i++) {
+			System.out.println();
+		}
+		resetRound();
 	}
 	public static void orbit() {
 		
@@ -67,6 +78,14 @@ public class Poker {
 		curOrbit = 0;
 	}
 	public static void calculateWinners() {
+		
+	}
+	public static int calculateScore(List<Card> card) {
+		boolean HC, P1, P2, K3, ST, FL, FH, K4, SF, RF;
+		//Royal Flush
+		
+		//straight flush
+		
 		
 	}
 	public static void playerTurn(Player player, List<Runnable> options) {
