@@ -32,13 +32,20 @@ public class Evaluator {
 			sortCards(c, false);
 			for (int i = 0; i < c.size(); i++) {
 				if (c.get(i).number == (i + 9) && (c.get(i).suit == c.get(0).suit)){
-					setScore(score, 10, 1000);
-					return score;
+					score[0] = 10;
+					break;
 				}
 			}	
+			
+			//Straight Flush
+			for (int i = 0; i < c.size(); i++) {
+				if (c.get(i).number == (i + 9) {
+					score[0] = 9;
+				}
+			}
+			
 		}
 		
-		//Straight flush
 	}
 	
 	public static void sortCards(List<Card> i, boolean m) {
