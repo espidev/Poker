@@ -12,7 +12,7 @@ public class DisplayManager {
 		int longest = getLongestStringLength((Set<String>) globalConsole);
 		String a = "";
 		for(int i = 0; i < longest+4; i++) {
-			a += "—";
+			a += "â€”";
 		}
 		prepare.add(a);
 		
