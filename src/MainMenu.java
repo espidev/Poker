@@ -15,20 +15,25 @@ public class MainMenu {
 		System.out.println("———————————————————————————————————————————");
 		System.out.println("| 0   | Exit                              |");
 		System.out.println("———————————————————————————————————————————");
-		System.out.println("1: Play\n2: Rules\n3: Credits\n4: Exit");
 
-		int userInput = Poker.scan.nextInt();
-		if (userInput == 1){
-			Poker.startGame();
-		} else if (userInput == 2) {
-			printRules();
-		} else if (userInput == 3) {
-			System.out.println("Developers: Devin Lin, Jack Li, John Li, Alex Chan");
-		} else if (userInput == 0) {
-			System.out.println("Thanks for playing!");
-			System.exit(0);
+		String input = Poker.scan.next();
+
+		switch(input) {
+			case "1": Poker.clearConsole();
+					Poker.startGame();
+					break;
+			case "2": printRules();
+					break;
+			case "3": System.out.println("Developers: Devin Lin, Jack Li, John Li, Alex Chan");
+					break;
+			case "4": System.out.println("TODO!");
+					break;
+			case "0": System.out.println("Exiting program.");
+					System.exit(0);
+					break;
+			default: System.out.println("Incorrect input, try again.");
+					break;
 		}
-
 	}
 
 	public static void printRules () {
