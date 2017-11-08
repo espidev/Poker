@@ -51,7 +51,7 @@ public class DisplayManager {
 		for(int i = 0; i < totalMoneyLongest-11; i++) heading += " ";
 		heading += " | Bet Money";
 		for(int i = 0; i < betMoneyLongest-9; i++) heading += " ";
-		heading += "|";
+		heading += " |";
 		prepare.add(heading);
 		prepare.add(a);
 		int consoleDivide = prepare.size(); //get the index of prepare in which the line is after the heading.
@@ -59,21 +59,81 @@ public class DisplayManager {
 		int cache = 0;
 		for(String key : options.keySet()) {
 			key = "| " + key;
-			for(int i = 0; i < optionLongest-key.length()-2; i++) key += " ";
+			for(int i = 0; i < optionLongest-key.length(); i++) key += " ";
 			prepare.add(key);
 		}
 		//Print player options.
 		for(String val : options.values()) {
-			val = "| " + val;
-			for(int i = 0; i < valueLongest-val.length()-2; i++) val += " "; 
-			if(consoleDivide + cache > prepare.size()-1)
-			prepare.set(consoleDivide + cache, val);
+			val = " | " + val;
+			for(int i = 0; i < valueLongest-val.length(); i++) val += " "; 
+			if(consoleDivide + cache > prepare.size()-1) {
+				String prep = "| ";
+				for(int i = 0; i < optionLongest; i++) prep += " ";
+				prep += val;
+				prepare.add(prep); // yikes
+			}
+			else {
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + val);
+			}
 			cache++;
 		}
-		prepare.add(a);
+		cache = 0;
 		//Print all the players in the game with their output.
 		for(String pName : pNames) {
-			
+			pName = " | " + pName;
+			for(int i = 0; i < playerLongest-pName.length(); i++) pName += " ";
+			if(consoleDivide + cache > prepare.size()-1) {
+				String prep = "| ";
+				for(int i = 0; i < optionLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < valueLongest; i++) prep += " ";
+				prep += pName;
+				prepare.add(prep); 
+			}
+			else {
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + pName);
+			}
+			cache++;
+		}
+		cache = 0;
+		//Print the total money for the players in the game
+		for(String money : totalMoney) {
+			money = " | " + money;
+			for(int i = 0; i < totalMoneyLongest-money.length(); i++) money += " ";
+			if(consoleDivide + cache > prepare.size()-1) {
+				String prep = "| ";
+				for(int i = 0; i < optionLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < valueLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < totalMoneyLongest; i++) prep += " ";
+				prep += money;
+				prepare.add(prep); 
+			}
+			else {
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + money);
+			}
+		}
+		cache = 0;
+		//Print the bet money for the players in the game
+		for(String bmoney : betMoney) {
+			bmoney = " | " + bmoney;
+			for(int i = 0; i < betMoneyLongest-bmoney.length(); i++) bmoney += " ";
+			if(consoleDivide + cache > prepare.size()-1) {
+				String prep = "| ";
+				for(int i = 0; i < optionLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < valueLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < totalMoneyLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < betMoneyLongest; i++) prep += " ";
+				prep += bmoney + " |";
+				prepare.add(prep); 
+			}
+			else {
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + bmoney);
+			}
 		}
 		
 		for(String str : prepare) {
