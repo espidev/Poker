@@ -73,11 +73,10 @@ public class DisplayManager {
 				prepare.add(prep); // yikes
 			}
 			else {
-				prepare.set(consoleDivide + cache, val);
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + val);
 			}
 			cache++;
 		}
-		prepare.add(a);
 		cache = 0;
 		//Print all the players in the game with their output.
 		for(String pName : pNames) {
@@ -87,12 +86,53 @@ public class DisplayManager {
 				String prep = "| ";
 				for(int i = 0; i < optionLongest; i++) prep += " ";
 				prep += " | ";
-				
+				for(int i = 0; i < valueLongest; i++) prep += " ";
 				prep += pName;
 				prepare.add(prep); 
 			}
 			else {
-				prepare.set(consoleDivide + cache, pName);
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + pName);
+			}
+			cache++;
+		}
+		cache = 0;
+		//Print the total money for the players in the game
+		for(String money : totalMoney) {
+			money = " | " + money;
+			for(int i = 0; i < totalMoneyLongest-money.length(); i++) money += " ";
+			if(consoleDivide + cache > prepare.size()-1) {
+				String prep = "| ";
+				for(int i = 0; i < optionLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < valueLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < totalMoneyLongest; i++) prep += " ";
+				prep += money;
+				prepare.add(prep); 
+			}
+			else {
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + money);
+			}
+		}
+		cache = 0;
+		//Print the bet money for the players in the game
+		for(String bmoney : betMoney) {
+			bmoney = " | " + bmoney;
+			for(int i = 0; i < betMoneyLongest-bmoney.length(); i++) bmoney += " ";
+			if(consoleDivide + cache > prepare.size()-1) {
+				String prep = "| ";
+				for(int i = 0; i < optionLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < valueLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < totalMoneyLongest; i++) prep += " ";
+				prep += " | ";
+				for(int i = 0; i < betMoneyLongest; i++) prep += " ";
+				prep += bmoney + " |";
+				prepare.add(prep); 
+			}
+			else {
+				prepare.set(consoleDivide + cache, prepare.get(consoleDivide + cache) + bmoney);
 			}
 		}
 		
