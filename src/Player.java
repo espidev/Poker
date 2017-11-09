@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * POKER PROGRAM
+ * Names: Alex, John, Jack, Devin
+ * MainMenu class: The main menu for the beginning of the game.
  */
 
 public class Player implements Comparable<Player>{
