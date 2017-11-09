@@ -461,7 +461,7 @@ public class Poker {
 		}
 
 		setBlinds();
-		for (; curOrbit < 4 && inRound; curOrbit++) {
+		for (; curOrbit < 4 && inRound; curOrbit++) { //curOrbit already set to zero from resetRound()
 			orbit();
 		}
 		//Show everyone's cards in the output
@@ -477,6 +477,58 @@ public class Poker {
 	 */
 
 	public static void orbit() {
+		DisplayManager.wipeConsole();
+		switch(curOrbit) { //give appropriate actions for each round.
+		case 0:
+			System.out.println("—————————————————————————————————");
+			System.out.println("| Welcome to the Preflop round. |");
+			System.out.println("—————————————————————————————————");
+			DisplayManager.globalConsole.add("The preflop round has started.");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 1:
+			System.out.println("—————————————————————————————————");
+			System.out.println("| Welcome to the Flop round.    |");
+			System.out.println("—————————————————————————————————");
+			DisplayManager.globalConsole.add("The flop round has started.");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			System.out.println("—————————————————————————————————");
+			System.out.println("| Welcome to the Turn round.    |");
+			System.out.println("—————————————————————————————————");
+			DisplayManager.globalConsole.add("The turn round has started.");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			System.out.println("—————————————————————————————————");
+			System.out.println("| Welcome to the River round. |");
+			System.out.println("—————————————————————————————————");
+			DisplayManager.globalConsole.add("The river round has started.");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		}
+		
 		boolean exit = false;
 		int start = 0; //get the starting person
 		for(int i = 0; i < players.size(); i++) {
@@ -495,20 +547,16 @@ public class Poker {
 			curPlayer = cur;
 			if(players.get(curPlayer).stillInGame && players.get(curPlayer).stillInRound) {
 				//Player's turn
-				HashMap<String, Runnable> options = getOptions(players.get(curPlayer));
+				HashMap<String, Runnable> options = getOptions(players.get(curPlayer)); //get what options the player can do
+
 				if(players.get(curPlayer).isAI) {
-					
+					AI.calculateTurn(players.get(curPlayer), options);
 				}
 				else {
-					HashMap<String, String> contextAssemble = new HashMap<>();
-					for(int i = 0; i < options.size(); i++) {
-						contextAssemble.put(i + "", new ArrayList<>(options.keySet()).get(i));
-					}
-					DisplayManager.displayContext(contextAssemble);
-
+					playerTurn(players.get(curPlayer), options);
 				}
 			}
-			if(cur == players.size()-1) {
+			if(cur == players.size()-1) { //go from array size back to zero (to loop around players)
 				cur = 0;
 			}
 			else {
@@ -517,9 +565,19 @@ public class Poker {
 		}
 		while(cur != orbitEnd);
 	}
+
+	/*
+	 * Return a list of options that the player can choose to do
+	 */
+
 	public static HashMap<String, Runnable> getOptions(Player player) {
 
 	}
+
+	/*
+	 * Resets the round (happens several times in a game)
+	 */
+
 	public static void resetRound() {
 		curOrbit = 0;
 		curPlayer = 0;
@@ -538,6 +596,11 @@ public class Poker {
 			p.cards = new ArrayList<>();
 		}
 	}
+
+	/*
+	 * Resets the entire game.
+	 */
+
 	public static void resetGame() {
 		resetRound();
 		players = new ArrayList<>();
@@ -548,7 +611,13 @@ public class Poker {
 	public static void calculateWinners() {
 
 	}
-	public static void playerTurn(Player player, List<Runnable> options) {
+	public static void playerTurn(Player player, HashMap<String, Runnable> options) {
+		HashMap<String, String> contextAssemble = new HashMap<>();
+		for(int i = 0; i < options.size(); i++) {
+			contextAssemble.put(i + "", new ArrayList<>(options.keySet()).get(i));
+		}
+		DisplayManager.displayContext(contextAssemble);
+		String input = scan.next();
 
 	}
 }
