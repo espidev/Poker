@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 
 public class Poker {
-	
+
 	public static List<Card> cardsOnStack = new ArrayList<>(), cardsOnTable = new ArrayList<>();
 	public static List<Player> players = new ArrayList<>();
 
@@ -49,7 +49,32 @@ public class Poker {
 	}
 
 	public static void startGame() {
+		resetGame();
 		prepareGame();
+		for(Player p : players) {
+			Card c1 = cardsOnTable.get((int) Math.random() * cardsOnTable.size());
+			cardsOnTable.remove(c1);
+			Card c2 = cardsOnTable.get((int) Math.random() * cardsOnTable.size());
+			cardsOnTable.remove(c2);
+			p.cards.add(c1);
+			p.cards.add(c2);
+		}
+		setBlinds();
+
+		System.out.println("Starting game...");
+
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		while (true) {
+			round();
+			while (true) {
+				System.out.println("Do you want the game to continue? (y/n)");
+			}
+		}
 
 		Collections.sort(players); //TODO
 	}
@@ -65,10 +90,13 @@ public class Poker {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		int numOfPlayers, startingBalance;
+		int numOfPlayers, startingBalance = 0;
 		boolean defaultStarting;
 
-		//Number of players in game
+		/*
+		 * Number of players in a game
+		 */
+
 		while(true) {
 			try {
 				System.out.println("How many players will there be in the game?");
@@ -97,8 +125,10 @@ public class Poker {
 			}
 		}
 
+		/*
+		 * Default starting balance
+		 */
 
-		//Default starting balance
 		while(true) {
 			try {
 				System.out.println("Should there be a default starting balance? (y/n)");
@@ -107,7 +137,7 @@ public class Poker {
 					defaultStarting = true;
 					while(true) {
 						try {
-							System.out.println("How much should it be?");
+							System.out.println("How much should it be? (integer)");
 							int num = scan.nextInt();
 							if(num < 10) {
 								System.out.println("Too little. Please specify a number larger than 10.");
@@ -152,6 +182,10 @@ public class Poker {
 			}
 		}
 
+		/*
+		 * Prepare players in the game.
+		 */
+
 		System.out.println("Now on to preparing the players.");
 		try {
 			Thread.sleep(2000);
@@ -171,6 +205,7 @@ public class Poker {
 			while(true) {
 				System.out.println("Will this player be an AI? (y/n)");
 				String input = scan.next();
+
 				if(input.equalsIgnoreCase("y")) { //Is AI
 					System.out.println("Okay.");
 					AI = true;
@@ -182,20 +217,69 @@ public class Poker {
 
 					//choose a random name for the AI
 					List<String> names = Arrays.asList("Joe", "Bob", "Joney", "Cosine", "Tangent", "LOL HI");
-					
+
 					int j = 0;
+					String rand = "";
+
 					while(j < names.size()) { //check if there is already a person with the name
-						String rand = names.get((int) Math.random() * names.size());
-						boolean found = false;
+						rand = names.get((int) Math.random() * names.size());
+						boolean notFound = true;
 						for(Player p : players) {
 							if(p.name.equals(rand)) {
-								found = true;
+								notFound = false;
 							}
 						}
+						if(notFound) {
+							name = rand;
+							break;
+						}
+						names.remove(rand);
 						j++;
 					}
-					if(name == null) {
-						
+					if(name == null) { //If it still can't find a name not taken, add a random number to the current name.
+						name = rand + ((int) Math.random() * 100); //still possibility for an AI to have the same name as another person but it should be fine...
+					}
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					System.out.println("This AI's name is " + name + ".");
+
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
+					if(defaultStarting) { //if there is a default starting balance
+						players.add(new Player(name, startingBalance, true));
+					}
+					else {
+						System.out.println("How much should this player start with? (Starting balance integer)");
+						while(true) {
+							try {
+								int start = scan.nextInt();
+								if(start < 10) {
+									System.out.println("Too little. Please specify a number larger than 10.");
+									Thread.sleep(300);
+								}
+								else {
+									players.add(new Player(name, start, true));
+									System.out.println("$" + start + " is perfect!");
+									Thread.sleep(1000);
+									break;
+								}
+							}
+							catch (Exception e) {
+								System.out.println("Error. Try again.");
+								try {
+									Thread.sleep(300);
+								} catch (InterruptedException es) {
+									es.printStackTrace();
+								}
+							}
+						}
 					}
 					break;
 				}
@@ -206,6 +290,63 @@ public class Poker {
 						Thread.sleep(300);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
+					}
+					System.out.println("What is the name of this player?");
+					scan.nextLine();
+					while(true) {
+						String inputName = scan.nextLine();
+						boolean found = false;
+						for(Player p : players) {
+							if(p.name.equals(inputName)) {
+								System.out.println("There is already a player with this name! Try another one.");
+								try {
+									Thread.sleep(300);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								found = true;
+								break;
+							}
+						}
+						if(!found) {
+							System.out.println("Hello " + inputName + "!");
+							name = inputName;
+							try {
+								Thread.sleep(300);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							break;
+						}
+					}
+					if(defaultStarting) { //if there is a default starting balance
+						players.add(new Player(name, startingBalance, false));
+					}
+					else {
+						System.out.println("How much should this player start with? (Starting balance integer)");
+						while(true) {
+							try {
+								int start = scan.nextInt();
+								if(start < 10) {
+									System.out.println("Too little. Please specify a number larger than 10.");
+									Thread.sleep(300);
+								}
+								else {
+									players.add(new Player(name, start, false));
+									System.out.println("$" + start + " is perfect!");
+									Thread.sleep(1000);
+									break;
+								}
+							}
+							catch (Exception e) {
+								System.out.println("Error. Try again.");
+								try {
+									Thread.sleep(300);
+								} catch (InterruptedException es) {
+									es.printStackTrace();
+								}
+							}
+						}
 					}
 					break;
 				}
@@ -218,6 +359,12 @@ public class Poker {
 					}
 				}
 			}
+		}
+		System.out.println("Setup process complete!");
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -250,7 +397,7 @@ public class Poker {
 		}
 	}
 	public static List<Runnable> getOptions(Player player) {
-		
+
 	}
 	public static void resetRound() {
 		curOrbit = 0;

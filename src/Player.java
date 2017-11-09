@@ -7,9 +7,15 @@ import java.util.List;
 public class Player implements Comparable<Player>{
 	
 	List<Card> cards;
-	int money, betMoney, orderOfDeath;
+	int money, betMoney = 0, orderOfDeath;
 	String name;
 	boolean isAI, stillInRound = true, stillInGame = true, allIn = false;
+	
+	public Player(String name, int money, boolean isAI) {
+		this.name = name;
+		this.money = money;
+		this.isAI = isAI;
+	}
 	
 	public int compareTo(Player p) {
 		if (stillInGame) {
