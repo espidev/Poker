@@ -5,9 +5,8 @@
 public class Actions {
 	
 	public static boolean check(Player player) {
-		player.betMoney = Poker.prevBet;
-		System.out.println("You've checked ($" + player.betMoney + ").");
-		DisplayManager.globalConsole.add(player.name + " has checked ($" + player.betMoney + ").");
+		System.out.println("You've checked.");
+		DisplayManager.globalConsole.add(player.name + " has checked.");
 		return true;
 	}
 	
