@@ -4,7 +4,7 @@ import java.util.List;
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * MainMenu class: The main menu for the beginning of the game.
+ * Player class: A class to generate a player object
  */
 
 public class Player implements Comparable<Player>{
