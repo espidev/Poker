@@ -33,45 +33,67 @@ public class Evaluator {
 		
 		List<Card> c = card;
 		int[] score = new int[2];
+	
+		//Royal Flush
+		sortCards(c, true);
+		sortCards(c, false);
+
+		for (int i = 0; i < c.size() - 4; i++) {
+			if (c.get(i).number == 10) {
+				for (int j = i; j < c.size(); j++) {
+					if (c.get(j).number == (j + 9) && (c.get(j).suit == c.get(0).suit)){
+						score[0] = 10;
+						return score;
+					}
+				}
+				break;
+			}
+		}
 		
-		if (c.size() >= 5) {
-			//Royal Flush
-			sortCards(c, true);
-			sortCards(c, false);
-			
-			
-			
-			int rf_s;
-			for (int i = 0; i < c.size() - 4; i++) {
-				if (c.get(i).number == 10) {
-					rf_s = i;
+		//Straight Flush
+		int sf;
+		for (int i = 0; i < c.size(); i++) {
+			if (c.get(i).number + 1 == c.get(i+1).number) {
+				sf++;
+			} else if (c.get(i).number != c.get(i+1).number) {
+				sf = 0;	
+			}
+			if(sf == 4) {
+				score[0] = 9;
+				return score;
+			}
+		}
+		int[] w_case = new int[5];
+		for (int i = 0; i < c.size(); i++) {
+			if (c.get(i).number == 13){
+				w_case[0]++;
+			} else if (c.get(i).number == 1){
+				w_case[1]++;
+			} else if (c.get(i).number == 2){
+				w_case[2]++;
+			} else if (c.get(i).number == 3){
+				w_case[3]++;
+			} else if (c.get(i).number == 4){
+				w_case[4]++;
+			}
+			int matcher = 1;
+			for(int i = 0; i < 5 ;i++)
+			{
+				if(int[i] == 0)
+				{
+					matcher = 0;
 				}
 			}
-			
-			
-			
-			for (int i = 0; i < c.size(); i++) {
-				if (c.get(i).number == (i + 9) && (c.get(i).suit == c.get(0).suit)){
-					score[0] = 10;
-					return score;
-				}
-			}	
-			
-			//Straight Flush
-			sortCards(c, true);
-			sortCards(c, false);
-			int sf = 0;
-			for (int i = 0; i < c.size(); i++) {
-				if (c.get(i).number + 1 == c.get(i+1).number) {
-					sf++;
-				} else if (c.get(i).number != c.get(i+1).number) {
-				    sf = 0;	
-				}
-				if(sf == 4) {
-					score[0] = 9;
-					return score;
-				}
+			if(matcher==1)
+			{
+				score[0] =9;
+				return score;
 			}
+
+		
+		
+		
+		
 			//Four of a Kind
 			sortCards(c, true);
 			int fk = 0;
