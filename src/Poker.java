@@ -291,7 +291,7 @@ public class Poker {
 					}
 
 					//choose a random name for the AI
-					List<String> names = new ArrayList<>(Arrays.asList("Joe", "Bob", "Joney", "Cosine", "Tangent", "LOL HI"));
+					List<String> names = new ArrayList<>(Arrays.asList("Joe", "Bob", "Mark", "Jill", "Peter", "Cosmo", "Stalin", "Kim Jong Un", "Mao Zedong", "Fidel Castro", "Donald Trump"));
 
 					int j = 0;
 					String rand = "";

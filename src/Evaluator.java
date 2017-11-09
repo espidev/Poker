@@ -10,7 +10,11 @@ public class Evaluator {
 	
 	public static boolean HC, P1, P2, K3, ST, FL, FH, K4, SF, RF;
 	
-	public static int[] calculateScore(List<Card> card) {
+	public static int[] calculateScore (List<Card> card) {
+		return 0;
+	}
+	
+	public static int[] evaluate(List<Card> card) {
 		
 		/*
 		 * Score Format: {a, b}
@@ -37,22 +41,35 @@ public class Evaluator {
 			for (int i = 0; i < c.size(); i++) {
 				if (c.get(i).number == (i + 9) && (c.get(i).suit == c.get(0).suit)){
 					score[0] = 10;
-					break;
+					return score;
 				}
 			}	
 			
 			//Straight Flush
+			sortCards(c, true);
+			sortCards(c, false);
+			int counter = 0;
 			for (int i = 0; i < c.size(); i++) {
-				if (c.get(i).number == (i + 9)) {
+				if (c.get(i).number + 1 == c.get(i+1).number) {
+					counter++;
+				} else if (c.get(i).number != c.get(i+1).number) {
+				    counter = 0;	
+				}
+				if(counter == 4) {
 					score[0] = 9;
+					return score;
 				}
 			}
+			//4 of a Kind
+			
+			
 			
 		}
 		
 	}
 	
 	public static void sortCards(List<Card> i, boolean m) {
+		//True
 		Card.mode = m;
 		Collections.sort(i);
 	}
