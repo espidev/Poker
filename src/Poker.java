@@ -17,10 +17,10 @@ public class Poker {
 
 	public static Player bigBlind = null, smallBlind = null;
 
-	public static int curPlayer, curOrbit;
+	public static int curPlayer, curOrbit, numOfDead = 0;
 
 	public static boolean inRound = false, inGame = false;
-
+	
 	public static int getPot() {
 		int sum = 0;
 		for(Player p : players) {
@@ -55,6 +55,10 @@ public class Poker {
 		}
 		DisplayManager.globalConsole.add(smallBlind.name + " is now the small blind.");
 		DisplayManager.globalConsole.add(bigBlind.name + " is now the big blind.");
+		bigBlind.betMoney = 2;
+		smallBlind.betMoney = 1;
+		DisplayManager.globalConsole.add(smallBlind.name + " has bet $1.");
+		DisplayManager.globalConsole.add(bigBlind.name + " has bet $2.");
 	}
 
 	public static void main(String[] args) {
@@ -197,7 +201,7 @@ public class Poker {
 					defaultStarting = true;
 					while(true) {
 						try {
-							System.out.println("How much should it be? (integer)");
+							System.out.println("How much should it be? (50 recommended)");
 							int num = Integer.parseInt(scan.next());
 							if(num < 10) {
 								System.out.println("Too little. Please specify a number larger than 10.");
@@ -316,7 +320,7 @@ public class Poker {
 						players.add(new Player(name, startingBalance, true));
 					}
 					else {
-						System.out.println("How much should this player start with? (Starting balance integer)");
+						System.out.println("How much should this player start with? (50 recommended)");
 						while(true) {
 							try {
 								int start = Integer.parseInt(scan.next());
@@ -384,7 +388,7 @@ public class Poker {
 						players.add(new Player(name, startingBalance, false));
 					}
 					else {
-						System.out.println("How much should this player start with? (Starting balance integer)");
+						System.out.println("How much should this player start with? (50 recommended)");
 						while(true) {
 							try {
 								int start = Integer.parseInt(scan.next());
@@ -434,6 +438,19 @@ public class Poker {
 	 */
 
 	public static void round() {
+		
+		//Check that everyone has enough money
+		for(Player p : players) {
+			if(p.money < 2) {
+				System.out.println(p.name + " does not have enough money to continue playing.");
+				System.out.println(p.name + " has forfeited the game.");
+				p.stillInGame = false;
+				p.orderOfDeath = numOfDead + 1;
+				p.stillInRound = false;
+				numOfDead++;
+			}
+		}
+		
 		setBlinds();
 		for (; curOrbit < 4 && inRound; curOrbit++) {
 			orbit();
@@ -452,14 +469,19 @@ public class Poker {
 
 	public static void orbit() {
 		boolean exit = false;
-		int start; //get the starting person
+		int start = 0; //get the starting person
 		for(int i = 0; i < players.size(); i++) {
 			if(players.get(i).name.equals(bigBlind.name)) {
-				if()
+				if(i == players.size()-1) {
+					start = 0;
+				}
+				else {
+					start = i+1;
+				}
 			}
 		}
 		while(!exit) {
-
+			
 		}
 	}
 	public static List<Runnable> getOptions(Player player) {
@@ -476,14 +498,18 @@ public class Poker {
 			cardsOnStack.add(new Card(i, Suit.HEART));
 			cardsOnStack.add(new Card(i, Suit.SPADE));
 		}
-
+		for(Player p : players) {
+			p.allIn = false;
+			p.betMoney = 0;
+			p.cards = new ArrayList<>();
+		}
 	}
 	public static void resetGame() {
 		resetRound();
 		players = new ArrayList<>();
 		bigBlind = null;
 		smallBlind = null;
-		curOrbit = 0;
+		numOfDead = 0;
 	}
 	public static void calculateWinners() {
 
