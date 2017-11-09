@@ -3,7 +3,9 @@ import java.util.Collections;
 import java.util.List;
 
 /*
- * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * POKER PROGRAM
+ * Names: Alex, John, Jack, Devin
+ * Evaluator class: An evaluator to calculate the score of the pokerhand
  */
 
 public class Evaluator {
