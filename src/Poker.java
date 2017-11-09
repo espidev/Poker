@@ -19,7 +19,7 @@ public class Poker {
 
 	public static int curPlayer, curOrbit;
 
-	public static boolean inRound = false;
+	public static boolean inRound = false, inGame = false;
 
 	public static int getPot() {
 		int sum = 0;
@@ -49,17 +49,19 @@ public class Poker {
 	}
 
 	public static void startGame() {
+		
 		resetGame();
 		prepareGame();
+		
+		//Pick cards for the players
 		for(Player p : players) {
-			Card c1 = cardsOnTable.get((int) Math.random() * cardsOnTable.size());
-			cardsOnTable.remove(c1);
-			Card c2 = cardsOnTable.get((int) Math.random() * cardsOnTable.size());
-			cardsOnTable.remove(c2);
+			Card c1 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
+			cardsOnStack.remove(c1);
+			Card c2 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
+			cardsOnStack.remove(c2);
 			p.cards.add(c1);
 			p.cards.add(c2);
 		}
-		setBlinds();
 
 		System.out.println("Starting game...");
 
@@ -68,14 +70,50 @@ public class Poker {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
+		inGame = true;
 
-		while (true) {
+		while (inGame) {
+			
+			//Starts a round of poker
 			round();
+			
+			//CHECK IF THERE IS ONE PERSON LEFT
+			
+			//Ask if the game should continue
 			while (true) {
 				System.out.println("Do you want the game to continue? (y/n)");
+				String input = scan.next();
+				if(input.equalsIgnoreCase("y")) {
+					System.out.println("Okay.");
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+				else if(input.equalsIgnoreCase("n")) {
+					System.out.println("Okay.");
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					inGame = false;
+					break;
+				}
+				else {
+					System.out.println("Error. Try again.");
+					try {
+						Thread.sleep(300);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
-
+		//FIND THE DANG WINNERS
 		Collections.sort(players); //TODO
 	}
 
@@ -100,7 +138,8 @@ public class Poker {
 		while(true) {
 			try {
 				System.out.println("How many players will there be in the game?");
-				numOfPlayers = scan.nextInt();
+				numOfPlayers = Integer.parseInt(scan.next());
+				
 				if(numOfPlayers < 2) {
 					System.out.println("You must have 2 or more people to play.");
 					Thread.sleep(300);
@@ -138,7 +177,7 @@ public class Poker {
 					while(true) {
 						try {
 							System.out.println("How much should it be? (integer)");
-							int num = scan.nextInt();
+							int num = Integer.parseInt(scan.next());
 							if(num < 10) {
 								System.out.println("Too little. Please specify a number larger than 10.");
 								Thread.sleep(300);
@@ -216,7 +255,7 @@ public class Poker {
 					}
 
 					//choose a random name for the AI
-					List<String> names = Arrays.asList("Joe", "Bob", "Joney", "Cosine", "Tangent", "LOL HI");
+					List<String> names = new ArrayList<>(Arrays.asList("Joe", "Bob", "Joney", "Cosine", "Tangent", "LOL HI"));
 
 					int j = 0;
 					String rand = "";
@@ -259,7 +298,7 @@ public class Poker {
 						System.out.println("How much should this player start with? (Starting balance integer)");
 						while(true) {
 							try {
-								int start = scan.nextInt();
+								int start = Integer.parseInt(scan.next());
 								if(start < 10) {
 									System.out.println("Too little. Please specify a number larger than 10.");
 									Thread.sleep(300);
@@ -273,6 +312,7 @@ public class Poker {
 							}
 							catch (Exception e) {
 								System.out.println("Error. Try again.");
+								e.printStackTrace();
 								try {
 									Thread.sleep(300);
 								} catch (InterruptedException es) {
@@ -326,7 +366,7 @@ public class Poker {
 						System.out.println("How much should this player start with? (Starting balance integer)");
 						while(true) {
 							try {
-								int start = scan.nextInt();
+								int start = Integer.parseInt(scan.next());
 								if(start < 10) {
 									System.out.println("Too little. Please specify a number larger than 10.");
 									Thread.sleep(300);
