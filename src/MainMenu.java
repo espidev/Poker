@@ -25,7 +25,7 @@ public class MainMenu {
 		String input = Poker.scan.next();
 
 		switch(input) {
-			case "1": Poker.clearConsole();
+			case "1": DisplayManager.wipeConsole();
 					Poker.startGame();
 					break;
 			case "2": printRules();

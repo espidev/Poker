@@ -93,6 +93,9 @@ public class Poker {
 			cardsOnStack.remove(c2);
 			p.cards.add(c1);
 			p.cards.add(c2);
+			
+			p.stillInGame = true;
+			p.stillInRound = true;
 		}
 
 		System.out.println("Starting game...");
@@ -460,6 +463,8 @@ public class Poker {
 			}
 		}
 
+		inRound = true;
+		
 		setBlinds();
 		for (; curOrbit < 4 && inRound; curOrbit++) { //curOrbit already set to zero from resetRound()
 			orbit();
@@ -488,7 +493,6 @@ public class Poker {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -514,7 +518,6 @@ public class Poker {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -524,6 +527,7 @@ public class Poker {
 			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The turn round has started.");
 			
+			//add card to table from stack
 			Card c4 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
 			cardsOnStack.remove(c4);
 			cardsOnTable.add(c4);
@@ -532,7 +536,6 @@ public class Poker {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -542,6 +545,7 @@ public class Poker {
 			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The river round has started.");
 			
+			//add card to table from stack
 			Card c5 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
 			cardsOnStack.remove(c5);
 			cardsOnTable.add(c5);
@@ -550,7 +554,6 @@ public class Poker {
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -562,16 +565,41 @@ public class Poker {
 			if(curOrbit == 0) {
 				if(players.get(i).name.equals(bigBlind.name)) {
 					if(i == players.size()-1) {
-						start = 0;
+						i = 0;
 					}
 					else {
-						start = i+1;
+						i = i+1;
 					}
+					for(int j = i; ; j++) { //if the person next to the big blind is out, go to the next person
+						if(j == players.size()-1) {
+							j = 0;
+						}
+						else {
+							j = i+1;
+						}
+						if(players.get(j).stillInGame && players.get(j).stillInRound) {
+							start = j;
+							break;
+						}
+					}
+					break;
 				}
 			}
 			else {
-				if(players.get(i).name.equals(smallBlind.name)) {
-					start = i;
+				if(players.get(i).name.equals(smallBlind.name)) { // on every orbit except the first orbit, the small blind starts.
+					for(int j = i; ; j++) { //if the small blind is out, go to the next person
+						if(j == players.size()-1) {
+							j = 0;
+						}
+						else {
+							j = i+1;
+						}
+						if(players.get(j).stillInGame && players.get(j).stillInRound) {
+							start = j;
+							break;
+						}
+					}
+					break;
 				}
 			}
 		}
@@ -607,6 +635,7 @@ public class Poker {
 	public static HashMap<String, Runnable> getOptions(Player player) {
 		HashMap<String, Runnable> hash = new HashMap<>();
 		
+		//TODO
 		
 		return hash;
 	}
@@ -621,6 +650,7 @@ public class Poker {
 		orbitEnd = 0;
 		cardsOnStack = new ArrayList<>();
 		cardsOnTable = new ArrayList<>();	
+		inRound = false;
 		for(int i = 1; i < 13; i++) {
 			cardsOnStack.add(new Card(i, Suit.CLOVER));
 			cardsOnStack.add(new Card(i, Suit.DIAMOND));
@@ -647,7 +677,7 @@ public class Poker {
 	}
 	
 	public static void calculateWinners() {
-
+		//TODO
 	}
 	
 	public static void playerTurn(Player player, HashMap<String, Runnable> options) {
@@ -657,6 +687,8 @@ public class Poker {
 		}
 		DisplayManager.displayContext(contextAssemble);
 		String input = scan.next();
-
+		for(String str : contextAssemble.keySet()) {
+			
+		}
 	}
 }

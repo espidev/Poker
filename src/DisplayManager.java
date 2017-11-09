@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -15,25 +16,37 @@ public class DisplayManager {
 	public static void displayContext(HashMap<String, String> options) {
 		wipeConsole();
 		List<String> prepare = new ArrayList<>();
-		int longest = getLongestStringLength((Set<String>) globalConsole);
+		List<String> pNames = new ArrayList<>(), totalMoney = new ArrayList<>(), betMoney = new ArrayList<>();
+		int consoleLongest = getLongestStringLength(new HashSet<String>(globalConsole)),
+				optionLongest = getLongestStringLength(new HashSet<String>(options.keySet()), "Key"),
+				valueLongest = getLongestStringLength(new HashSet<String>(options.values()), "Option"), 
+				playerLongest = getLongestStringLength(new HashSet<String>(pNames), "Players"),
+				totalMoneyLongest = getLongestStringLength(new HashSet<String>(totalMoney), "Total Money"),
+				betMoneyLongest = getLongestStringLength(new HashSet<String>(betMoney), "Bet Money");
 		String a = "";
-		for(int i = 0; i < longest+4; i++) {
-			a += "—";
-		}
+		List<Integer> insertLine = new ArrayList<>();
+		//world's worst way to get the max value for 6 variables below
+		int longestLongest = Math.max(consoleLongest, Math.max(optionLongest, Math.max(valueLongest, Math.max(playerLongest, Math.max(totalMoneyLongest, betMoneyLongest)))));
 		prepare.add(a);
+		insertLine.add(prepare.size()-1);
+		String prepHeading = "| Console";
+		for(int i = 0; i < longestLongest-7; i++) prepHeading += " ";
+		prepare.add(prepHeading + " |");
+		prepare.add(a);
+		insertLine.add(prepare.size()-1);
 		
 		//Print global console.
 		for(String str : globalConsole) {
 			str = "| " + str;
-			for(int i = 0; i < longest-str.length()-2; i++) {
+			for(int i = 0; i < consoleLongest-str.length()-2; i++) {
 				str += " ";
 			}
 			str += " |";
 			prepare.add(str);
 		}
 		prepare.add(a);
+		insertLine.add(prepare.size()-1);
 		
-		List<String> pNames = new ArrayList<>(), totalMoney = new ArrayList<>(), betMoney = new ArrayList<>();
 		for(Player p : Poker.players) {
 			pNames.add(p.name);
 			totalMoney.add(Integer.toString(p.money));
@@ -41,11 +54,6 @@ public class DisplayManager {
 		}
 		
 		//Print heading.
-		int optionLongest = getLongestStringLength(options.keySet(), "Key"),
-			valueLongest = getLongestStringLength((Set<String>) options.values(), "Option"), 
-			playerLongest = getLongestStringLength((Set<String>) pNames, "Players"),
-			totalMoneyLongest = getLongestStringLength((Set<String>) totalMoney, "Total Money"),
-			betMoneyLongest = getLongestStringLength((Set<String>) betMoney, "Bet Money");
 		
 		String heading = "| Key";
 		for(int i = 0; i < optionLongest-3; i++) heading += " ";
@@ -60,6 +68,7 @@ public class DisplayManager {
 		heading += " |";
 		prepare.add(heading);
 		prepare.add(a);
+		insertLine.add(prepare.size()-1);
 		int consoleDivide = prepare.size(); //get the index of prepare in which the line is after the heading.
 		//Print player key options.
 		int cache = 0;
@@ -86,7 +95,7 @@ public class DisplayManager {
 		cache = 0;
 		//Print all the players in the game with their output.
 		for(String pName : pNames) {
-			pName = " | " + pName;
+			pName = " | | " + pName;
 			for(int i = 0; i < playerLongest-pName.length(); i++) pName += " ";
 			if(consoleDivide + cache > prepare.size()-1) {
 				String prep = "| ";
@@ -111,8 +120,8 @@ public class DisplayManager {
 				for(int i = 0; i < optionLongest; i++) prep += " ";
 				prep += " | ";
 				for(int i = 0; i < valueLongest; i++) prep += " ";
-				prep += " | ";
-				for(int i = 0; i < totalMoneyLongest; i++) prep += " ";
+				prep += " | | ";
+				for(int i = 0; i < playerLongest; i++) prep += " ";
 				prep += money;
 				prepare.add(prep); 
 			}
@@ -130,10 +139,10 @@ public class DisplayManager {
 				for(int i = 0; i < optionLongest; i++) prep += " ";
 				prep += " | ";
 				for(int i = 0; i < valueLongest; i++) prep += " ";
+				prep += " | | ";
+				for(int i = 0; i < playerLongest; i++) prep += " ";
 				prep += " | ";
 				for(int i = 0; i < totalMoneyLongest; i++) prep += " ";
-				prep += " | ";
-				for(int i = 0; i < betMoneyLongest; i++) prep += " ";
 				prep += bmoney + " |";
 				prepare.add(prep); 
 			}
@@ -142,6 +151,17 @@ public class DisplayManager {
 			}
 		}
 		
+		prepare.add(a);
+		insertLine.add(prepare.size()-1);
+		
+		int longestLine = 0;
+		for(String str : prepare) {
+			if(str.length() > longestLine) longestLine = str.length();
+		}
+		for(int i = 0; i < longestLine; i++) a += "—";
+		for(int c : insertLine) {
+			prepare.set(c, a);
+		}
 		for(String str : prepare) {
 			System.out.println(str);
 		}

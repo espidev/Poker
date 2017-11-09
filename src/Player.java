@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -6,7 +7,7 @@ import java.util.List;
 
 public class Player implements Comparable<Player>{
 	
-	List<Card> cards;
+	List<Card> cards = new ArrayList<>();
 	int money, betMoney = 0, orderOfDeath;
 	String name;
 	boolean isAI, stillInRound = true, stillInGame = true, allIn = false;
