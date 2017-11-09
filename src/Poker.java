@@ -4,7 +4,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+/*
+ * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
+
 public class Poker {
+	
 	public static List<Card> cardsOnStack = new ArrayList<>(), cardsOnTable = new ArrayList<>();
 	public static List<Player> players = new ArrayList<>();
 
@@ -245,7 +250,7 @@ public class Poker {
 		}
 	}
 	public static List<Runnable> getOptions(Player player) {
-
+		
 	}
 	public static void resetRound() {
 		curOrbit = 0;

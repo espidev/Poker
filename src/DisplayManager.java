@@ -3,7 +3,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+/*
+ * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
+
 public class DisplayManager {
+	
 	public static List<String> globalConsole = new ArrayList<>();
 	
 	@SuppressWarnings("unchecked")

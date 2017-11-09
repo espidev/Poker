@@ -1,6 +1,11 @@
 import java.util.List;
 
+/*
+ * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
+
 public class Player implements Comparable<Player>{
+	
 	List<Card> cards;
 	int money, betMoney, orderOfDeath;
 	String name;
