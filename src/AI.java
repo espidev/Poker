@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 public class AI {
 	
-	public static void calculateTurn(Player player, HashMap<String, Runnable> options) {
+	public static void calculateTurn(Player player, HashMap<String, BooleanOperation> options) {
 		
 	}
 }
