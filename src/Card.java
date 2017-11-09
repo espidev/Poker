@@ -1,5 +1,7 @@
 /*
- * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * POKER PROGRAM
+ * Names: Alex, John, Jack, Devin
+ * Card Class: Ah................RIP AI.
  */
 
 public class Card implements Comparable<Card>{

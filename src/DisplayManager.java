@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Set;
 
 /*
- * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * POKER PROGRAM
+ * Names: Alex, John, Jack, Devin
+ * Display Manager Class: A crazy cool thing that we don't understand (Other than Devin).
  */
 
 public class DisplayManager {
@@ -179,7 +181,7 @@ public class DisplayManager {
 		for(String str : prepare) {
 			if(str.length() > longestLine) longestLine = str.length();
 		}
-		for(int i = 0; i < longestLine; i++) a += "—";
+		for(int i = 0; i < longestLine; i++) a += "â€”";
 		for(int c : insertLine) {
 			prepare.set(c, a);
 		}

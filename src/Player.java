@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * POKER PROGRAM
+ * Names: Alex, John, Jack, Devin
+ * Player class: A class to generate a player object
  */
 
 public class Player implements Comparable<Player>{

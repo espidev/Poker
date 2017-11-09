@@ -1,7 +1,10 @@
 
 /*
- * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * POKER PROGRAM
+ * Names: Alex, John, Jack, Devin
+ * Suit enum: An enum to stor the suits of the cards.
  */
+
 
 public enum Suit {
 	
