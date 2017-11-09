@@ -4,7 +4,7 @@ import java.util.HashMap;
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Action Class: A basic AI to choose a random option in the actions class
+ * AI Class: A basic AI to choose a random option in the actions class
  */
 
 public class AI {
