@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 
 /*
- * ADD A TODO HEADER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * POKER PROGRAM
+ * Names: Alex, John, Jack, Devin
+ * Poker class: The main method for the game
  */
+
 
 public class Poker {
 
@@ -487,9 +490,9 @@ public class Poker {
 		DisplayManager.wipeConsole();
 		switch(curOrbit) { //give appropriate actions for each orbit.
 		case 0:
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			System.out.println("| Welcome to the Preflop round. |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			DisplayManager.globalConsole.add("The preflop round has started.");
 			try {
 				Thread.sleep(2000);
@@ -499,9 +502,9 @@ public class Poker {
 			break;
 		case 1:
 
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			System.out.println("| Welcome to the Flop round.    |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			DisplayManager.globalConsole.add("The flop round has started.");
 
 			//add cards to table from stack
@@ -523,9 +526,9 @@ public class Poker {
 			}
 			break;
 		case 2:
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			System.out.println("| Welcome to the Turn round.    |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			DisplayManager.globalConsole.add("The turn round has started.");
 
 			//add card to table from stack
@@ -541,9 +544,9 @@ public class Poker {
 			}
 			break;
 		case 3:
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			System.out.println("| Welcome to the River round.   |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
 			DisplayManager.globalConsole.add("The river round has started.");
 
 			//add card to table from stack
