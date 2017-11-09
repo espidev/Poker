@@ -6,6 +6,7 @@ import java.util.Set;
 public class DisplayManager {
 	public static List<String> globalConsole = new ArrayList<>();
 	
+	@SuppressWarnings("unchecked")
 	public static void displayContext(HashMap<String, String> options) {
 		wipeConsole();
 		List<String> prepare = new ArrayList<>();

@@ -39,7 +39,7 @@ public class Evaluator {
 			
 			//Straight Flush
 			for (int i = 0; i < c.size(); i++) {
-				if (c.get(i).number == (i + 9) {
+				if (c.get(i).number == (i + 9)) {
 					score[0] = 9;
 				}
 			}
