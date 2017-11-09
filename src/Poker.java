@@ -653,9 +653,9 @@ public class Poker {
 				hash.put("Raise", (Player p) -> {
 					while(true) {
 						try {
-							System.out.println("How much do you want to raise?");
+							System.out.println("What do you want to raise the bet to?");
 							int input = Integer.parseInt(scan.next());
-							
+							if(input > p.money)
 						}
 						catch(Exception e) {
 							System.out.println("Error. Try again.");
