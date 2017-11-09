@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,10 +18,10 @@ public class Poker {
 
 	public static Player bigBlind = null, smallBlind = null;
 
-	public static int curPlayer, curOrbit, numOfDead = 0;
+	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0;
 
 	public static boolean inRound = false, inGame = false;
-	
+
 	public static int getPot() {
 		int sum = 0;
 		for(Player p : players) {
@@ -40,11 +41,17 @@ public class Poker {
 			int next = 0, cur = 0;
 			for(int i = 0; i < players.size(); i++) { //searches the list for the big blind
 				if(players.get(i).name.equals(bigBlind.name)) { //goes to the next person to set as big blind
-					if(i == players.size()-1) {
-						next = 0;
-					}
-					else {
-						next = i+1;
+					for(int j = i; ; j++) {
+						if(j == players.size()-1) {
+							j = 0;
+						}
+						else {
+							j = i+1;
+						}
+						if(players.get(j).stillInGame) {
+							next = j;
+							break;
+						}
 					}
 					cur = i;
 					break;
@@ -69,15 +76,15 @@ public class Poker {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			clearConsole();
+			DisplayManager.wipeConsole();
 		}
 	}
 
 	public static void startGame() {
-		
+
 		resetGame();
 		prepareGame();
-		
+
 		//Pick cards for the players
 		for(Player p : players) {
 			Card c1 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
@@ -95,16 +102,16 @@ public class Poker {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		inGame = true;
 
 		while (inGame) {
-			
+
 			//Starts a round of poker
 			round();
-			
+
 			//CHECK IF THERE IS ONE PERSON LEFT
-			
+
 			//Ask if the game should continue
 			while (true) {
 				System.out.println("Do you want the game to continue? (y/n)");
@@ -164,7 +171,7 @@ public class Poker {
 			try {
 				System.out.println("How many players will there be in the game?");
 				numOfPlayers = Integer.parseInt(scan.next());
-				
+
 				if(numOfPlayers < 2) {
 					System.out.println("You must have 2 or more people to play.");
 					Thread.sleep(300);
@@ -438,19 +445,21 @@ public class Poker {
 	 */
 
 	public static void round() {
-		
+
 		//Check that everyone has enough money
 		for(Player p : players) {
 			if(p.money < 2) {
 				System.out.println(p.name + " does not have enough money to continue playing.");
 				System.out.println(p.name + " has forfeited the game.");
+				DisplayManager.globalConsole.add(p.name + " does not have enough money to continue playing.");
+				DisplayManager.globalConsole.add(p.name + " has forfeited the game.");
 				p.stillInGame = false;
 				p.orderOfDeath = numOfDead + 1;
 				p.stillInRound = false;
 				numOfDead++;
 			}
 		}
-		
+
 		setBlinds();
 		for (; curOrbit < 4 && inRound; curOrbit++) {
 			orbit();
@@ -480,16 +489,41 @@ public class Poker {
 				}
 			}
 		}
-		while(!exit) {
-			
+		orbitEnd = start;
+		int cur = start;
+		do {
+			curPlayer = cur;
+			if(players.get(curPlayer).stillInGame && players.get(curPlayer).stillInRound) {
+				//Player's turn
+				HashMap<String, Runnable> options = getOptions(players.get(curPlayer));
+				if(players.get(curPlayer).isAI) {
+					
+				}
+				else {
+					HashMap<String, String> contextAssemble = new HashMap<>();
+					for(int i = 0; i < options.size(); i++) {
+						contextAssemble.put(i + "", new ArrayList<>(options.keySet()).get(i));
+					}
+					DisplayManager.displayContext(contextAssemble);
+
+				}
+			}
+			if(cur == players.size()-1) {
+				cur = 0;
+			}
+			else {
+				cur++;
+			}
 		}
+		while(cur != orbitEnd);
 	}
-	public static List<Runnable> getOptions(Player player) {
+	public static HashMap<String, Runnable> getOptions(Player player) {
 
 	}
 	public static void resetRound() {
 		curOrbit = 0;
 		curPlayer = 0;
+		orbitEnd = 0;
 		cardsOnStack = new ArrayList<>();
 		cardsOnTable = new ArrayList<>();	
 		for(int i = 1; i < 13; i++) {
@@ -516,10 +550,5 @@ public class Poker {
 	}
 	public static void playerTurn(Player player, List<Runnable> options) {
 
-	}
-	public static void clearConsole() {
-		for(int i = 0; i < 500; i++) {
-			System.out.println("\n");
-		}
 	}
 }
