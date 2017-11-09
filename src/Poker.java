@@ -477,8 +477,9 @@ public class Poker {
 	 */
 
 	public static void orbit() {
+
 		DisplayManager.wipeConsole();
-		switch(curOrbit) { //give appropriate actions for each round.
+		switch(curOrbit) { //give appropriate actions for each orbit.
 		case 0:
 			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the Preflop round. |");
@@ -492,10 +493,24 @@ public class Poker {
 			}
 			break;
 		case 1:
+
 			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the Flop round.    |");
 			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The flop round has started.");
+
+			//add cards to table from stack
+			Card c1 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
+			cardsOnStack.remove(c1);
+			Card c2 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
+			cardsOnStack.remove(c2);
+			Card c3 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
+			cardsOnStack.remove(c3);
+			cardsOnTable.add(c1);
+			cardsOnTable.add(c2);
+			cardsOnTable.add(c3);
+			DisplayManager.globalConsole.add("3 cards are now on the table.");
+
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -508,6 +523,12 @@ public class Poker {
 			System.out.println("| Welcome to the Turn round.    |");
 			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The turn round has started.");
+			
+			Card c4 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
+			cardsOnStack.remove(c4);
+			cardsOnTable.add(c4);
+			
+			DisplayManager.globalConsole.add("4 cards are now on the table.");
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -517,9 +538,15 @@ public class Poker {
 			break;
 		case 3:
 			System.out.println("—————————————————————————————————");
-			System.out.println("| Welcome to the River round. |");
+			System.out.println("| Welcome to the River round.   |");
 			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The river round has started.");
+			
+			Card c5 = cardsOnStack.get((int) Math.random() * cardsOnStack.size());
+			cardsOnStack.remove(c5);
+			cardsOnTable.add(c5);
+			
+			DisplayManager.globalConsole.add("5 cards are now on the table.");
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -528,16 +555,23 @@ public class Poker {
 			}
 			break;
 		}
-		
+
 		boolean exit = false;
 		int start = 0; //get the starting person
 		for(int i = 0; i < players.size(); i++) {
-			if(players.get(i).name.equals(bigBlind.name)) {
-				if(i == players.size()-1) {
-					start = 0;
+			if(curOrbit == 0) {
+				if(players.get(i).name.equals(bigBlind.name)) {
+					if(i == players.size()-1) {
+						start = 0;
+					}
+					else {
+						start = i+1;
+					}
 				}
-				else {
-					start = i+1;
+			}
+			else {
+				if(players.get(i).name.equals(smallBlind.name)) {
+					start = i;
 				}
 			}
 		}
@@ -571,7 +605,10 @@ public class Poker {
 	 */
 
 	public static HashMap<String, Runnable> getOptions(Player player) {
-
+		HashMap<String, Runnable> hash = new HashMap<>();
+		
+		
+		return hash;
 	}
 
 	/*
@@ -608,9 +645,11 @@ public class Poker {
 		smallBlind = null;
 		numOfDead = 0;
 	}
+	
 	public static void calculateWinners() {
 
 	}
+	
 	public static void playerTurn(Player player, HashMap<String, Runnable> options) {
 		HashMap<String, String> contextAssemble = new HashMap<>();
 		for(int i = 0; i < options.size(); i++) {
