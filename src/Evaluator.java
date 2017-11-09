@@ -38,6 +38,18 @@ public class Evaluator {
 			//Royal Flush
 			sortCards(c, true);
 			sortCards(c, false);
+			
+			
+			
+			int rf_s;
+			for (int i = 0; i < c.size() - 4; i++) {
+				if (c.get(i).number == 10) {
+					rf_s = i;
+				}
+			}
+			
+			
+			
 			for (int i = 0; i < c.size(); i++) {
 				if (c.get(i).number == (i + 9) && (c.get(i).suit == c.get(0).suit)){
 					score[0] = 10;
@@ -48,20 +60,33 @@ public class Evaluator {
 			//Straight Flush
 			sortCards(c, true);
 			sortCards(c, false);
-			int counter = 0;
+			int sf = 0;
 			for (int i = 0; i < c.size(); i++) {
 				if (c.get(i).number + 1 == c.get(i+1).number) {
-					counter++;
+					sf++;
 				} else if (c.get(i).number != c.get(i+1).number) {
-				    counter = 0;	
+				    sf = 0;	
 				}
-				if(counter == 4) {
+				if(sf == 4) {
 					score[0] = 9;
 					return score;
 				}
 			}
-			//4 of a Kind
-			
+			//Four of a Kind
+			sortCards(c, true);
+			int fk = 0;
+			for (int i = 0; i <= c.size() - 5; i++) {
+				for (int j = i; j < i + 4; j++) {
+					if (c.get(j).number == c.get(j+1).number) {
+						fk++;
+					} else {
+						fk = 0;
+					}
+					if (fk == 3) {
+						
+					}
+				}
+			}
 			
 			
 		}
@@ -69,12 +94,9 @@ public class Evaluator {
 	}
 	
 	public static void sortCards(List<Card> i, boolean m) {
-		//True
+		//True: Number Sort
+		//False: Suit Sort
 		Card.mode = m;
 		Collections.sort(i);
-	}
-	public static void setScore(int[] s, int n1, int n2) {
-		s[0] = n1;
-		s[1] = n2;
 	}
 }
