@@ -640,7 +640,32 @@ public class Poker {
 			return Actions.fold(p);
 		});
 		
-		if()
+		if(player.betMoney >= Poker.prevBet) {
+			hash.put("Check", (Player p) -> {
+				return Actions.check(p);
+			});
+		}
+		else {
+			if(player.money >= Poker.prevBet) {
+				hash.put("Call", (Player p) -> {
+					return Actions.call(p);
+				});
+				hash.put("Raise", (Player p) -> {
+					while(true) {
+						try {
+							System.out.println("What do you want to raise the bet to?");
+							int input = Integer.parseInt(scan.next());
+							if(input > p.money)
+						}
+						catch(Exception e) {
+							System.out.println("Error. Try again.");
+						}
+					}
+				});
+			}
+		}
+		
+		
 		
 		//TODO
 
