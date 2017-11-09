@@ -5,14 +5,16 @@
 public class Actions {
 	
 	public static boolean check(Player player) {
-		System.out.println("you checked");
+		player.betMoney = Poker.prevBet;
+		System.out.println("You've checked ($" + player.betMoney + ").");
+		DisplayManager.globalConsole.add(player.name + " has checked ($" + player.betMoney + ").");
 		return true;
 	}
 	
 	public static boolean bet(Player player, int money) {
 		player.betMoney += money;
 		player.money -= money;
-		System.out.println("you bet"+money+"amount of money");
+		System.out.println("You have bet $" + money + ".");
 		return true;
 	}
 	
@@ -23,15 +25,9 @@ public class Actions {
 	}
 	
 	public static boolean call(Player player) {
-		int max = 0;
-		for (int i = 0; i < Poker.players.size(); i++) {
-			if (i == 0) {
-				max = Poker.players.get(i).betMoney;
-			} else if (max < Poker.players.get(i).betMoney) {
-				max = Poker.players.get(i).betMoney;
-			}
-		}
-		System.out.println("you called");
+		player.betMoney = Poker.prevBet;
+		System.out.println("You've called. ($" + player.betMoney + ")");
+		DisplayManager.globalConsole.add(player.name + " has called. ($" + player.betMoney + ")");
 		return true;
 	}
 	
@@ -44,9 +40,12 @@ public class Actions {
 	
 	public static boolean allIn(Player player) {
 		player.betMoney = player.money;
-		player.money = 0;
 		player.allIn = true;
+		if(player.money > Poker.prevBet) {
+			Poker.prevBet = player.money;
+		}
 		System.out.println(player.name + " has gone all in.");
+		DisplayManager.globalConsole.add(player.name + " has gone all in. ($" + player.money + ")");
 		return true;
 	}
 }

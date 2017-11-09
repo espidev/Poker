@@ -24,8 +24,6 @@ public class DisplayManager {
 				totalMoneyLongest = getLongestStringLength(new HashSet<String>(totalMoney), "Total Money"),
 				betMoneyLongest = getLongestStringLength(new HashSet<String>(betMoney), "Bet Money");
 		
-		//TODO
-		
 		String a = "";
 		List<Integer> insertLine = new ArrayList<>();
 		//world's worst way to get the max value for 6 variables below
@@ -86,7 +84,6 @@ public class DisplayManager {
 			key = "| " + key;
 			int l = key.length()-2;
 			for(int i = 0; i < optionLongest-l; i++) {
-				System.out.println(optionLongest + " " + key.length() + "HEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY " + key); //TODO
 				key += " ";
 			}
 			prepare.add(key);
@@ -95,9 +92,7 @@ public class DisplayManager {
 		for(String val : options.values()) {
 			val = " | " + val;
 			int l = val.length()-3;
-			System.out.println("WTH " + valueLongest + " " + val.length());
 			for(int i = 0; i < valueLongest-l; i++) {
-				System.out.println(valueLongest + " " + val.length() + "HEYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY " + val);
 				val += " "; 
 			}
 			if(consoleDivide + cache > prepare.size()-1) {

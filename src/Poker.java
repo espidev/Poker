@@ -18,7 +18,7 @@ public class Poker {
 
 	public static Player bigBlind = null, smallBlind = null;
 
-	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0;
+	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0, prevBet = 0;
 
 	public static boolean inRound = false, inGame = false;
 
@@ -64,6 +64,7 @@ public class Poker {
 		DisplayManager.globalConsole.add(bigBlind.name + " is now the big blind.");
 		bigBlind.betMoney = 2;
 		smallBlind.betMoney = 1;
+		prevBet = 2;
 		DisplayManager.globalConsole.add(smallBlind.name + " has bet $1.");
 		DisplayManager.globalConsole.add(bigBlind.name + " has bet $2.");
 	}
@@ -639,7 +640,7 @@ public class Poker {
 			return Actions.fold(p);
 		});
 		
-		
+		if()
 		
 		//TODO
 
@@ -654,6 +655,7 @@ public class Poker {
 		curOrbit = 0;
 		curPlayer = 0;
 		orbitEnd = 0;
+		prevBet = 0;
 		cardsOnStack = new ArrayList<>();
 		cardsOnTable = new ArrayList<>();	
 		inRound = false;
@@ -699,7 +701,7 @@ public class Poker {
 			for(String str : contextAssemble.keySet()) {
 				if(str.equals(input)) {
 					if(options.get(contextAssemble.get(str)).run(player)) {
-						
+						notFound = false;
 					}
 				}
 			}
