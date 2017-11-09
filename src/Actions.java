@@ -2,7 +2,7 @@
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
  * Action Class: A list of action that the AI and the 
- *               player can do
+ *               player can do.
  */
 
 public class Actions {
