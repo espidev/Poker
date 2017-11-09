@@ -15,7 +15,7 @@ public class Poker {
 
 	public static Scanner scan = new Scanner(System.in);
 
-	public static Player bigBlind, smallBlind;
+	public static Player bigBlind = null, smallBlind = null;
 
 	public static int curPlayer, curOrbit;
 
@@ -30,10 +30,31 @@ public class Poker {
 	}
 
 	public static void setBlinds() {
-		int rand = (int) Math.random()*players.size();
-		int n2 = (rand == players.size()-1) ? 0 : rand+1 ;
-		bigBlind = players.get(rand);
-		smallBlind = players.get(n2);
+		if(bigBlind == null || smallBlind == null || (bigBlind == null && smallBlind == null)) {
+			int rand = (int) Math.random()*players.size();
+			int n2 = (rand == players.size()-1) ? 0 : rand+1 ;
+			bigBlind = players.get(rand);
+			smallBlind = players.get(n2);
+		}
+		else {
+			int next = 0, cur = 0;
+			for(int i = 0; i < players.size(); i++) { //searches the list for the big blind
+				if(players.get(i).name.equals(bigBlind.name)) { //goes to the next person to set as big blind
+					if(i == players.size()-1) {
+						next = 0;
+					}
+					else {
+						next = i+1;
+					}
+					cur = i;
+					break;
+				}
+			}
+			smallBlind = players.get(cur);
+			bigBlind = players.get(next);
+		}
+		DisplayManager.globalConsole.add(smallBlind.name + " is now the small blind.");
+		DisplayManager.globalConsole.add(bigBlind.name + " is now the big blind.");
 	}
 
 	public static void main(String[] args) {
@@ -431,7 +452,12 @@ public class Poker {
 
 	public static void orbit() {
 		boolean exit = false;
-		int a; //blind
+		int start; //get the starting person
+		for(int i = 0; i < players.size(); i++) {
+			if(players.get(i).name.equals(bigBlind.name)) {
+				if()
+			}
+		}
 		while(!exit) {
 
 		}
