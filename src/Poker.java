@@ -639,34 +639,51 @@ public class Poker {
 		hash.put("Fold", (Player p) -> { //lambda list 
 			return Actions.fold(p);
 		});
-		
-		if(player.betMoney >= Poker.prevBet) {
+
+		/*if(player.betMoney >= Poker.prevBet) {
 			hash.put("Check", (Player p) -> {
 				return Actions.check(p);
 			});
 		}
-		else {
+		else {*/
+		if(!player.allIn) {
 			if(player.money >= Poker.prevBet) {
 				hash.put("Call", (Player p) -> {
 					return Actions.call(p);
 				});
-				hash.put("Raise", (Player p) -> {
-					while(true) {
-						try {
-							System.out.println("What do you want to raise the bet to?");
-							int input = Integer.parseInt(scan.next());
-							if(input > p.money)
+				if(player.money > prevBet) {
+					hash.put("Raise", (Player p) -> {
+						if(p.isAI) {
+							return Actions.raise(p, (int) (Math.random()*(p.money - prevBet) + prevBet));
 						}
-						catch(Exception e) {
-							System.out.println("Error. Try again.");
+						else {
+							while(true) {
+								try {
+									System.out.println("What do you want to raise the bet to?");
+									int input = Integer.parseInt(scan.next());
+									if(input > p.money) {
+										System.out.println("You don't have enough money!");
+									}
+									else if(input < prevBet) {
+										System.out.println("This value is too low! The bet is currently $" + prevBet + ".");
+									}
+									else {
+										return Actions.raise(p, input);
+									}
+								}
+								catch(Exception e) {
+									System.out.println("Error. Try again.");
+								}
+							}
 						}
-					}
-				});
+					});
+				}
 			}
+			//}
 		}
-		
-		
-		
+
+
+
 		//TODO
 
 		return hash;
@@ -726,6 +743,11 @@ public class Poker {
 			for(String str : contextAssemble.keySet()) {
 				if(str.equals(input)) {
 					if(options.get(contextAssemble.get(str)).run(player)) {
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						notFound = false;
 					}
 				}

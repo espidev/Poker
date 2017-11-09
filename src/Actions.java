@@ -4,6 +4,7 @@
 
 public class Actions {
 	
+	@Deprecated
 	public static boolean check(Player player) {
 		System.out.println("You've checked.");
 		DisplayManager.globalConsole.add(player.name + " has checked.");
@@ -13,6 +14,7 @@ public class Actions {
 	public static boolean bet(Player player, int money) {
 		player.betMoney += money;
 		player.money -= money;
+		Poker.prevBet = player.betMoney;
 		System.out.println("You have bet $" + money + ".");
 		return true;
 	}
@@ -33,7 +35,9 @@ public class Actions {
 	public static boolean raise(Player player, int money) {
 		player.betMoney += money;
 		player.money -= money;
-		System.out.println("you bet"+money+"amount of money");
+		Poker.prevBet = player.betMoney;
+		System.out.println("You've raised the bet to $" + money + ".");
+		DisplayManager.globalConsole.add(player.name + " has raised the bet to $" + money + ".");
 		return true;
 	}
 	

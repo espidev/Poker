@@ -24,9 +24,10 @@ public class DisplayManager {
 				totalMoneyLongest = getLongestStringLength(new HashSet<String>(totalMoney), "Total Money"),
 				betMoneyLongest = getLongestStringLength(new HashSet<String>(betMoney), "Bet Money");
 		
+		System.out.println(optionLongest + " " + valueLongest + " " + playerLongest + " " + totalMoneyLongest + " " + betMoneyLongest);
+		
 		String a = "";
 		List<Integer> insertLine = new ArrayList<>();
-		//world's worst way to get the max value for 6 variables below
 		int longestLongest = optionLongest + valueLongest + playerLongest + totalMoneyLongest + betMoneyLongest + 16;
 		prepare.add(a);
 		insertLine.add(prepare.size()-1);
