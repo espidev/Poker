@@ -475,9 +475,8 @@ public class Poker {
 		}
 		//Show everyone's cards in the output
 		calculateWinners();
-		for (int i = 0; i < players.size(); i++) {
-			System.out.println();
-		}
+
+		//Reset the round to get ready for the next one
 		resetRound();
 	}
 
@@ -731,7 +730,54 @@ public class Poker {
 	}
 
 	public static void calculateWinners() {
-		//TODO
+		int max = 0;
+		Player m = null;
+		for(Player p : players) {
+			List<Card> cards = new ArrayList<>();
+			System.out.println("—————————————————————————————");
+			System.out.println("| Player " + p + "'s cards  |");
+			System.out.println("—————————————————————————————");
+			for(Card c : cardsOnTable) {
+				cards.add(c);
+			}
+			for(Card c : p.cards) {
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println("| (" + c.number + " " + c.suit.toString() + ") |");
+				cards.add(c);
+			}
+			System.out.println("—————————————————————————————");
+			System.out.println("\n\n");
+			int[] score = Evaluator.calculateScore(cards);
+			if(score[0] + score[1] > max) {
+				max = score[0] + score[1];
+				m = p;
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			Thread.sleep(500);
+			System.out.println("And the winner of this round is...");
+			for(int i = 0; i < 3; i++) {
+				Thread.sleep(1000);
+				System.out.println(".");
+			}
+			Thread.sleep(1000);
+			System.out.println(m.name + "!");
+			m.money += getPot();
+			Thread.sleep(500);
+			System.out.println("This player has won $" + getPot() + "!");
+		}
+		catch(InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void playerTurn(Player player, HashMap<String, BooleanOperation> options) {
