@@ -489,9 +489,9 @@ public class Poker {
 		DisplayManager.wipeConsole();
 		switch(curOrbit) { //give appropriate actions for each orbit.
 		case 0:
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the Preflop round. |");
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The preflop round has started.");
 			try {
 				Thread.sleep(2000);
@@ -501,9 +501,9 @@ public class Poker {
 			break;
 		case 1:
 
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the Flop round.    |");
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The flop round has started.");
 
 			//add cards to table from stack
@@ -525,9 +525,9 @@ public class Poker {
 			}
 			break;
 		case 2:
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the Turn round.    |");
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The turn round has started.");
 
 			//add card to table from stack
@@ -543,9 +543,9 @@ public class Poker {
 			}
 			break;
 		case 3:
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the River round.   |");
-			System.out.println("Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—Â—");
+			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The river round has started.");
 
 			//add card to table from stack
@@ -614,6 +614,8 @@ public class Poker {
 				//Player's turn
 				HashMap<String, BooleanOperation> options = getOptions(players.get(curPlayer)); //get what options the player can do
 
+				DisplayManager.globalConsole.add(players.get(curPlayer).name + "'s turn.");
+				
 				if(players.get(curPlayer).isAI) {
 					AI.calculateTurn(players.get(curPlayer), options);
 				}
@@ -649,21 +651,21 @@ public class Poker {
 		}
 		else {*/
 		if(!player.allIn) {
-			if(player.money >= Poker.prevBet) {
+			if(player.money + player.betMoney >= Poker.prevBet) {
 				hash.put("Call", (Player p) -> {
 					return Actions.call(p);
 				});
-				if(player.money > prevBet) {
+				if(player.money + player.betMoney > prevBet) {
 					hash.put("Raise", (Player p) -> {
 						if(p.isAI) {
-							return Actions.raise(p, (int) (Math.random()*(p.money - prevBet) + prevBet));
+							return Actions.raise(p, (int) (Math.random()*(p.money + p.money - prevBet) + prevBet));
 						}
 						else {
 							while(true) {
 								try {
 									System.out.println("What do you want to raise the bet to?");
 									int input = Integer.parseInt(scan.next());
-									if(input > p.money) {
+									if(input > p.money + p.betMoney) {
 										System.out.println("You don't have enough money!");
 									}
 									else if(input < prevBet) {
@@ -681,6 +683,9 @@ public class Poker {
 					});
 				}
 			}
+			hash.put("All-In", (Player p) -> {
+				return Actions.allIn(p);
+			});
 			//}
 		}
 
@@ -798,6 +803,9 @@ public class Poker {
 							e.printStackTrace();
 						}
 						notFound = false;
+					}
+					else {
+						break;
 					}
 				}
 			}

@@ -29,6 +29,7 @@ public class Actions {
 	}
 	
 	public static boolean call(Player player) {
+		player.money = player.money + player.betMoney - Poker.prevBet;
 		player.betMoney = Poker.prevBet;
 		System.out.println("You've called. ($" + player.betMoney + ")");
 		DisplayManager.globalConsole.add(player.name + " has called. ($" + player.betMoney + ")");
@@ -46,12 +47,13 @@ public class Actions {
 	
 	public static boolean allIn(Player player) {
 		player.betMoney = player.money;
+		player.money = 0;
 		player.allIn = true;
-		if(player.money > Poker.prevBet) {
-			Poker.prevBet = player.money;
+		if(player.betMoney > Poker.prevBet) {
+			Poker.prevBet = player.betMoney;
 		}
 		System.out.println(player.name + " has gone all in.");
-		DisplayManager.globalConsole.add(player.name + " has gone all in. ($" + player.money + ")");
+		DisplayManager.globalConsole.add(player.name + " has gone all in. ($" + player.betMoney + ")");
 		return true;
 	}
 }

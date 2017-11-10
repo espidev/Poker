@@ -19,6 +19,11 @@ public class DisplayManager {
 		wipeConsole();
 		List<String> prepare = new ArrayList<>();
 		List<String> pNames = new ArrayList<>(), totalMoney = new ArrayList<>(), betMoney = new ArrayList<>();
+		for(Player p : Poker.players) {
+			pNames.add(p.name);
+			totalMoney.add(Integer.toString(p.money));
+			betMoney.add(p.betMoney + "");
+		}
 		int consoleLongest = getLongestStringLength(new HashSet<String>(globalConsole)),
 				optionLongest = getLongestStringLength(new HashSet<String>(options.keySet()), "Key"),
 				valueLongest = getLongestStringLength(new HashSet<String>(options.values()), "Option"), 
@@ -50,12 +55,6 @@ public class DisplayManager {
 		}
 		prepare.add(a);
 		insertLine.add(prepare.size()-1);
-		
-		for(Player p : Poker.players) {
-			pNames.add(p.name);
-			totalMoney.add(Integer.toString(p.money));
-			betMoney.add(p.betMoney + "");
-		}
 		
 		prepare.add("| Player " + Poker.players.get(Poker.curPlayer).name + "'s turn.");
 		for(int i = 0; i < longestLongest-(prepare.get(prepare.size()-1).length()-2); i++) {
@@ -181,7 +180,7 @@ public class DisplayManager {
 		for(String str : prepare) {
 			if(str.length() > longestLine) longestLine = str.length();
 		}
-		for(int i = 0; i < longestLine; i++) a += "â€”";
+		for(int i = 0; i < longestLine; i++) a += "—";
 		for(int c : insertLine) {
 			prepare.set(c, a);
 		}
