@@ -9,8 +9,6 @@ public class Card implements Comparable<Card>{
 	int number; //ace is one, and king is 12
 	Suit suit; //suit enum
 
-	static boolean mode = true;
-	
 	public static boolean mode = true;
 	
 	public Card(int number, Suit suit) {
@@ -19,9 +17,7 @@ public class Card implements Comparable<Card>{
 	}
 
 	public int compareTo(Card o) { //implement comparing for Collections.sort
-		if (mode) { //Number
-	public int compareTo(Card o) {
-		if (mode) { //Sort by number, then suit
+		if (mode) {  //Sort by number, then suit
 			if (number > o.number) {
 				return 1;
 			} else if (number == o.number) {
