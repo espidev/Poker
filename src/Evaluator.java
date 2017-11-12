@@ -5,54 +5,128 @@ import java.util.List;
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Evaluator class: An evaluator to calculate the score of the pokerhand
+ * Evaluator class: An evaluator to calculate the score of the poker hand
  */
 
 public class Evaluator {
 	
-	public static boolean HC, P1, P2, K3, ST, FL, FH, K4, SF, RF;
+	/*
+	 * 	1 = High Card
+	 * 	2 = One Pair
+	 * 	3 = Two Pairs
+	 * 	4 = Three of a Kind
+	 * 	5 = Straight
+	 * 	6 = Flush
+	 * 	7 = Full House
+	 * 	8 = 4 of a Kind
+	 *  9 = Straight Flush
+	 *  10 = Royal Flush
+	 */
 	
-	public static int[] calculateScore (List<Card> card) {
+	public static void sortCards(List<Card> i, boolean m) {
+		//True: Number Sort
+		//False: Suit Sort
+		Card.mode = m;
+		Collections.sort(i);
+	}
+	
+	public static void sortCards(List<Card> i) {
+		Card.mode = true;
+		Collections.sort(i);
+		
+		Card.mode = false;
+		Collections.sort(i);
+	}
+	
+	public static int[] finalEvaluate (List<Card> card) {
+		List<Card> finalHand = card;
+		
+		int[] score = new int [2];
+		score[0] = evaluateHand(card, finalHand);
+		score[1] = evaluateScore(finalHand);
+		
+		return score;
+	}
+	
+	public static int evaluateScore (List<Card> hand) {
 		return 0;
 	}
 	
-	public static int[] evaluate(List<Card> card) {
-		
-		/*
-		 * Score Format: {a, b}
-		 * A = Type of Poker Hand
-		 * 	1 = High Card
-		 * 	2 = One Pair
-		 * 	3 = Two Pairs
-		 * 	4 = Three of a Kind
-		 * 	5 = Straight
-		 * 	6 = Flush
-		 * 	7 = Full House
-		 * 	8 = 4 of a Kind
-		 *  9 = Straight Flush
-		 *  10 = Royal Flush
-		 */
-		
+	public static int evaluateHand (List<Card> card, List<Card> hand) {
 		List<Card> c = card;
-		int[] score = new int[2];
+		int pokerHand;
 	
 		//Royal Flush
-		sortCards(c, true);
-		sortCards(c, false);
-
+		sortCards(c);
+		
 		for (int i = 0; i < c.size() - 4; i++) {
 			if (c.get(i).number == 10) {
-				for (int j = i; j < c.size(); j++) {
-					if (c.get(j).number == (j + 9) && (c.get(j).suit == c.get(0).suit)){
-						score[0] = 10;
-						return score;
+				int rf = 0;
+				
+				for (int j = i + 1; j < c.size(); j++) {
+					if (c.get(j).number == (j + 9) && (c.get(j).suit == c.get(i).suit)){
+						rf++;
+					} else {
+						break;
 					}
 				}
+				
+				if (rf == 4) {
+					pokerHand = 10;
+					hand = c.subList(i, i + 4);
+					return pokerHand;
+				} else {
+					break;
+				}
+			}
+		}
+		
+		
+		//Straight Flush
+		int sf = 0;
+
+		for (int i = c.size() - 1; i > 0; i--) {
+			if (c.get(i).number == c.get(i - 1).number + 1) {
+				sf++;
+			} else {
+				sf = 0;
+			}
+			if (sf == 4) {
+				pokerHand = 9;
+				hand = c.subList(i, i + 4);
+				return pokerHand;
+			}
+		}
+		
+		boolean sf_low = false;
+		
+		for (int i = 0; i < c.size(); i++) {
+			if (c.get(i).number == 13) {
+				sf_low = true;
 				break;
 			}
 		}
 		
-		//Straight Flush
+		if (sf_low) {
+			for (int i = c.size() - 1; i > 0; i--) {
+				if (c.get(i).number == c.get(i - 1).number + 1) {
+					sf++;
+				} else {
+					sf = 0;
+				}
+				if (sf == 4) {
+					pokerHand = 9;
+					hand = c.subList(i, i + 4);
+					return pokerHand;
+				}
+			}
+		}
+		
+		
+		
+		
+		
+		
 		int sf;
 		for (int i = 0; i < c.size(); i++) {
 			if (c.get(i).number + 1 == c.get(i+1).number) {
@@ -114,13 +188,5 @@ public class Evaluator {
 			
 			
 		}
-		
-	}
-	
-	public static void sortCards(List<Card> i, boolean m) {
-		//True: Number Sort
-		//False: Suit Sort
-		Card.mode = m;
-		Collections.sort(i);
 	}
 }
