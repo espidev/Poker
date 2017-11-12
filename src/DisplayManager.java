@@ -25,7 +25,12 @@ public class DisplayManager {
 		List<Integer> insertLine = new ArrayList<>();
 		
 		for(Player p : Poker.players) {
-			pNames.add(p.name);
+			if(p.stillInRound) {
+				pNames.add(p.name);
+			}
+			else {
+				pNames.add("(folded)" + p.name);
+			}
 			totalMoney.add(Integer.toString(p.money));
 			betMoney.add(p.betMoney + "");
 		}

@@ -18,6 +18,7 @@ public class Actions {
 		player.money -= money;
 		Poker.prevBet = player.betMoney;
 		System.out.println("You have bet $" + money + ".");
+		DisplayManager.globalConsole.add(player.name + " has bet.");
 		return true;
 	}
 	
