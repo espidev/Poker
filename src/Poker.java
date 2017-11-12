@@ -123,10 +123,6 @@ public class Poker {
 
 			//CHECK IF THERE IS ONE PERSON LEFT
 
-			//Ask if the game should continue
-
-
-
 			while (true) {
 				System.out.println("Do you want the game to continue? (y/n)");
 				String input = scan.nextLine();
@@ -452,75 +448,63 @@ public class Poker {
 	}
 
 	/*
+	 * Add random card to the table
+	 */
+	public static void addCardToTable() {
+		Card c = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
+		cardsOnStack.remove(c);
+		cardsOnTable.add(c);
+	}
+	public static void printRoundMessage(String edit) {
+		System.out.println("—————————————————————————————————");
+		System.out.println("| Welcome to the " + edit + " round.");
+		System.out.println("—————————————————————————————————");
+		DisplayManager.globalConsole.add("The " + edit + " round has started.");
+	}
+
+	/*
 	 * Executed per orbit (in a round)
 	 */
 
 	public static void orbit() {
 
 		DisplayManager.wipeConsole();
-		
+
 		try {
-		switch(curOrbit) { //give appropriate actions for each orbit.
-		case 0:
-			System.out.println("—————————————————————————————————");
-			System.out.println("| Welcome to the Preflop round. |");
-			System.out.println("—————————————————————————————————");
-			DisplayManager.globalConsole.add("The preflop round has started.");
-			Thread.sleep(2000);
-			break;
-		case 1:
-			System.out.println("—————————————————————————————————");
-			System.out.println("| Welcome to the Flop round.    |");
-			System.out.println("—————————————————————————————————");
-			DisplayManager.globalConsole.add("The flop round has started.");
-
-			//add cards to table from stack
-			Card c1 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-			cardsOnStack.remove(c1);
-			Card c2 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-			cardsOnStack.remove(c2);
-			Card c3 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-			cardsOnStack.remove(c3);
-			cardsOnTable.add(c1);
-			cardsOnTable.add(c2);
-			cardsOnTable.add(c3);
-			DisplayManager.globalConsole.add("3 cards are now on the table.");
-			Thread.sleep(2000);
-			break;
-		case 2:
-			System.out.println("—————————————————————————————————");
-			System.out.println("| Welcome to the Turn round.    |");
-			System.out.println("—————————————————————————————————");
-			DisplayManager.globalConsole.add("The turn round has started.");
-
-			//add card to table from stack
-			Card c4 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-			cardsOnStack.remove(c4);
-			cardsOnTable.add(c4);
-
-			DisplayManager.globalConsole.add("4 cards are now on the table.");
-			Thread.sleep(2000);
-			break;
-		case 3:
-			System.out.println("—————————————————————————————————");
-			System.out.println("| Welcome to the River round.   |");
-			System.out.println("—————————————————————————————————");
-			DisplayManager.globalConsole.add("The river round has started.");
-
-			//add card to table from stack
-			Card c5 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-			cardsOnStack.remove(c5);
-			cardsOnTable.add(c5);
-
-			DisplayManager.globalConsole.add("5 cards are now on the table.");
+			switch(curOrbit) { //give appropriate actions for each orbit.
+			case 0:
+				printRoundMessage("Preflop");
 				Thread.sleep(2000);
-			break;
-		}
+				break;
+			case 1:
+				printRoundMessage("Flop");
+				//add cards to table from stack
+				for(int i = 0; i < 3; i++) addCardToTable();
+				DisplayManager.globalConsole.add("3 cards are now on the table.");
+				Thread.sleep(2000);
+				break;
+			case 2:
+				printRoundMessage("Turn");
+				//add card to table from stack
+				addCardToTable();
+
+				DisplayManager.globalConsole.add("4 cards are now on the table.");
+				Thread.sleep(2000);
+				break;
+			case 3:
+				printRoundMessage("River");
+				//add card to table from stack
+				addCardToTable();
+
+				DisplayManager.globalConsole.add("5 cards are now on the table.");
+				Thread.sleep(2000);
+				break;
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		boolean exit = false;
 		int start = 0; //get the starting person
 		for(int i = 0; i < players.size(); i++) {
@@ -734,7 +718,7 @@ public class Poker {
 			for(Card c : p.cards) {
 				cards.add(c);
 			}
-			int score = Evaluator.evaluateScore(cards);
+			int score = Evaluator.evaluateScore(69, cards); //TODO LOL
 			if(score > max) {
 				max = score;
 				m = p;
