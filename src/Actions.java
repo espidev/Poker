@@ -7,7 +7,6 @@
 
 public class Actions {
 	
-	@Deprecated
 	public static boolean check(Player player) {
 		System.out.println("You've checked.");
 		DisplayManager.globalConsole.add(player.name + " has checked.");

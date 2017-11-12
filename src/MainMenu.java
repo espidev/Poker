@@ -7,6 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.event.*;
 
 /*
  * POKER PROGRAM
@@ -19,9 +20,9 @@ public class MainMenu extends JFrame{
 	public MainMenu() {
 		JLabel label = new JLabel("Welcome to Poker!");
 		JButton start = new JButton("Start the game.");
-		start.addActionListener((ActionEvent e) -> {
+		//start.addActionListener((ActionEvent e) -> {
 			
-		});
+		//});
 		JButton rules = new JButton("Rules");
 		JButton credits = new JButton("Credits");
 		JButton exit = new JButton("Exit");
@@ -50,21 +51,21 @@ public class MainMenu extends JFrame{
 	public static void displayMainMenu() {
 		new MainMenu();
 		
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| Welcome to Poker!                       |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| Key | Option                            |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 1   | Start the game.                   |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 2   | Rules                             |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 3   | Credits                           |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 4   | Adjust Settings                   |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 0   | Exit                              |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 
 		String input = Poker.scan.next();
 

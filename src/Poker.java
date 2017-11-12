@@ -63,11 +63,15 @@ public class Poker {
 			smallBlind = players.get(cur);
 			bigBlind = players.get(next);
 		}
+		
+		bigBlind.betMoney = 2;
+		bigBlind.money -= 2;
+		smallBlind.betMoney = 1;
+		smallBlind.betMoney--;
+		prevBet = 2;
+		
 		DisplayManager.globalConsole.add(smallBlind.name + " is now the small blind.");
 		DisplayManager.globalConsole.add(bigBlind.name + " is now the big blind.");
-		bigBlind.betMoney = 2;
-		smallBlind.betMoney = 1;
-		prevBet = 2;
 		DisplayManager.globalConsole.add(smallBlind.name + " has bet $1.");
 		DisplayManager.globalConsole.add(bigBlind.name + " has bet $2.");
 	}
@@ -489,9 +493,9 @@ public class Poker {
 		DisplayManager.wipeConsole();
 		switch(curOrbit) { //give appropriate actions for each orbit.
 		case 0:
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			System.out.println("| Welcome to the Preflop round. |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			DisplayManager.globalConsole.add("The preflop round has started.");
 			try {
 				Thread.sleep(2000);
@@ -501,9 +505,9 @@ public class Poker {
 			break;
 		case 1:
 
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			System.out.println("| Welcome to the Flop round.    |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			DisplayManager.globalConsole.add("The flop round has started.");
 
 			//add cards to table from stack
@@ -525,9 +529,9 @@ public class Poker {
 			}
 			break;
 		case 2:
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			System.out.println("| Welcome to the Turn round.    |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			DisplayManager.globalConsole.add("The turn round has started.");
 
 			//add card to table from stack
@@ -543,9 +547,9 @@ public class Poker {
 			}
 			break;
 		case 3:
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			System.out.println("| Welcome to the River round.   |");
-			System.out.println("—————————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			DisplayManager.globalConsole.add("The river round has started.");
 
 			//add card to table from stack
@@ -688,6 +692,11 @@ public class Poker {
 			});
 			//}
 		}
+		else {
+			hash.put("Check", (Player p) -> {
+				return Actions.check(p);
+			});
+		}
 
 
 
@@ -739,9 +748,9 @@ public class Poker {
 		Player m = null;
 		for(Player p : players) {
 			List<Card> cards = new ArrayList<>();
-			System.out.println("—————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			System.out.println("| Player " + p + "'s cards  |");
-			System.out.println("—————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			for(Card c : cardsOnTable) {
 				cards.add(c);
 			}
@@ -754,11 +763,11 @@ public class Poker {
 				System.out.println("| (" + c.number + " " + c.suit.toString() + ") |");
 				cards.add(c);
 			}
-			System.out.println("—————————————————————————————");
+			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 			System.out.println("\n\n");
-			int[] score = Evaluator.calculateScore(cards);
-			if(score[0] + score[1] > max) {
-				max = score[0] + score[1];
+			int score = Evaluator.evaluateScore(cards);
+			if(score > max) {
+				max = score;
 				m = p;
 			}
 			try {
@@ -790,7 +799,7 @@ public class Poker {
 		for(int i = 0; i < options.size(); i++) {
 			contextAssemble.put(i + "", new ArrayList<>(options.keySet()).get(i));
 		}
-		DisplayManager.displayContext(contextAssemble);
+		DisplayManager.displayContextRedo(contextAssemble);
 		boolean notFound = true;
 		while(notFound) {
 			String input = scan.next();
