@@ -6,7 +6,7 @@
 
 public class Card implements Comparable<Card>{
 	
-	int number; //ace is one, and king is 12
+	int number; //From 2-14 : 2(Two), 3(Three) ... 13(King), 14(Ace)
 	Suit suit; //suit enum
 
 	public static boolean mode = true;

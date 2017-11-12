@@ -23,19 +23,19 @@ public class Evaluator {
 	 *  10 = Royal Flush / RF
 	 */
 		
-	public static boolean compareScores (int[] score01, int[] score02) {
+	public static int compareScores (int[] score01, int[] score02) {
 		if (score01[0] > score02[0]) {
-			return true;
+			return 1;
 		} else if (score01[0] == score02[0]) {
 			if (score01[1] > score02[1]) {
-				return true;
+				return 1;
 			} else if (score01[1] < score02[1]) {
-				return false;
+				return 0;
 			} else {
-				return false;  //Tie
+				return -1;  //Tie!
 			}
 		} else {
-			return false;
+			return 0;
 		}
 	}
 	
@@ -83,9 +83,6 @@ public class Evaluator {
 			break;
 		case 1:
 			score = (hand.get(0).number * 100000000) + (hand.get(1).number * 1000000) + (hand.get(2).number * 10000) + (hand.get(3).number * 100) + hand.get(4).number;
-		
-		
-		
 		}
 		return score;
 	}
