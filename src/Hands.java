@@ -100,6 +100,11 @@ public class Hands {
 		for (int i = c.size() - 1; i > 2; i--) {
 			if (c.get(i).number == c.get(i-3).number) {
 				h = c.subList(i-3, i);
+				if (c.get(c.size()-1).number != c.get(i).number) {
+					h.add(c.get(c.size() - 1));
+				} else {
+					h.add(c.get(c.size() - 5));
+				}
 				return true;
 			}
 		}
@@ -112,6 +117,25 @@ public class Hands {
 			return false;
 		}
 
+		List<Card> Triple = null;
+		int num_of_K3;
+		
+		if (K3(c, Triple)) {
+			num_of_K3 = Triple.get(0).number;
+			
+			sortCards(c, true);
+
+			for (int i = c.size() - 1; i > 0; i--) {
+				if (c.get(i).number != num_of_K3) {
+					if (c.get(i).number == c.get(i-1).number) {
+						h.addAll(Triple);
+						h.addAll(c.subList(i-1, i));
+						return true;
+					}
+				}
+			}
+		}
+		
 		return false;
 	}
 
@@ -136,6 +160,27 @@ public class Hands {
 		if (c.size() < 5) {
 			return false;
 		}
+		
+		sortCards(c, true);
+		
+		int highest = 0;
+		int counter = 0;
+		
+		for (int i = c.size() - 1; i > 3; i--) {
+			if (c.get(i).number == c.get(i - 1).number + 1) {
+				counter++;
+				h.add(c.get(i + highest));
+			} else if (c.get(i).number == c.get(i - 1).number) {
+				highest++;
+			} else {
+				counter = 0;
+				h.clear();
+			}
+			
+			if (counter == 4) {
+				return true;
+			}
+		}
 
 		return false;
 	}
@@ -150,6 +195,16 @@ public class Hands {
 		for (int i = c.size() - 1; i > 1; i--) {
 			if (c.get(i).number == c.get(i-2).number) {
 				h = c.subList(i-2, i);
+				if (c.get(c.size()-1).number != c.get(i).number) {
+					h.add(c.get(c.size() - 1));
+				} else {
+					h.add(c.get(c.size() - 4));
+				}
+				if (c.get(0).number != c.get(i).number) {
+					h.add(c.get(0));
+				} else {
+					h.add(c.get(3));
+				}
 				return true;
 			}
 		}
@@ -181,6 +236,11 @@ public class Hands {
 			if (c.get(i).number == c.get(i-1).number) {
 				h = c.subList(i-1, i);
 				h.addAll(firstPair);
+				for (int k = c.size() - 1; k >= 0; k--) {
+					if (c.get(k).number != h.get(0).number && c.get(k).number != h.get(2).number) {
+						h.add(c.get(k));
+					}
+				}
 				return true;
 			}
 		}
@@ -194,10 +254,20 @@ public class Hands {
 		}
 
 		sortCards(c, true);
+		List<Card> kickers = null;
 
 		for (int i = c.size() - 1; i > 0; i--) {
 			if (c.get(i).number == c.get(i-1).number) {
 				h = c.subList(i-1, i);
+				for (int k = c.size() - 1; k >= 0; k--) {
+					if (c.get(k).number != h.get(0).number) {
+						kickers.add(c.get(k));
+					}
+					if (kickers.size() == 3) {
+						break;
+					}
+				}
+				h.addAll(kickers);
 				return true;
 			}
 		}
@@ -205,9 +275,21 @@ public class Hands {
 		return false;
 	}
 
-	public static void HC (List<Card> c, List<Card> h) {
+	public static void    HC (List<Card> c, List<Card> h) {
 		sortCards(c, true);
+		List<Card> kickers = null;
 		h.add(c.get(c.size() - 1));
+		
+		for (int k = c.size() - 1; k >= 0; k--) {
+			if (c.get(k) != h.get(0)) {
+				kickers.add(c.get(k));
+			}
+			if (kickers.size() == 4) {
+				break;
+			}
+		}
+		
+		h.addAll(kickers);
 	}
 
 	public static void sortCards(List<Card> i, boolean m) {
