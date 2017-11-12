@@ -201,9 +201,9 @@ public class Poker {
 		cardsOnTable.add(c);
 	}
 	public static void printRoundMessage(String edit) {
-		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
+		System.out.println("—————————————————————————————————");
 		System.out.println("| Welcome to the " + edit + " round.");
-		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
+		System.out.println("—————————————————————————————————");
 		DisplayManager.globalConsole.add("The " + edit + " round has started.");
 	}
 
@@ -436,9 +436,9 @@ public class Poker {
 
 	public static void displayPlayerCards() {
 		for(Player p : players) {
-			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
+			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("| Player " + p.name + "'s cards  (with the cards on table).");
-			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
+			System.out.println("——————————————————————————————————————————————————————————");
 
 			List<Card> cards = new ArrayList<>();
 			for(Card c : cardsOnTable) {
@@ -454,12 +454,11 @@ public class Poker {
 				cards.add(c);
 			}
 
-			System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
+			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -102,7 +102,7 @@ public class DisplayManager {
 		//Fill in horizontal dashes
 		String a = "";
 		for(int i = 0; i < longestLine; i++) {
-			a += "â€”";
+			a += "—";
 		}
 		for(int c : insertLine) {
 			prepare.set(c, a);
