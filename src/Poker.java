@@ -67,7 +67,7 @@ public class Poker {
 		bigBlind.betMoney = 2;
 		bigBlind.money -= 2;
 		smallBlind.betMoney = 1;
-		smallBlind.betMoney--;
+		smallBlind.money -= 1;
 		prevBet = 2;
 
 		DisplayManager.globalConsole.add(smallBlind.name + " is now the small blind.");
@@ -252,7 +252,7 @@ public class Poker {
 
 		boolean exit = false;
 		int start = 0; //get the starting person
-		for(int i = 0; i < players.size(); i++) {
+		for(int i = 0; i < players.size() && inRound; i++) {
 			if(curOrbit == 0) {
 				if(players.get(i).name.equals(bigBlind.name)) {
 					if(i == players.size()-1) {
@@ -381,13 +381,14 @@ public class Poker {
 				return Actions.check(p);
 			});
 		}
-		
+
 		hash.put("Reveal Cards", (Player p) -> {
-			System.out.println("Press any key to hide the cards.");
+			System.out.println("Press enter to hide the cards.");
 			for(Card c : p.cards) {
 				System.out.println("| (" + c.number + " " + c.suit.toString() + ") |");
 			}
-			return true;
+			scan.nextLine();
+			return false;
 		});
 
 		//TODO
@@ -513,7 +514,7 @@ public class Poker {
 			contextAssemble.put(i + "", new ArrayList<>(options.keySet()).get(i));
 		}
 		DisplayManager.displayContextRedo(contextAssemble);
-		boolean notFound = true;
+		boolean notFound = true, showCards = false;
 		while(notFound) {
 			String input = scan.nextLine();
 			for(String str : contextAssemble.keySet()) {
@@ -527,16 +528,26 @@ public class Poker {
 						notFound = false;
 					}
 					else {
+						if(contextAssemble.get(str).equals("Reveal Cards")) {
+							showCards = true;
+						}
 						break;
 					}
 				}
 			}
 			if(notFound) {
-				System.out.println("Error. Try again.");
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				if(showCards) {
+					DisplayManager.wipeConsole();
+					DisplayManager.displayContextRedo(contextAssemble);
+					showCards = false;
+				}
+				else {
+					System.out.println("Error. Try again.");
+					try {
+						Thread.sleep(500);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

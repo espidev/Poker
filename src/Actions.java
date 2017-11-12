@@ -30,7 +30,7 @@ public class Actions {
 		//check if only one person is left
 		int folded = 0;
 		for(Player p : Poker.players) {
-			if(p.stillInRound) folded++;
+			if(!p.stillInRound) folded++;
 		}
 		if(folded >= Poker.players.size()-2) {
 			Poker.inRound = false; //end game since one person won.
