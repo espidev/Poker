@@ -67,7 +67,7 @@ public class MainMenu extends JFrame{
 		System.out.println("| 0   | Exit                              |");
 		System.out.println("———————————————————————————————————————————");
 
-		String input = Poker.scan.next();
+		String input = Poker.scan.nextLine();
 
 		switch(input) {
 			case "1": DisplayManager.wipeConsole();

@@ -24,6 +24,24 @@ public class Actions {
 	public static boolean fold(Player player) {
 		player.stillInRound = false;
 		System.out.println(player.name + " has folded.");
+		DisplayManager.globalConsole.add(player.name + " has folded.");
+		
+		//check if only one person is left
+		int folded = 0;
+		for(Player p : Poker.players) {
+			if(p.stillInRound) folded++;
+		}
+		if(folded >= Poker.players.size()-2) {
+			Poker.inRound = false; //end game since one person won.
+			System.out.println("There is only one player left. Automatic win.");
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			Poker.displayPlayerCards();
+		}
+		
 		return true;
 	}
 	

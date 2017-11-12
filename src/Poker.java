@@ -21,9 +21,9 @@ public class Poker {
 
 	public static Player bigBlind = null, smallBlind = null;
 
-	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0, prevBet = 0;
+	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0, prevBet = 0, startingBalance = 50;
 
-	public static boolean inRound = false, inGame = false;
+	public static boolean inRound = false, inGame = false, defaultStarting = true;
 
 	public static int getPot() {
 		int sum = 0;
@@ -63,13 +63,13 @@ public class Poker {
 			smallBlind = players.get(cur);
 			bigBlind = players.get(next);
 		}
-		
+
 		bigBlind.betMoney = 2;
 		bigBlind.money -= 2;
 		smallBlind.betMoney = 1;
 		smallBlind.betMoney--;
 		prevBet = 2;
-		
+
 		DisplayManager.globalConsole.add(smallBlind.name + " is now the small blind.");
 		DisplayManager.globalConsole.add(bigBlind.name + " is now the big blind.");
 		DisplayManager.globalConsole.add(smallBlind.name + " has bet $1.");
@@ -124,9 +124,12 @@ public class Poker {
 			//CHECK IF THERE IS ONE PERSON LEFT
 
 			//Ask if the game should continue
+
+
+
 			while (true) {
 				System.out.println("Do you want the game to continue? (y/n)");
-				String input = scan.next();
+				String input = scan.nextLine();
 				if(input.equalsIgnoreCase("y")) {
 					System.out.println("Okay.");
 					try {
@@ -171,98 +174,78 @@ public class Poker {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		int numOfPlayers, startingBalance = 0;
-		boolean defaultStarting;
+		int numOfPlayers;
+
+		//Type safe input manager tool
+		InputManager<Integer> iManagerInt = new InputManager<>();
+		InputManager<String> iManagerStr = new InputManager<>();
 
 		/*
 		 * Number of players in a game
 		 */
 
-		while(true) {
+		numOfPlayers = iManagerInt.getInput("How many players will there be in the game?", (input) -> {
+			int n = Integer.parseInt((String)input);
 			try {
-				System.out.println("How many players will there be in the game?");
-				numOfPlayers = Integer.parseInt(scan.next());
-
-				if(numOfPlayers < 2) {
+				if(n < 2) {
 					System.out.println("You must have 2 or more people to play.");
 					Thread.sleep(300);
-					continue;
+					return false;
 				}
-				if(numOfPlayers > 10) {
+				else if(n > 10) {
 					System.out.println("Too many people! (10 max)");
 					Thread.sleep(300);
-					continue;
+					return false;
 				}
-				System.out.println(numOfPlayers + " people? Nice!");
-				Thread.sleep(300);
-				break;
-			}
-			catch(Exception e) {
-				System.out.println("Error. Try again.");
-				try {
+				else {
+					System.out.println(n + " people? Nice!");
 					Thread.sleep(300);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
+					return true;
 				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+				return false;
 			}
-		}
+		}, 1);
 
 		/*
 		 * Default starting balance
 		 */
 
-		while(true) {
-			try {
-				System.out.println("Should there be a default starting balance? (y/n)");
-				String input = scan.next();
-				if(input.equalsIgnoreCase("y")) {
-					defaultStarting = true;
-					while(true) {
-						try {
-							System.out.println("How much should it be? (50 recommended)");
-							int num = Integer.parseInt(scan.next());
-							if(num < 10) {
-								System.out.println("Too little. Please specify a number larger than 10.");
-								Thread.sleep(300);
-							}
-							else {
-								startingBalance = num;
-								System.out.println("$" + num + " is perfect!");
-								Thread.sleep(1000);
-								break;
-							}
-						}
-						catch (Exception e) {
-							System.out.println("Error. Try again.");
-							try {
-								Thread.sleep(300);
-							} catch (InterruptedException e1) {
-								e1.printStackTrace();
-							}
-						}
-					}
-					break;
-				}
-				else if(input.equalsIgnoreCase("n")) {
-					defaultStarting = false;
-					System.out.println("Okay, got it. \nEach player's balance will now have to be specified manually.");
-					Thread.sleep(1000);
-					break;
-				}
-				else {
-					System.out.println("Error. Try again.");
-					Thread.sleep(300);
-				}
-			}
-			catch(Exception e) {
-				System.out.println("Error. Try again.");
+		HashMap<String, Runnable> sBalance = new HashMap<>();
+		sBalance.put("y", () -> {
+			defaultStarting = true;
+			iManagerInt.getInput("How much should it be? (50 recommended)", (input) -> {
+				int num = Integer.parseInt((String)input);
 				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
+					if(num < 10) {
+						System.out.println("Too little. Please specify a number larger than 9.");
+						Thread.sleep(300);
+						return false;
+					}
+					else {
+						startingBalance = num;
+						System.out.println("$" + num + " is perfect!");
+						Thread.sleep(1000);
+						return true;
+					}
 				}
+				catch(InterruptedException e) {
+					e.printStackTrace();
+					return false;
+				}
+			}, 1);
+		});
+		sBalance.put("n", () -> {
+			defaultStarting = false;
+			System.out.println("Okay, got it. \nEach player's balance will now have to be specified manually.");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		}
+		});
+		iManagerStr.getInput("Should there be a default starting balance? (y/n)", sBalance);
 
 		/*
 		 * Prepare players in the game.
@@ -284,162 +267,146 @@ public class Poker {
 			}
 			String name = null;
 			boolean AI;
-			while(true) {
-				System.out.println("Will this player be an AI? (y/n)");
-				String input = scan.next();
-
-				if(input.equalsIgnoreCase("y")) { //Is AI
-					System.out.println("Okay.");
-					AI = true;
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-					//choose a random name for the AI
-					List<String> names = new ArrayList<>(Arrays.asList("Joe", "Bob", "Mark", "Jill", "Peter", "Cosmo", "Stalin", "Kim Jong Un", "Mao Zedong", "Fidel Castro", "Donald Trump"));
-
-					int j = 0;
-					String rand = "";
-
-					while(j < names.size()) { //check if there is already a person with the name
-						rand = names.get((int) (Math.random() * names.size()));
-						boolean notFound = true;
-						for(Player p : players) {
-							if(p.name.equals(rand)) {
-								notFound = false;
-							}
-						}
-						if(notFound) {
-							name = rand;
-							break;
-						}
-						names.remove(rand);
-						j++;
-					}
-					if(name == null) { //If it still can't find a name not taken, add a random number to the current name.
-						name = rand + ((int) (Math.random() * 100)); //still possibility for an AI to have the same name as another person but it should be fine...
-					}
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					System.out.println("This AI's name is " + name + ".");
-
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-
-					if(defaultStarting) { //if there is a default starting balance
-						players.add(new Player(name, startingBalance, true));
-					}
-					else {
-						System.out.println("How much should this player start with? (50 recommended)");
-						while(true) {
-							try {
-								int start = Integer.parseInt(scan.next());
-								if(start < 10) {
-									System.out.println("Too little. Please specify a number larger than 10.");
-									Thread.sleep(300);
-								}
-								else {
-									players.add(new Player(name, start, true));
-									System.out.println("$" + start + " is perfect!");
-									Thread.sleep(1000);
-									break;
-								}
-							}
-							catch (Exception e) {
-								System.out.println("Error. Try again.");
-								e.printStackTrace();
-								try {
-									Thread.sleep(300);
-								} catch (InterruptedException es) {
-									es.printStackTrace();
-								}
-							}
-						}
-					}
-					break;
+			String input = iManagerStr.getInput("Will this player be an AI? (y/n)", (in) -> {
+				String inp = (String) in;
+				if(inp.equalsIgnoreCase("y") || inp.equalsIgnoreCase("n")) {
+					return true;
 				}
-				else if(input.equalsIgnoreCase("n")) { //Not AI
-					System.out.println("Okay.");
-					AI = false;
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+				return false;
+			}, "");
+
+			if(input.equalsIgnoreCase("y")) { //Is AI
+				System.out.println("Okay.");
+				AI = true;
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				//choose a random name for the AI
+				List<String> names = new ArrayList<>(Arrays.asList("Joe", "Bob", "Mark", "Jill", "Peter", "Cosmo", "Stalin", "Kim Jong Un", "Mao Zedong", "Fidel Castro", "Donald Trump"));
+
+				int j = 0;
+				String rand = "";
+
+				while(j < names.size()) { //check if there is already a person with the name
+					rand = names.get((int) (Math.random() * names.size()));
+					boolean notFound = true;
+					for(Player p : players) {
+						if(p.name.equals(rand)) {
+							notFound = false;
+						}
 					}
-					System.out.println("What is the name of this player?");
-					scan.nextLine();
-					while(true) {
-						String inputName = scan.nextLine();
-						boolean found = false;
-						for(Player p : players) {
-							if(p.name.equals(inputName)) {
-								System.out.println("There is already a player with this name! Try another one.");
-								try {
-									Thread.sleep(300);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								found = true;
-								break;
+					if(notFound) {
+						name = rand;
+						break;
+					}
+					names.remove(rand);
+					j++;
+				}
+				if(name == null) { //If it still can't find a name not taken, add a random number to the current name.
+					name = rand + ((int) (Math.random() * 100)); //still possibility for an AI to have the same name as another person but it should be fine...
+				}
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println("This AI's name is " + name + ".");
+
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+				if(defaultStarting) { //if there is a default starting balance
+					players.add(new Player(name, startingBalance, true));
+				}
+				else {
+					int start = iManagerInt.getInput("How much should this player start with? (50 recommended)", (in) -> {
+						int inp = Integer.parseInt((String) in);
+						try {
+							if(inp < 10) {
+								System.out.println("Too little. Please specify a number larger than 10.");
+								Thread.sleep(300);
+								return false;
+							}
+							else {
+								System.out.println("$" + inp + " is perfect!");
+								Thread.sleep(1000);
+								return true;
 							}
 						}
-						if(!found) {
-							System.out.println("Hello " + inputName + "!");
-							name = inputName;
+						catch(InterruptedException e) {
+							e.printStackTrace();
+							return false;
+						}
+					}, 1);
+					players.add(new Player(name, start, true));
+				}
+			}
+			else if(input.equalsIgnoreCase("n")) { //Not AI
+				System.out.println("Okay.");
+				AI = false;
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				System.out.println("What is the name of this player?");
+				while(true) {
+					String inputName = scan.nextLine();
+					boolean found = false;
+					for(Player p : players) {
+						if(p.name.equals(inputName)) {
+							System.out.println("There is already a player with this name! Try another one.");
 							try {
 								Thread.sleep(300);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
+							found = true;
 							break;
 						}
 					}
-					if(defaultStarting) { //if there is a default starting balance
-						players.add(new Player(name, startingBalance, false));
-					}
-					else {
-						System.out.println("How much should this player start with? (50 recommended)");
-						while(true) {
-							try {
-								int start = Integer.parseInt(scan.next());
-								if(start < 10) {
-									System.out.println("Too little. Please specify a number larger than 10.");
-									Thread.sleep(300);
-								}
-								else {
-									players.add(new Player(name, start, false));
-									System.out.println("$" + start + " is perfect!");
-									Thread.sleep(1000);
-									break;
-								}
-							}
-							catch (Exception e) {
-								System.out.println("Error. Try again.");
-								try {
-									Thread.sleep(300);
-								} catch (InterruptedException es) {
-									es.printStackTrace();
-								}
-							}
+					if(!found) {
+						System.out.println("Hello " + inputName + "!");
+						name = inputName;
+						try {
+							Thread.sleep(300);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
+						break;
 					}
-					break;
+				}
+
+				if(defaultStarting) { //if there is a default starting balance
+					players.add(new Player(name, startingBalance, false));
 				}
 				else {
-					System.out.println("Error. Try again.");
-					try {
-						Thread.sleep(300);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					int start = iManagerInt.getInput("How much should this player start with? (50 recommended)", (in) -> {
+						int inp = Integer.parseInt((String) in);
+						try {
+							if(inp < 10) {
+								System.out.println("Too little. Please specify a number larger than 10.");
+								Thread.sleep(300);
+								return false;
+							}
+							else {
+								System.out.println("$" + inp + " is perfect!");
+								Thread.sleep(1000);
+								return true;
+							}
+						}
+						catch(InterruptedException e) {
+							e.printStackTrace();
+							return false;
+						}
+					}, 1);
+					players.add(new Player(name, start, false));
 				}
 			}
 		}
@@ -491,20 +458,17 @@ public class Poker {
 	public static void orbit() {
 
 		DisplayManager.wipeConsole();
+		
+		try {
 		switch(curOrbit) { //give appropriate actions for each orbit.
 		case 0:
 			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the Preflop round. |");
 			System.out.println("—————————————————————————————————");
 			DisplayManager.globalConsole.add("The preflop round has started.");
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(2000);
 			break;
 		case 1:
-
 			System.out.println("—————————————————————————————————");
 			System.out.println("| Welcome to the Flop round.    |");
 			System.out.println("—————————————————————————————————");
@@ -521,12 +485,7 @@ public class Poker {
 			cardsOnTable.add(c2);
 			cardsOnTable.add(c3);
 			DisplayManager.globalConsole.add("3 cards are now on the table.");
-
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(2000);
 			break;
 		case 2:
 			System.out.println("—————————————————————————————————");
@@ -540,11 +499,7 @@ public class Poker {
 			cardsOnTable.add(c4);
 
 			DisplayManager.globalConsole.add("4 cards are now on the table.");
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Thread.sleep(2000);
 			break;
 		case 3:
 			System.out.println("—————————————————————————————————");
@@ -558,14 +513,14 @@ public class Poker {
 			cardsOnTable.add(c5);
 
 			DisplayManager.globalConsole.add("5 cards are now on the table.");
-			try {
 				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 			break;
 		}
-
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		boolean exit = false;
 		int start = 0; //get the starting person
 		for(int i = 0; i < players.size(); i++) {
@@ -619,7 +574,7 @@ public class Poker {
 				HashMap<String, BooleanOperation> options = getOptions(players.get(curPlayer)); //get what options the player can do
 
 				DisplayManager.globalConsole.add(players.get(curPlayer).name + "'s turn.");
-				
+
 				if(players.get(curPlayer).isAI) {
 					AI.calculateTurn(players.get(curPlayer), options);
 				}
@@ -668,7 +623,7 @@ public class Poker {
 							while(true) {
 								try {
 									System.out.println("What do you want to raise the bet to?");
-									int input = Integer.parseInt(scan.next());
+									int input = Integer.parseInt(scan.nextLine());
 									if(input > p.money + p.betMoney) {
 										System.out.println("You don't have enough money!");
 									}
@@ -743,14 +698,13 @@ public class Poker {
 		DisplayManager.globalConsole = new ArrayList<>();
 	}
 
-	public static void calculateWinners() {
-		int max = 0;
-		Player m = null;
+	public static void displayPlayerCards() {
 		for(Player p : players) {
-			List<Card> cards = new ArrayList<>();
 			System.out.println("—————————————————————————————");
 			System.out.println("| Player " + p + "'s cards  |");
 			System.out.println("—————————————————————————————");
+
+			List<Card> cards = new ArrayList<>();
 			for(Card c : cardsOnTable) {
 				cards.add(c);
 			}
@@ -763,8 +717,23 @@ public class Poker {
 				System.out.println("| (" + c.number + " " + c.suit.toString() + ") |");
 				cards.add(c);
 			}
+
 			System.out.println("—————————————————————————————");
 			System.out.println("\n\n");
+		}
+	}
+
+	public static void calculateWinners() {
+		int max = 0;
+		Player m = null;
+		for(Player p : players) {
+			List<Card> cards = new ArrayList<>();
+			for(Card c : cardsOnTable) {
+				cards.add(c);
+			}
+			for(Card c : p.cards) {
+				cards.add(c);
+			}
 			int score = Evaluator.evaluateScore(cards);
 			if(score > max) {
 				max = score;
@@ -776,16 +745,19 @@ public class Poker {
 				e.printStackTrace();
 			}
 		}
+		win(m);
+	}
+
+	public static void win(Player p) {
 		try {
-			Thread.sleep(500);
 			System.out.println("And the winner of this round is...");
 			for(int i = 0; i < 3; i++) {
 				Thread.sleep(1000);
 				System.out.println(".");
 			}
 			Thread.sleep(1000);
-			System.out.println(m.name + "!");
-			m.money += getPot();
+			System.out.println(p.name + "!");
+			p.money += getPot();
 			Thread.sleep(500);
 			System.out.println("This player has won $" + getPot() + "!");
 		}
@@ -802,7 +774,7 @@ public class Poker {
 		DisplayManager.displayContextRedo(contextAssemble);
 		boolean notFound = true;
 		while(notFound) {
-			String input = scan.next();
+			String input = scan.nextLine();
 			for(String str : contextAssemble.keySet()) {
 				if(str.equals(input)) {
 					if(options.get(contextAssemble.get(str)).run(player)) {

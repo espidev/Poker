@@ -16,7 +16,7 @@
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Boolea Operation Interface: An interface for our lambda expressions
+ * Boolean Operation Interface: An interface for our lambda expressions
  */
 
 public interface BooleanOperation {

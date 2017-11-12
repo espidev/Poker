@@ -14,6 +14,10 @@ public class DisplayManager {
 	
 	public static List<String> globalConsole = new ArrayList<>();
 	
+	/*
+	 * Displays player menu in console.
+	 */
+	
 	public static void displayContextRedo(HashMap<String, String> options) {
 		wipeConsole();
 		List<String> prepare = new ArrayList<>();
@@ -66,6 +70,8 @@ public class DisplayManager {
 		prepare.add("");
 		insertLine.add(prepare.size()-1);
 		
+		//assemble the data columns
+		
 		for(int i = 0; i < getMax(pNames.size(), options.size()); i++) {
 			prepare.add(assembler(finder(new ArrayList<>(options.keySet()), i, ""), optionLongest) +
 					assembler(finder(new ArrayList<>(options.values()), i, ""), valueLongest) + 
@@ -73,6 +79,12 @@ public class DisplayManager {
 					assembler(finder(totalMoney, i, ""), totalMoneyLongest) + 
 					assembler(finder(betMoney, i, ""), betMoneyLongest) + " |");
 		}
+		
+		prepare.add("");
+		insertLine.add(prepare.size()-1);
+		
+		prepare.add("| " + Poker.players.get(Poker.curPlayer).name + "'s turn.");
+		prepare.add("| The current bet is at $" + Poker.prevBet + ".");
 		
 		prepare.add("");
 		insertLine.add(prepare.size()-1);
@@ -97,6 +109,10 @@ public class DisplayManager {
 		}
 	}
 	
+	/*
+	 * Returns a completed string for assembling the line.
+	 */
+	
 	public static String finder(List<String> l, int iter, String append) {
 		if(l.size() <= iter) {
 			return append + "| ";
@@ -106,11 +122,19 @@ public class DisplayManager {
 		}
 	}
 	
+	/*
+	 * Adds the spaces necessary to match up the line size count.
+	 */
+	
 	public static String assembler(String str, int max) {
 		int len = str.length();
 		for(int i = 0; i < max-len+3; i++) str += " ";
 		return str;
 	}
+	
+	/*
+	 * Math.max basically I don't know why it's here
+	 */
 	
 	public static int getMax(int... ints) {
 		int max = ints[0];
@@ -120,6 +144,10 @@ public class DisplayManager {
 		return max;
 	}
 	
+	/*
+	 * Get longest string in a set plus unlimited arguments
+	 */
+	
 	public static int getLongestStringLength(Set<String> set, String... addedStrings) {
 		for(String s : addedStrings) set.add(s);
 		int max = 0;
@@ -128,6 +156,10 @@ public class DisplayManager {
 		}
 		return max;
 	}
+	
+	/*
+	 * Clear the console.
+	 */
 	
 	public static void wipeConsole() {
 		for(int i = 0; i < 500; i++) System.out.println("\n");

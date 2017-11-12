@@ -1,13 +1,13 @@
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Card Class: Ah................RIP AI.
+ * Card Class: the object for the cards in play.
  */
 
 public class Card implements Comparable<Card>{
 	
-	int number;
-	Suit suit;
+	int number; //ace is one, and king is 12
+	Suit suit; //suit enum
 
 	static boolean mode = true;
 	
@@ -16,7 +16,7 @@ public class Card implements Comparable<Card>{
 		this.suit = suit;
 	}
 
-	public int compareTo(Card o) {
+	public int compareTo(Card o) { //implement comparing for Collections.sort
 		if (mode) { //Number
 			if (number > o.number) {
 				return 1;
