@@ -1,3 +1,12 @@
+import java.awt.BorderLayout;
+import java.awt.Component;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /*
  * POKER PROGRAM
@@ -5,9 +14,42 @@
  * MainMenu class: The main menu for the beginning of the game.
  */
 
-public class MainMenu {
+public class MainMenu extends JFrame{
+	
+	public MainMenu() {
+		JLabel label = new JLabel("Welcome to Poker!");
+		JButton start = new JButton("Start the game.");
+		start.addActionListener((ActionEvent e) -> {
+			
+		});
+		JButton rules = new JButton("Rules");
+		JButton credits = new JButton("Credits");
+		JButton exit = new JButton("Exit");
+		
+		JPanel panel = new JPanel();
+		
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		
+		panel.add(label);
+		panel.add(start);
+		panel.add(rules);
+		panel.add(credits);
+		panel.add(exit);
+		
+		for(Component c : panel.getComponents()) {
+			((JComponent) c).setAlignmentX(Component.CENTER_ALIGNMENT);
+			c.setSize(150, 50);
+		}
+		
+		add(panel, BorderLayout.CENTER);
+		setSize(300,300);  
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+	}
 	
 	public static void displayMainMenu() {
+		new MainMenu();
+		
 		System.out.println("———————————————————————————————————————————");
 		System.out.println("| Welcome to Poker!                       |");
 		System.out.println("———————————————————————————————————————————");
