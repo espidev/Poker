@@ -341,7 +341,7 @@ public class Poker {
 				cur++;
 			}
 		}
-		while(cur != orbitEnd);
+		while(cur != orbitEnd && inRound);
 	}
 
 	/*
