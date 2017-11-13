@@ -22,7 +22,39 @@ public class Evaluator {
 	 *  9 = Straight Flush / SF
 	 *  10 = Royal Flush / RF
 	 */
-		
+	
+	public enum Hand {
+		High_Card, One_Pair, Two_Pairs, Three_of_a_Kind, Straight, Flush, Full_House, Four_of_a_Kind, Straight_Flush, Royal_Flush;
+	}
+
+	public static Object comparePlayers(Player p1, Player p2) {
+		List<Card> c1 = new ArrayList<>(), c2 = new ArrayList<>();
+		c1.addAll(Poker.cardsOnTable);
+		c1.addAll(p1.cards);
+		c2.addAll(Poker.cardsOnTable);
+		c2.addAll(p2.cards);
+		if(compareHands(c1, c2) == 1) {
+			return true;
+		}
+		else if(compareHands(c1, c2) == 0) {
+			return false;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/* Compares the scores of two different lists of cards.
+	 * Returns: 
+	 * 1 (card01 wins)
+	 * 0 (card01 loses)
+	 * -1 (tie)
+	 */
+	public static int compareHands (List<Card> card01, List<Card> card02) {
+		return compareScores(evaluateFinal(card01), evaluateFinal(card02));
+	}
+
+	//Compares two scores in the format of [a, b]
 	public static int compareScores (int[] score01, int[] score02) {
 		if (score01[0] > score02[0]) {
 			return 1;
@@ -39,9 +71,11 @@ public class Evaluator {
 		}
 	}
 	
+	//Gets a score when a list of cards is inputed
 	public static int[] evaluateFinal (List<Card> card) {
 		int[] score = new int[2];
-		List<Card> tempCard = card;
+		List<Card> tempCard = new ArrayList<>();
+		tempCard.addAll(card);
 		List<Card> hand = null;
 		
 		score[0] = evaluateHand(tempCard, hand);		
@@ -50,6 +84,7 @@ public class Evaluator {
 		return score;
 	}
 	
+	//Figures out specific score of poker hand based on list of cards in case of two of the same poker hand
 	public static int evaluateScore (int type, List<Card> hand) {
 		int score = 0;
 		
@@ -87,6 +122,7 @@ public class Evaluator {
 		return score;
 	}
 	
+	//Figures out the poker hand in a list of cards
 	public static int evaluateHand (List<Card> card, List<Card> hand) {
 		if (Hands.RF(card, hand)) {
 			return 10;
