@@ -275,7 +275,7 @@ public class Hands {
 		return false;
 	}
 
-	public static void    HC (List<Card> c, List<Card> h) {
+	public static void HC (List<Card> c, List<Card> h) {
 		sortCards(c, true);
 		List<Card> kickers = null;
 		h.add(c.get(c.size() - 1));
