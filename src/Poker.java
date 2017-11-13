@@ -499,34 +499,24 @@ public class Poker {
 		
 		for(int i = 1; i < parray.size(); i++) {
 			for(int j = 0; j < parray.size()-i; j++) {
-				if(Evaluator.evaluateFinal(card)) {}
+				if(Evaluator.comparePlayers(parray.get(j), parray.get(j+1)) == (Boolean)true) {
+					Player t = parray.get(j);
+					parray.set(j, parray.get(j+1));
+					parray.set(j+1, t);
+				}
 			}
 		}
 		
+		System.out.println("Winners in order:");
 		for(Player p : parray) {
-			List<Card> cards = new ArrayList<>();
-			for(Card c : cardsOnTable) {
-				cards.add(c);
-			}
-			for(Card c : p.cards) {
-				cards.add(c);
-			}
-			
+			System.out.println(p.name);
 		}
-		
-		for(Player p : players) {
-			
-			int score = Evaluator.evaluateScore(69, cards); //TODO LOL
-			if(score > max) {
-				max = score; //calc winners better TODO
-				m = p;
-			}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		//TODO
 		win(m);
 	}
 

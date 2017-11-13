@@ -53,7 +53,7 @@ public class Actions {
 		return true;
 	}
 	
-	public static boolean raise(Player player, int money) {
+	public static boolean raise(Player player, int money) { //TODO OVER
 		player.betMoney += money;
 		player.money -= money;
 		Poker.prevBet = player.betMoney;
