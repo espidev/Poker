@@ -121,8 +121,34 @@ public class Poker {
 			//Starts a round of poker
 			round();
 
+			//Check that everyone has enough money
+			for(Player p : players) {
+				if(p.money < 2) {
+					System.out.println(p.name + " does not have enough money to continue playing.");
+					System.out.println(p.name + " has left the game.");
+					DisplayManager.globalConsole.add(p.name + " does not have enough money to continue playing.");
+					DisplayManager.globalConsole.add(p.name + " has left the game.");
+					p.stillInGame = false;
+					p.orderOfDeath = numOfDead + 1;
+					p.stillInRound = false;
+					numOfDead++;
+				}
+			}
+			
 			//CHECK IF THERE IS ONE PERSON LEFT
-
+			boolean foundPerson = false;
+			for(Player p : players) {
+				if(p.stillInGame) {
+					if(foundPerson) {
+						foundPerson = false; //2 or more people are still in the game
+						break;
+					}
+					else {
+						foundPerson = true;
+					}
+				}
+			}
+			
 			while (true) {
 				System.out.println("Do you want the game to continue? (y/n)");
 				String input = scan.nextLine();
@@ -165,27 +191,24 @@ public class Poker {
 
 	public static void round() {
 
-		//Check that everyone has enough money
-		for(Player p : players) {
-			if(p.money < 2) {
-				System.out.println(p.name + " does not have enough money to continue playing.");
-				System.out.println(p.name + " has forfeited the game.");
-				DisplayManager.globalConsole.add(p.name + " does not have enough money to continue playing.");
-				DisplayManager.globalConsole.add(p.name + " has forfeited the game.");
-				p.stillInGame = false;
-				p.orderOfDeath = numOfDead + 1;
-				p.stillInRound = false;
-				numOfDead++;
-			}
-		}
-
 		inRound = true;
 
 		setBlinds();
 		for (; curOrbit < 4 && inRound; curOrbit++) { //curOrbit already set to zero from resetRound()
 			orbit();
 		}
+		
+		System.out.println("The round has now ended. Now showing all of the players's cards.");
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		//Show everyone's cards in the output
+		displayPlayerCards();
+		
+		//calc winners.
 		calculateWinners();
 
 		//Reset the round to get ready for the next one
