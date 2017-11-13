@@ -319,7 +319,7 @@ public class Poker {
 		}
 		orbitEnd = start;
 		int cur = start;
-		do {
+		do { //TODO REDO WITH PREVIOUS PERSON THAT RAISED 
 			curPlayer = cur;
 			if(players.get(curPlayer).stillInGame && players.get(curPlayer).stillInRound) {
 				//Player's turn
@@ -494,7 +494,16 @@ public class Poker {
 	public static void calculateWinners() {
 		int max = 0;
 		Player m = null;
-		for(Player p : players) {
+		ArrayList<Player> parray = new ArrayList<>();
+		parray.addAll(players);
+		
+		for(int i = 1; i < parray.size(); i++) {
+			for(int j = 0; j < parray.size()-i; j++) {
+				if(Evaluator.evaluateFinal(card)) {}
+			}
+		}
+		
+		for(Player p : parray) {
 			List<Card> cards = new ArrayList<>();
 			for(Card c : cardsOnTable) {
 				cards.add(c);
@@ -502,6 +511,11 @@ public class Poker {
 			for(Card c : p.cards) {
 				cards.add(c);
 			}
+			
+		}
+		
+		for(Player p : players) {
+			
 			int score = Evaluator.evaluateScore(69, cards); //TODO LOL
 			if(score > max) {
 				max = score; //calc winners better TODO
