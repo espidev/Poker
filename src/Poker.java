@@ -140,7 +140,7 @@ public class Poker {
 			for(Player p : players) {
 				if(p.stillInGame) {
 					if(foundPerson) {
-						foundPerson = false; //2 or more people are still in the game
+						foundPerson = false; //2 or more people are still in the games
 						break;
 					}
 					else {
@@ -276,8 +276,8 @@ public class Poker {
 		boolean exit = false;
 		int start = 0; //get the starting person
 		for(int i = 0; i < players.size() && inRound; i++) {
-			if(curOrbit == 0) {
-				if(players.get(i).name.equals(bigBlind.name)) {
+			if(curOrbit == 0) { //starting preflop round
+				if(players.get(i).name.equals(bigBlind.name)) { //find big blind
 					if(i == players.size()-1) {
 						i = 0;
 					}
