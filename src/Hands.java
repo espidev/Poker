@@ -55,7 +55,7 @@ public class Hands {
 		}
 
 		//Checks if Special Case (A, 2, 3, 4, 5) is present
-		List<Suit> isLow_Suits = null;
+		List<Suit> isLow_Suits = new ArrayList<>();
 		int num_of_Aces = 0;
 		boolean isLow = false;
 
@@ -117,7 +117,7 @@ public class Hands {
 			return false;
 		}
 
-		List<Card> Triple = null;
+		List<Card> Triple = new ArrayList<>();
 		int num_of_K3;
 		
 		if (K3(c, Triple)) {
@@ -218,15 +218,13 @@ public class Hands {
 		}
 
 		sortCards(c, true);
-		List<Card> firstPair = null;
-		int counter = 0;
+		List<Card> firstPair = new ArrayList<>();
 		int j = 0;
 
 		for (int i = c.size() - 1; i > 0; i--) {
 			if (c.get(i).number == c.get(i-1).number) {
 				firstPair.add(c.get(i));
 				firstPair.add(c.get(i-1));
-				counter++;
 				j = i-2;
 				break;
 			}
@@ -254,7 +252,7 @@ public class Hands {
 		}
 
 		sortCards(c, true);
-		List<Card> kickers = null;
+		List<Card> kickers = new ArrayList<>();
 
 		for (int i = c.size() - 1; i > 0; i--) {
 			if (c.get(i).number == c.get(i-1).number) {
@@ -277,7 +275,7 @@ public class Hands {
 
 	public static void HC (List<Card> c, List<Card> h) {
 		sortCards(c, true);
-		List<Card> kickers = null;
+		List<Card> kickers = new ArrayList<>();
 		h.add(c.get(c.size() - 1));
 		
 		for (int k = c.size() - 1; k >= 0; k--) {
