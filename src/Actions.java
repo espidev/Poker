@@ -40,7 +40,6 @@ public class Actions {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			Poker.displayPlayerCards();
 		}
 		
 		return true;

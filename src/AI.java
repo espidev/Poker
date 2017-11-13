@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class AI {
 	public static void calculateTurn(Player player, HashMap<String, BooleanOperation> options) {
 		options.remove("Reveal Cards");
+		options.remove("Fold");
 		DisplayManager.wipeConsole();
 		System.out.println("Calculating the AI's turn...");
 		try {
