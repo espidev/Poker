@@ -487,6 +487,10 @@ public class Poker {
 		}
 	}
 
+	/*
+	 * Executed once the round is over.
+	 */
+	
 	public static void calculateWinners() {
 		int max = 0;
 		Player m = null;
@@ -500,7 +504,7 @@ public class Poker {
 			}
 			int score = Evaluator.evaluateScore(69, cards); //TODO LOL
 			if(score > max) {
-				max = score;
+				max = score; //calc winners better TODO
 				m = p;
 			}
 			try {
