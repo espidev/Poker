@@ -21,6 +21,7 @@ public class Card implements Comparable<Card>{
 	 * https://en.wikipedia.org/wiki/Playing_cards_in_Unicode
 	 * http://www.russellcottrell.com/greek/utilities/SurrogatePairCalculator.htm
 	 * ughhhhhhhhhhhhhhhhhhhh
+         * I agree :P
 	 */
 
 	public String getCard() {
@@ -102,8 +103,8 @@ public class Card implements Comparable<Card>{
 		return "";
 	}
 
-	public int compareTo(Card o) { //implement comparing for Collections.sort
-		if (mode) {  //Sort by number, then suit
+	public int compareTo(Card o) {                 //implement comparing for Collections.sort
+		if (mode) {                            //Sort by number, then suit
 			if (number > o.number) {
 				return 1;
 			} else if (number == o.number) {
@@ -115,7 +116,7 @@ public class Card implements Comparable<Card>{
 			} else {
 				return -2;
 			}
-		} else { //Sort by suit, then number
+		} else {                                //Sort by suit, then number
 			if (Suit.compare(suit, o.suit)) {
 				return 1;
 			} else if (suit == o.suit) {
