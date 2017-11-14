@@ -118,7 +118,7 @@ public class Hands {
 		}
 
 		List<Card> Triple = new ArrayList<>();
-		boolean isTriple = K3(c, Triple);
+		boolean isTriple = K3Triple(c, Triple);
 		
 		int num_of_K3;
 		
@@ -207,6 +207,23 @@ public class Hands {
 				} else {
 					h.add(c.get(3));
 				}
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	public static boolean K3Triple (List<Card> c, List<Card> h) {
+		if (c.size() < 3) {
+			return false;
+		}
+
+		sortCards(c, true);
+
+		for (int i = c.size() - 1; i > 1; i--) {
+			if (c.get(i).number == c.get(i-2).number) {
+				h = c.subList(i-2, i);
 				return true;
 			}
 		}
