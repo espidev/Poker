@@ -118,9 +118,11 @@ public class Hands {
 		}
 
 		List<Card> Triple = new ArrayList<>();
+		boolean isTriple = K3(c, Triple);
+		
 		int num_of_K3;
 		
-		if (K3(c, Triple)) {
+		if (isTriple) {
 			num_of_K3 = Triple.get(0).number;
 			
 			sortCards(c, true);
