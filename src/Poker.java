@@ -156,7 +156,8 @@ public class Poker {
 
 					//horrible algorithm but it works
 					List<Player> losing = new ArrayList<>();
-
+					
+					Thread.sleep(9000);
 
 				}
 				catch(Exception e) {
