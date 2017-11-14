@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.nio.charset.Charset;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;

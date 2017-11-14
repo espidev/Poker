@@ -98,9 +98,11 @@ public class DisplayManager {
 		}
 		else {
 			prepare.add("| Cards on the table:");
+			String cards = "| ";
 			for(Card c : Poker.cardsOnTable) {
-				prepare.add("| (" + c.number + " " + Suit.map(c.suit) + ") |");
+				cards += c.getCard(); //get unicode representation of card
 			}
+			prepare.add(cards);
 		}
 
 		prepare.add("");

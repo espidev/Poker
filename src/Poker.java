@@ -404,10 +404,12 @@ public class Poker {
 
 		hash.put("Reveal Cards", (Player p) -> {
 			System.out.println("Press enter to hide the cards.");
+			String assemble = "";
 			
 			for(Card c : p.cards) {
-				System.out.println("| (" + c.number + " " + Suit.map(c.suit) + ") |");
+				assemble += c.getCard(); //unicode representation of card
 			}
+			System.out.println(assemble);
 			
 			scan.nextLine(); //when player presses enter
 			return false;
@@ -467,20 +469,17 @@ public class Poker {
 			for(Card c : cardsOnTable) {
 				cards.add(c);
 			}
+			String assemble = "| ";
 			for(Card c : p.cards) {
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				System.out.println("| (" + c.number + " " + Suit.map(c.suit) + ") |");
+				assemble += c.getCard();
 				cards.add(c);
 			}
+			System.out.println(assemble);
 
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
-				Thread.sleep(5000);
+				Thread.sleep(6000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
