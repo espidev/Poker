@@ -16,8 +16,10 @@ import javax.swing.event.*;
  * MainMenu class: The main menu for the beginning of the game.
  */
 
-public class MainMenu extends JFrame{
-	
+public class MainMenu /*extends JFrame*/{
+	/*
+	 * Attempted GUI
+	 * 
 	public MainMenu() {
 		JLabel label = new JLabel("Welcome to Poker!");
 		JButton start = new JButton("Start the game.");
@@ -47,10 +49,10 @@ public class MainMenu extends JFrame{
 		setSize(300,300);  
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-	}
+	}*/
 	
 	public static void displayMainMenu() {
-		new MainMenu();
+		//new MainMenu();
 		
 		System.out.println("———————————————————————————————————————————");
 		System.out.println("| Welcome to Poker!                       |");
