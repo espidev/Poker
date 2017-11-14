@@ -104,7 +104,7 @@ public class DisplayManager {
 			}
 			prepare.add(cards);
 			for(Card c : Poker.cardsOnTable) {
-				prepare.add("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+				prepare.add("| " + c.getCardOutput() + " " + Suit.getSuit(c.suit) + " |");
 			}
 		}
 

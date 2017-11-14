@@ -418,7 +418,7 @@ public class Poker {
 			System.out.println(assemble);
 
 			for(Card c : p.cards) {
-				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+				System.out.println("| " + c.getCardOutput() + " " + Suit.getSuit(c.suit) + " |");
 			}
 
 			scan.nextLine(); //when player presses enter
@@ -443,7 +443,7 @@ public class Poker {
 		cardsOnTable = new ArrayList<>();	
 		inRound = false;
 		//add all 52 cards to the deck.
-		for(int i = 1; i < 13; i++) {
+		for(int i = 2; i < 14; i++) {
 			cardsOnStack.add(new Card(i, Suit.CLOVER));
 			cardsOnStack.add(new Card(i, Suit.DIAMOND));
 			cardsOnStack.add(new Card(i, Suit.HEART));
@@ -473,10 +473,11 @@ public class Poker {
 	public static void displayPlayerCards() {
 		for(Player p : players) {
 			System.out.println("——————————————————————————————————————————————————————————");
-			System.out.println("| Player " + p.name + "'s cards  (with the cards on table).");
-			System.out.println("——————————————————————————————————————————————————————————");
+			System.out.println("| Player " + p.name);
+			System.out.print("Cards (including on table): ");
 
 			List<Card> cards = new ArrayList<>();
+			List<Card> tempHand = new ArrayList<>();
 			for(Card c : cardsOnTable) {
 				cards.add(c);
 			}
@@ -488,13 +489,29 @@ public class Poker {
 			System.out.println(assemble);
 
 			for(Card c : p.cards) {
-				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
 			}
 
 			for(Card c : cardsOnTable) {
-				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
+			}
+						
+			//evaluate hand
+			int f = (Integer) Evaluator.evaluateHand(cards, tempHand).get(0);
+			tempHand = (List<Card>) Evaluator.evaluateHand(cards, tempHand).get(1);
+			Evaluator.Hand hand = null;
+			for(Evaluator.Hand h : Evaluator.Hand.values()) {
+				if(h.ordinal()+1 == f) {
+					hand = h;
+				}
 			}
 			
+			System.out.println();
+			System.out.println("——————————————————————————————————————————————————————————");
+			System.out.print("Hand: " + hand.toString().replaceAll("_", " ") + "  ");
+			for(Card z : tempHand) {
+				System.out.print(z.getCardOutput() + " " + Suit.getSuit(z.suit) + "  ");
+			}
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {

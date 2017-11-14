@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,26 +24,29 @@ public class Hands {
 	 *  10 = Royal Flush / RF
 	 */
 
-	public static boolean RF (List<Card> c, List<Card> h) {
+	public static List<Object> RF (List<Card> c, List<Card> h) {
 		if (c.size() < 5) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards (c, false);
 
 		for (int i = c.size() - 1; i > 3; i--) {
 			if (c.get(i).suit == c.get(i - 4).suit && c.get(i).number == 14 && c.get(i - 4).number == 10) {
-				h = c.subList(i-4, i);
-				return true;
+				h = new ArrayList<>();
+				for(int j = i-4; j <= i; j++) {
+					h.add(c.get(j));
+				}
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean SF (List<Card> c, List<Card> h) {
+	public static List<Object> SF (List<Card> c, List<Card> h) {
 		if (c.size() < 5) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards (c, false);
@@ -50,7 +54,7 @@ public class Hands {
 		for (int i = c.size() - 1; i > 3; i--) {
 			if (c.get(i).suit == c.get(i - 4).suit && c.get(i).number == c.get(i - 4).number + 4) {
 				h = c.subList(i-4, i);
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
@@ -81,18 +85,18 @@ public class Hands {
 						Card ace = new Card (14, curSuit);
 						h.add(ace);
 						h = c.subList(i-3, i);
-						return true;
+						return Arrays.asList(true, h);
 					}
 				}	
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean K4 (List<Card> c, List<Card> h) {
+	public static List<Object> K4 (List<Card> c, List<Card> h) {
 		if (c.size() < 4) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, true);
@@ -105,20 +109,20 @@ public class Hands {
 				} else {
 					h.add(c.get(c.size() - 5));
 				}
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean FH (List<Card> c, List<Card> h) {
+	public static List<Object> FH (List<Card> c, List<Card> h) {
 		if (c.size() < 5) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		List<Card> Triple = new ArrayList<>();
-		boolean isTriple = K3Triple(c, Triple);
+		boolean isTriple = (Boolean)K3Triple(c, Triple).get(0);
 
 		int num_of_K3;
 		try {
@@ -132,7 +136,7 @@ public class Hands {
 						if (c.get(i).number == c.get(i-1).number) {
 							h.addAll(Triple);
 							h.addAll(c.subList(i-1, i));
-							return true;
+							return Arrays.asList(true, h);
 						}
 					}
 				}
@@ -142,12 +146,12 @@ public class Hands {
 			//yikes TODO
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean FL (List<Card> c, List<Card> h) {
+	public static List<Object> FL (List<Card> c, List<Card> h) {
 		if (c.size() < 5) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, false);
@@ -155,16 +159,16 @@ public class Hands {
 		for (int i = c.size() - 1; i > 3; i--) {
 			if (c.get(i).suit == c.get(i - 4).suit) {
 				h = c.subList(i-4, i);
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean ST (List<Card> c, List<Card> h) {
+	public static List<Object> ST (List<Card> c, List<Card> h) {
 		if (c.size() < 5) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, true);
@@ -188,16 +192,16 @@ public class Hands {
 				h = new ArrayList<>();
 			}
 			if (counter == 4) {
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean K3 (List<Card> c, List<Card> h) {
+	public static List<Object> K3 (List<Card> c, List<Card> h) {
 		if (c.size() < 3) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, true);
@@ -215,16 +219,16 @@ public class Hands {
 				} else {
 					h.add(c.get(3));
 				}
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean K3Triple (List<Card> c, List<Card> h) {
+	public static List<Object> K3Triple (List<Card> c, List<Card> h) {
 		if (c.size() < 3) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, true);
@@ -232,16 +236,16 @@ public class Hands {
 		for (int i = c.size() - 1; i > 1; i--) {
 			if (c.get(i).number == c.get(i-2).number) {
 				h = c.subList(i-2, i);
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean PP (List<Card> c, List<Card> h) {
+	public static List<Object> PP (List<Card> c, List<Card> h) {
 		if (c.size() < 4) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, true);
@@ -266,16 +270,16 @@ public class Hands {
 						h.add(c.get(k));
 					}
 				}
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static boolean P1 (List<Card> c, List<Card> h) {
+	public static List<Object> P1 (List<Card> c, List<Card> h) {
 		if (c.size() < 2) {
-			return false;
+			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, true);
@@ -294,14 +298,14 @@ public class Hands {
 					}
 				}
 				h.addAll(kickers);
-				return true;
+				return Arrays.asList(true, h);
 			}
 		}
 
-		return false;
+		return Arrays.asList(false, h);
 	}
 
-	public static void HC (List<Card> c, List<Card> h) {
+	public static List<Card> HC (List<Card> c, List<Card> h) {
 		sortCards(c, true);
 		List<Card> kickers = new ArrayList<>();
 		h.add(c.get(c.size() - 1));
@@ -316,6 +320,7 @@ public class Hands {
 		}
 
 		h.addAll(kickers);
+		return h;
 	}
 
 	public static void sortCards(List<Card> i, boolean m) {

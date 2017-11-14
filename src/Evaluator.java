@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -83,8 +84,19 @@ public class Evaluator {
 		tempCard.addAll(card);
 		List<Card> hand = new ArrayList<>();
 		
-		score[0] = evaluateHand(tempCard, hand);		
+		score[0] = (Integer)evaluateHand(tempCard, hand).get(0);		
 		score[1] = evaluateScore(score[0], hand);
+		
+		return score;
+	}
+	
+	public static int[] evaluateFinal (List<Card> card, List<Card> k) {
+		int[] score = new int[2];
+		List<Card> tempCard = new ArrayList<>();
+		tempCard.addAll(card);
+		
+		score[0] = (Integer) evaluateHand(tempCard, k).get(0);		
+		score[1] = evaluateScore(score[0], k);
 		
 		return score;
 	}
@@ -128,28 +140,28 @@ public class Evaluator {
 	}
 	
 	//Figures out the poker hand in a list of cards
-	public static int evaluateHand (List<Card> card, List<Card> hand) {
-		if (Hands.RF(card, hand)) {
-			return 10;
-		} else if (Hands.SF(card, hand)) {
-			return 9;
-		} else if (Hands.K4(card, hand)) {
-			return 8;
-		} else if (Hands.FH(card, hand)) {
-			return 7;
-		} else if (Hands.FL(card, hand)) {
-			return 6;
-		} else if (Hands.ST(card, hand)) {
-			return 5;
-		} else if (Hands.K3(card, hand)) {
-			return 4;
-		} else if (Hands.PP(card, hand)) {
-			return 3;
-		} else if (Hands.P1(card, hand)) {
-			return 2;
+	public static List<Object> evaluateHand (List<Card> card, List<Card> hand) {
+		if ((Boolean)Hands.RF(card, hand).get(0)) {
+			return Arrays.asList(10, Hands.RF(card, hand).get(1));
+		} else if ((Boolean)Hands.SF(card, hand).get(0)) {
+			return Arrays.asList(9, Hands.SF(card, hand).get(1));
+		} else if ((Boolean)Hands.K4(card, hand).get(0)) {
+			return Arrays.asList(8, Hands.K4(card, hand).get(1));
+		} else if ((Boolean)Hands.FH(card, hand).get(0)) {
+			return Arrays.asList(7, Hands.FH(card, hand).get(1));
+		} else if ((Boolean)Hands.FL(card, hand).get(0)) {
+			return Arrays.asList(6, Hands.FL(card, hand).get(1));
+		} else if ((Boolean)Hands.ST(card, hand).get(0)) {
+			return Arrays.asList(5, Hands.ST(card, hand).get(1));
+		} else if ((Boolean)Hands.K3(card, hand).get(0)) {
+			return Arrays.asList(4, Hands.K3(card, hand).get(1));
+		} else if ((Boolean)Hands.PP(card, hand).get(0)) {
+			return Arrays.asList(3, Hands.PP(card, hand).get(1));
+		} else if ((Boolean)Hands.P1(card, hand).get(0)) {
+			return Arrays.asList(2, Hands.P1(card, hand).get(1));
 		} else {
 			Hands.HC(card, hand);
-			return 1;
+			return Arrays.asList(1, Hands.HC(card, hand));
 		}
 	}
 }
