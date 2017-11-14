@@ -426,7 +426,7 @@ public class Poker {
 			for(Card c : p.cards) {
 				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
 			}
-			
+
 			scan.nextLine(); //when player presses enter
 			return false;
 		});
@@ -495,7 +495,7 @@ public class Poker {
 			for(Card c : p.cards) {
 				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
 			}
-			
+
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
@@ -518,29 +518,28 @@ public class Poker {
 
 		//Bubble sort the players by their "hand".
 
-		for(int i = 1; i < parray.size(); i++) {
-			for(int j = 0; j < parray.size()-i; j++) {
-				if(Evaluator.comparePlayers(parray.get(j), parray.get(j+1)) == (Boolean)false) {
-					Player t = parray.get(j);
-					parray.set(j, parray.get(j+1));
-					parray.set(j+1, t);
+		try {
+			for(int i = 1; i < parray.size(); i++) {
+				for(int j = 0; j < parray.size()-i; j++) {
+					if(Evaluator.comparePlayers(parray.get(j), parray.get(j+1)) == (Boolean)false) {
+						Player t = parray.get(j);
+						parray.set(j, parray.get(j+1));
+						parray.set(j+1, t);
+					}
 				}
 			}
-		}
 
-		m = parray.get(0);
+			m = parray.get(0);
 
-		System.out.println("Winners in order:");
-		for(Player p : parray) {
-			System.out.println(p.name);
-		}
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
+			System.out.println("Winners in order:");
+			for(Player p : parray) {
+				System.out.println(p.name);
+			}
+			//TODO
+			win(m);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//TODO
-		win(m);
 	}
 
 	/*
