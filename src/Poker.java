@@ -134,18 +134,23 @@ public class Poker {
 				}
 			}
 			
-			//CHECK IF THERE IS ONE PERSON LEFT
-			boolean foundPerson = false;
+			//Check if there is one person left
+			int playersStillInGame = 0;
 			for(Player p : players) {
 				if(p.stillInGame) {
-					if(foundPerson) {
-						foundPerson = false; //2 or more people are still in the games
-						break;
-					}
-					else {
-						foundPerson = true;
-					}
+					playersStillInGame++;
 				}
+			}
+			
+			if(playersStillInGame < 2) { //if only one person is left in the game
+				try {
+				System.out.println("The game has ended, since there is only one person left with money.");
+				
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+				break; //exit game loop
 			}
 			
 			while (true) {
@@ -180,8 +185,6 @@ public class Poker {
 				}
 			}
 		}
-		//FIND THE DANG WINNERS
-		Collections.sort(players); //TODO
 	}
 
 	/*
@@ -223,9 +226,9 @@ public class Poker {
 		cardsOnTable.add(c);
 	}
 	public static void printRoundMessage(String edit) {
-		System.out.println("���������������������������������");
+		System.out.println("—————————————————————————————————");
 		System.out.println("| Welcome to the " + edit + " round.");
-		System.out.println("���������������������������������");
+		System.out.println("—————————————————————————————————");
 		DisplayManager.globalConsole.add("The " + edit + " round has started.");
 	}
 
@@ -354,21 +357,16 @@ public class Poker {
 			return Actions.fold(p);
 		});
 
-		/*if(player.betMoney >= Poker.prevBet) {
-			hash.put("Check", (Player p) -> {
-				return Actions.check(p);
-			});
-		}
-		else {*/
 		if(!player.allIn) {
 			if(player.money + player.betMoney >= Poker.prevBet) {
 				hash.put("Call", (Player p) -> {
 					return Actions.call(p);
 				});
 				if(player.money + player.betMoney > prevBet) {
+					
 					hash.put("Raise", (Player p) -> {
 						if(p.isAI) {
-							return Actions.raise(p, (int) (Math.random()*(p.money + p.money - prevBet) + prevBet));
+							return Actions.raise(p, (int) (Math.random()*(p.money - prevBet) + prevBet));
 						}
 						else {
 							while(true) {
@@ -391,12 +389,12 @@ public class Poker {
 							}
 						}
 					});
+					
 				}
 			}
 			hash.put("All-In", (Player p) -> {
 				return Actions.allIn(p);
 			});
-			//}
 		}
 		else {
 			hash.put("Check", (Player p) -> {
@@ -406,10 +404,12 @@ public class Poker {
 
 		hash.put("Reveal Cards", (Player p) -> {
 			System.out.println("Press enter to hide the cards.");
+			
 			for(Card c : p.cards) {
-				System.out.println("| (" + c.number + " " + c.suit.toString() + ") |");
+				System.out.println("| (" + c.number + " " + Suit.map(c.suit) + ") |");
 			}
-			scan.nextLine();
+			
+			scan.nextLine(); //when player presses enter
 			return false;
 		});
 
@@ -430,6 +430,7 @@ public class Poker {
 		cardsOnStack = new ArrayList<>();
 		cardsOnTable = new ArrayList<>();	
 		inRound = false;
+		//add all 52 cards to the deck.
 		for(int i = 1; i < 13; i++) {
 			cardsOnStack.add(new Card(i, Suit.CLOVER));
 			cardsOnStack.add(new Card(i, Suit.DIAMOND));
@@ -458,9 +459,9 @@ public class Poker {
 
 	public static void displayPlayerCards() {
 		for(Player p : players) {
-			System.out.println("����������������������������������������������������������");
+			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("| Player " + p.name + "'s cards  (with the cards on table).");
-			System.out.println("����������������������������������������������������������");
+			System.out.println("——————————————————————————————————————————————————————————");
 
 			List<Card> cards = new ArrayList<>();
 			for(Card c : cardsOnTable) {
@@ -472,11 +473,11 @@ public class Poker {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				System.out.println("| (" + c.number + " " + c.suit.toString() + ") |");
+				System.out.println("| (" + c.number + " " + Suit.map(c.suit) + ") |");
 				cards.add(c);
 			}
 
-			System.out.println("����������������������������������������������������������");
+			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
 				Thread.sleep(5000);
@@ -493,12 +494,15 @@ public class Poker {
 	public static void calculateWinners() {
 		int max = 0;
 		Player m = null;
+		
 		ArrayList<Player> parray = new ArrayList<>();
 		parray.addAll(players);
 		
+		//Bubble sort the players by their "hand".
+		
 		for(int i = 1; i < parray.size(); i++) {
 			for(int j = 0; j < parray.size()-i; j++) {
-				if(Evaluator.comparePlayers(parray.get(j), parray.get(j+1)) == (Boolean)true) {
+				if(Evaluator.comparePlayers(parray.get(j), parray.get(j+1)) == (Boolean)false) {
 					Player t = parray.get(j);
 					parray.set(j, parray.get(j+1));
 					parray.set(j+1, t);
@@ -519,6 +523,10 @@ public class Poker {
 		win(m);
 	}
 
+	/*
+	 * Handle when a player wins a round.
+	 */
+	
 	public static void win(Player p) {
 		try {
 			System.out.println("And the winner of this round is...");
@@ -537,40 +545,46 @@ public class Poker {
 		}
 	}
 
+	/*
+	 * Executed when it is a human player's turn.
+	 */
+	
 	public static void playerTurn(Player player, HashMap<String, BooleanOperation> options) {
-		HashMap<String, String> contextAssemble = new HashMap<>();
+		HashMap<String, String> contextAssemble = new HashMap<>(); //assemble context for the console output
 		for(int i = 0; i < options.size(); i++) {
 			contextAssemble.put(i + "", new ArrayList<>(options.keySet()).get(i));
 		}
-		DisplayManager.displayContextRedo(contextAssemble);
+		DisplayManager.displayContextRedo(contextAssemble); //show the console prompt (the menu when it's a human player's turn)
+		
+		//handle player's input
 		boolean notFound = true, showCards = false;
 		while(notFound) {
-			String input = scan.nextLine();
-			for(String str : contextAssemble.keySet()) {
-				if(str.equals(input)) {
-					if(options.get(contextAssemble.get(str)).run(player)) {
+			String input = scan.nextLine();//get input from player
+			for(String str : contextAssemble.keySet()) { //iterate over possible player options
+				if(str.equals(input)) { //if the player's input matches an option
+					if(options.get(contextAssemble.get(str)).run(player)) { //executes the player option based on input, and return true if it worked.
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-						notFound = false;
+						notFound = false; //exit the infinite loop to get console input, and go on to the next player's turn.
 					}
 					else {
-						if(contextAssemble.get(str).equals("Reveal Cards")) {
+						if(contextAssemble.get(str).equals("Reveal Cards")) { //if the player wanted to reveal cards, loop around the loop
 							showCards = true;
 						}
 						break;
 					}
 				}
 			}
-			if(notFound) {
-				if(showCards) {
+			if(notFound) { //if the input was not found.
+				if(showCards) { //if the player wanted to reveal cards, wipe the screen and display the context menu again.
 					DisplayManager.wipeConsole();
 					DisplayManager.displayContextRedo(contextAssemble);
 					showCards = false;
 				}
-				else {
+				else { //incorrect input
 					System.out.println("Error. Try again.");
 					try {
 						Thread.sleep(500);

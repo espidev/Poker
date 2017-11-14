@@ -99,7 +99,7 @@ public class DisplayManager {
 		else {
 			prepare.add("| Cards on the table:");
 			for(Card c : Poker.cardsOnTable) {
-				prepare.add("| (" + c.number + " " + c.suit.toString() + ") |");
+				prepare.add("| (" + c.number + " " + Suit.map(c.suit) + ") |");
 			}
 		}
 
@@ -114,7 +114,7 @@ public class DisplayManager {
 		//Fill in horizontal dashes
 		String a = "";
 		for(int i = 0; i < longestLine; i++) {
-			a += "—";
+			a += "â€”";
 		}
 		for(int c : insertLine) {
 			prepare.set(c, a);

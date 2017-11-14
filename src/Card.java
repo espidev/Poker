@@ -16,6 +16,14 @@ public class Card implements Comparable<Card>{
 		this.suit = suit;
 	}
 
+	/*
+	 * Get the unicode value for the card.
+	 */
+	
+	public static String getCard() {
+		
+	}
+	
 	public int compareTo(Card o) { //implement comparing for Collections.sort
 		if (mode) {  //Sort by number, then suit
 			if (number > o.number) {

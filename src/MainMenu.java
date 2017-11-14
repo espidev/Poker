@@ -51,21 +51,19 @@ public class MainMenu extends JFrame{
 	public static void displayMainMenu() {
 		new MainMenu();
 		
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| Welcome to Poker!                       |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| Key | Option                            |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 1   | Start the game.                   |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 2   | Rules                             |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 3   | Credits                           |");
-		System.out.println("———————————————————————————————————————————");
-		System.out.println("| 4   | Adjust Settings                   |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 		System.out.println("| 0   | Exit                              |");
-		System.out.println("———————————————————————————————————————————");
+		System.out.println("â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”");
 
 		String input = Poker.scan.nextLine();
 
@@ -77,8 +75,6 @@ public class MainMenu extends JFrame{
 					break;
 			case "3": System.out.println("Developers: Devin Lin, Jack Li, John Li, Alex Chan");
 					break;
-			case "4": System.out.println("TODO!");
-					break;
 			case "0": System.out.println("Exiting program.");
 					System.exit(0);
 					break;
@@ -87,7 +83,7 @@ public class MainMenu extends JFrame{
 		}
 	}
 
-	public static void printRules () {
-		System.out.println("Here are the rules to the game:");
+	public static void printRules() {
+		System.out.println("Here are the rules to the game: https://www.youtube.com/watch?v=JOomXP-r1wY");
 	}
 }

@@ -54,8 +54,8 @@ public class Actions {
 	}
 	
 	public static boolean raise(Player player, int money) { //TODO OVER
-		player.betMoney += money;
-		player.money -= money;
+		player.money = player.money - money + player.betMoney;
+		player.betMoney = money;
 		Poker.prevBet = player.betMoney;
 		System.out.println("You've raised the bet to $" + money + ".");
 		DisplayManager.globalConsole.add(player.name + " has raised the bet to $" + money + ".");
