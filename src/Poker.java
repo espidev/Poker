@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -150,11 +153,11 @@ public class Poker {
 							System.out.println(p.name + " has won! ($" + p.money + ")");
 						}
 					}
-					
+
 					//horrible algorithm but it works
 					List<Player> losing = new ArrayList<>();
-					
-					
+
+
 				}
 				catch(Exception e) {
 					e.printStackTrace();
@@ -420,6 +423,10 @@ public class Poker {
 			}
 			System.out.println(assemble);
 
+			for(Card c : p.cards) {
+				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+			}
+			
 			scan.nextLine(); //when player presses enter
 			return false;
 		});
@@ -485,6 +492,10 @@ public class Poker {
 			}
 			System.out.println(assemble);
 
+			for(Card c : p.cards) {
+				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+			}
+			
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
@@ -500,7 +511,6 @@ public class Poker {
 	 */
 
 	public static void calculateWinners() {
-		int max = 0;
 		Player m = null;
 
 		ArrayList<Player> parray = new ArrayList<>();
@@ -517,6 +527,8 @@ public class Poker {
 				}
 			}
 		}
+
+		m = parray.get(0);
 
 		System.out.println("Winners in order:");
 		for(Player p : parray) {

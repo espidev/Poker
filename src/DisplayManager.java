@@ -103,6 +103,9 @@ public class DisplayManager {
 				cards += c.getCard(); //get unicode representation of card
 			}
 			prepare.add(cards);
+			for(Card c : Poker.cardsOnTable) {
+				prepare.add("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+			}
 		}
 
 		prepare.add("");

@@ -33,36 +33,36 @@ public class Card implements Comparable<Card>{
 		
 		if(suit.equals(Suit.SPADE)) {
 			switch(number) {
-			case 1: return "\uD83C\uDCA1";
-			case 2: return "\uD83C\uDCA2";
-			case 3: return "\uD83C\uDCA3";
-			case 4: return "\uD83C\uDCA4";
-			case 5: return "\uD83C\uDCA5";
-			case 6: return "\uD83C\uDCA6";
-			case 7: return "\uD83C\uDCA7";
-			case 8: return "\uD83C\uDCA8";
-			case 9: return "\uD83C\uDCA9";
-			case 10: return "\uD83C\uDCAA";
-			case 11: return "\uD83C\uDCAB";
-			case 12: return "\uD83C\uDCAD";
-			case 13: return "\uD83C\uDCAE";
+			case 1: return "🂡";
+			case 2: return "🂢";
+			case 3: return "🂣";
+			case 4: return "🂤";
+			case 5: return "🂥";
+			case 6: return "🂦";
+			case 7: return "🂧";
+			case 8: return "🂨";
+			case 9: return "🂩";
+			case 10: return "🂪";
+			case 11: return "🂫";
+			case 12: return "🂭";
+			case 13: return "🂮";
 			}
 		}
 		else if(suit.equals(Suit.HEART)) {
 			switch(number) {
-			case 1: return "\uD83C\uDCB1";
-			case 2: return "\uD83C\uDCB2";
-			case 3: return "\uD83C\uDCB3";
-			case 4: return "\uD83C\uDCB4";
-			case 5: return "\uD83C\uDCB5";
-			case 6: return "\uD83C\uDCB6";
-			case 7: return "\uD83C\uDCB7";
-			case 8: return "\uD83C\uDCB8";
-			case 9: return "\uD83C\uDCB9";
-			case 10: return "\uD83C\uDCBA";
-			case 11: return "\uD83C\uDCBB";
-			case 12: return "\uD83C\uDCBD";
-			case 13: return "\uD83C\uDCBE";
+			case 1: return "🂱";
+			case 2: return "🂲";
+			case 3: return "🂳";
+			case 4: return "🂴";
+			case 5: return "🂵";
+			case 6: return "🂶";
+			case 7: return "🂷";
+			case 8: return "🂸";
+			case 9: return "🂹";
+			case 10: return "🂺";
+			case 11: return "🂻";
+			case 12: return "🂽";
+			case 13: return "🂾";
 			}
 		}
 		else if(suit.equals(Suit.DIAMOND)) {
