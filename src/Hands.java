@@ -259,7 +259,7 @@ public class Hands {
 
 		for (int i = j; i > 0; i--) {
 			if (c.get(i).number == c.get(i-1).number) {
-				h = c.subList(i-1, i);
+				h.addAll(c.subList(i-1, i));
 				h.addAll(firstPair);
 				for (int k = c.size() - 1; k >= 0; k--) {
 					if (c.get(k).number != h.get(0).number && c.get(k).number != h.get(2).number) {
