@@ -147,14 +147,14 @@ public class Poker {
 
 			if(playersStillInGame < 2) { //if only one person is left in the game
 				try {
-					System.out.println("The game has ended, since there is only one person left with money.");
+					System.out.println("The game has ended, since there is only one or less people left with money.");
 					for(Player p : players) {
 						if(p.stillInGame) {
 							System.out.println(p.name + " has won! ($" + p.money + ")");
 						}
 					}
 
-					//horrible algorithm but it works
+					//horrible algorithm but it works TODO
 					List<Player> losing = new ArrayList<>();
 					
 					Thread.sleep(9000);
