@@ -10,7 +10,19 @@ import java.util.HashMap;
 public class AI {
 	public static void calculateTurn(Player player, HashMap<String, BooleanOperation> options) {
 		options.remove("Reveal Cards");
-		options.remove("Fold");
+		
+		if(((int)(Math.random() * 100)) > 5) { 
+			options.remove("Fold");
+		}
+		
+		if((((int)(Math.random() * 100)) > 15) && options.size() > 2) { 
+			options.remove("All-In");
+		}
+		
+		if(((int)(Math.random() * 100)) > 40) { 
+			options.remove("Raise");
+		}
+		
 		DisplayManager.wipeConsole();
 		System.out.println("Calculating the AI's turn...");
 		try {

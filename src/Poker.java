@@ -1,8 +1,4 @@
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -95,19 +91,6 @@ public class Poker {
 		resetGame();
 		SetupManager.prepareGame();
 
-		//Pick cards for the players
-		for(Player p : players) {
-			Card c1 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-			cardsOnStack.remove(c1);
-			Card c2 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-			cardsOnStack.remove(c2);
-			p.cards.add(c1);
-			p.cards.add(c2);
-
-			p.stillInGame = true;
-			p.stillInRound = true;
-		}
-
 		System.out.println("Starting game...");
 
 		try {
@@ -120,6 +103,19 @@ public class Poker {
 
 		while (inGame) {
 
+			//Pick cards for the players
+			for(Player p : players) {
+				Card c1 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
+				cardsOnStack.remove(c1);
+				Card c2 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
+				cardsOnStack.remove(c2);
+				p.cards.add(c1);
+				p.cards.add(c2);
+
+				p.stillInGame = true;
+				p.stillInRound = true;
+			}
+			
 			//Starts a round of poker
 			round();
 
@@ -156,7 +152,7 @@ public class Poker {
 
 					//horrible algorithm but it works TODO
 					List<Player> losing = new ArrayList<>();
-					
+
 					Thread.sleep(9000);
 
 				}
@@ -371,39 +367,36 @@ public class Poker {
 		});
 
 		if(!player.allIn) {
-			if(player.money + player.betMoney >= Poker.prevBet) {
+			if(player.money + player.betMoney > Poker.prevBet) {
 				hash.put("Call", (Player p) -> {
 					return Actions.call(p);
 				});
-				if(player.money + player.betMoney > prevBet) {
-
-					hash.put("Raise", (Player p) -> {
-						if(p.isAI) {
-							return Actions.raise(p, (int) (Math.random()*(p.money - prevBet) + prevBet));
-						}
-						else {
-							while(true) {
-								try {
-									System.out.println("What do you want to raise the bet to?");
-									int input = Integer.parseInt(scan.nextLine());
-									if(input > p.money + p.betMoney) {
-										System.out.println("You don't have enough money!");
-									}
-									else if(input < prevBet) {
-										System.out.println("This value is too low! The bet is currently $" + prevBet + ".");
-									}
-									else {
-										return Actions.raise(p, input);
-									}
+				hash.put("Raise", (Player p) -> {
+					if(p.isAI) {
+						int a = (int) (Math.random() * (p.money - prevBet)) + prevBet+1;
+						return Actions.raise(p, a);
+					}
+					else {
+						while(true) {
+							try {
+								System.out.println("What do you want to raise the bet to?");
+								int input = Integer.parseInt(scan.nextLine());
+								if(input > p.money + p.betMoney) {
+									System.out.println("You don't have enough money!");
 								}
-								catch(Exception e) {
-									System.out.println("Error. Try again.");
+								else if(input <= prevBet) {
+									System.out.println("This value is too low! The bet is currently $" + prevBet + ".");
+								}
+								else {
+									return Actions.raise(p, input);
 								}
 							}
+							catch(Exception e) {
+								System.out.println("Error. Try again.");
+							}
 						}
-					});
-
-				}
+					}
+				});
 			}
 			hash.put("All-In", (Player p) -> {
 				return Actions.allIn(p);
@@ -460,6 +453,7 @@ public class Poker {
 			p.allIn = false;
 			p.betMoney = 0;
 			p.cards = new ArrayList<>();
+			p.stillInRound = true;
 		}
 	}
 
