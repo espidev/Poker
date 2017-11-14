@@ -78,7 +78,7 @@ public class Evaluator {
 		int[] score = new int[2];
 		List<Card> tempCard = new ArrayList<>();
 		tempCard.addAll(card);
-		List<Card> hand = null;
+		List<Card> hand = new ArrayList<>();
 		
 		score[0] = evaluateHand(tempCard, hand);		
 		score[1] = evaluateScore(score[0], hand);
