@@ -476,9 +476,14 @@ public class Poker {
 			System.out.println("| Player " + p.name + "'s cards  (with the cards on table).");
 			System.out.println("——————————————————————————————————————————————————————————");
 
+			List<Card> cards = new ArrayList<>();
+			for(Card c : cardsOnTable) {
+				cards.add(c);
+			}
 			String assemble = "| ";
 			for(Card c : p.cards) {
 				assemble += c.getCard();
+				cards.add(c);
 			}
 			System.out.println(assemble);
 
