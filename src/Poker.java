@@ -366,7 +366,7 @@ public class Poker {
 			return Actions.fold(p);
 		});
 
-		if(!player.allIn) {
+		if(!player.allIn) { 
 			if(player.money + player.betMoney > Poker.prevBet) {
 				hash.put("Call", (Player p) -> {
 					return Actions.call(p);
@@ -470,6 +470,10 @@ public class Poker {
 		DisplayManager.globalConsole = new ArrayList<>();
 	}
 
+	/*
+	 * Displays the players's cards in the console.
+	 */
+	
 	public static void displayPlayerCards() {
 		for(Player p : players) {
 			System.out.println("——————————————————————————————————————————————————————————");
