@@ -171,14 +171,18 @@ public class Hands {
 		for (int i = c.size() - 1; i > 3; i--) {
 			if (c.get(i).number == c.get(i - 1).number + 1) {
 				counter++;
+				try {
 				h.add(c.get(i + highest));
+				}
+				catch(NullPointerException e) {
+					//welp whatever
+				}
 			} else if (c.get(i).number == c.get(i - 1).number) {
 				highest++;
 			} else {
 				counter = 0;
-				h.clear();
+				h = new ArrayList<>();
 			}
-			
 			if (counter == 4) {
 				return true;
 			}
