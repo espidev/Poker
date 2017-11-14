@@ -13,6 +13,7 @@ public class Actions {
 		return true;
 	}
 	
+	@Deprecated //not ever called
 	public static boolean bet(Player player, int money) {
 		player.betMoney += money;
 		player.money -= money;
