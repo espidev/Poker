@@ -119,25 +119,29 @@ public class Hands {
 
 		List<Card> Triple = new ArrayList<>();
 		boolean isTriple = K3Triple(c, Triple);
-		
-		int num_of_K3;
-		
-		if (isTriple) {
-			num_of_K3 = Triple.get(0).number;
-			
-			sortCards(c, true);
 
-			for (int i = c.size() - 1; i > 0; i--) {
-				if (c.get(i).number != num_of_K3) {
-					if (c.get(i).number == c.get(i-1).number) {
-						h.addAll(Triple);
-						h.addAll(c.subList(i-1, i));
-						return true;
+		int num_of_K3;
+		try {
+			if (isTriple) {
+				num_of_K3 = Triple.get(0).number;
+
+				sortCards(c, true);
+
+				for (int i = c.size() - 1; i > 0; i--) {
+					if (c.get(i).number != num_of_K3) {
+						if (c.get(i).number == c.get(i-1).number) {
+							h.addAll(Triple);
+							h.addAll(c.subList(i-1, i));
+							return true;
+						}
 					}
 				}
 			}
 		}
-		
+		catch(IndexOutOfBoundsException e) {
+			//yikes TODO
+		}
+
 		return false;
 	}
 
@@ -162,12 +166,12 @@ public class Hands {
 		if (c.size() < 5) {
 			return false;
 		}
-		
+
 		sortCards(c, true);
-		
+
 		int highest = 0;
 		int counter = 0;
-		
+
 		for (int i = c.size() - 1; i > 3; i--) {
 			if (c.get(i).number == c.get(i - 1).number + 1) {
 				counter++;
@@ -217,7 +221,7 @@ public class Hands {
 
 		return false;
 	}
-	
+
 	public static boolean K3Triple (List<Card> c, List<Card> h) {
 		if (c.size() < 3) {
 			return false;
@@ -300,7 +304,7 @@ public class Hands {
 		sortCards(c, true);
 		List<Card> kickers = new ArrayList<>();
 		h.add(c.get(c.size() - 1));
-		
+
 		for (int k = c.size() - 1; k >= 0; k--) {
 			if (c.get(k) != h.get(0)) {
 				kickers.add(c.get(k));
@@ -309,7 +313,7 @@ public class Hands {
 				break;
 			}
 		}
-		
+
 		h.addAll(kickers);
 	}
 
