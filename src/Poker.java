@@ -491,6 +491,10 @@ public class Poker {
 				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
 			}
 
+			for(Card c : cardsOnTable) {
+				System.out.println("| " + c.number + " " + Suit.getSuit(c.suit) + " |");
+			}
+			
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {

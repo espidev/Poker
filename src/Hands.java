@@ -283,7 +283,8 @@ public class Hands {
 
 		for (int i = c.size() - 1; i > 0; i--) {
 			if (c.get(i).number == c.get(i-1).number) {
-				h = c.subList(i-1, i);
+				h.add(c.get(i-1));
+				h.add(c.get(i));
 				for (int k = c.size() - 1; k >= 0; k--) {
 					if (c.get(k).number != h.get(0).number) {
 						kickers.add(c.get(k));
