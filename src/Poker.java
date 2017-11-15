@@ -516,6 +516,7 @@ public class Poker {
 			for(Card z : tempHand) {
 				System.out.print(z.getCardOutput() + " " + Suit.getSuit(z.suit) + "  ");
 			}
+			System.out.println();
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
