@@ -54,10 +54,11 @@ public class Actions {
 		return true;
 	}
 	
-	public static boolean raise(Player player, int money) { //TODO OVER
+	public static boolean raise(Player player, int money) {
 		player.money = player.money - money + player.betMoney;
 		player.betMoney = money;
 		Poker.prevBet = player.betMoney;
+		Poker.orbitEnd = Poker.players.indexOf(player);
 		System.out.println("You've raised the bet to $" + money + ".");
 		DisplayManager.globalConsole.add(player.name + " has raised the bet to $" + money + ".");
 		return true;
@@ -69,6 +70,7 @@ public class Actions {
 		player.allIn = true;
 		if(player.betMoney > Poker.prevBet) {
 			Poker.prevBet = player.betMoney;
+			Poker.orbitEnd = Poker.players.indexOf(player);
 		}
 		System.out.println(player.name + " has gone all in.");
 		DisplayManager.globalConsole.add(player.name + " has gone all in. ($" + player.betMoney + ")");
