@@ -53,7 +53,9 @@ public class Hands {
 
 		for (int i = c.size() - 1; i > 3; i--) {
 			if (c.get(i).suit == c.get(i - 4).suit && c.get(i).number == c.get(i - 4).number + 4) {
-				h = c.subList(i-4, i);
+				for(int j = i-4; j <= i; j++) {
+					h.add(c.get(j));
+				}
 				return Arrays.asList(true, h);
 			}
 		}
@@ -84,7 +86,9 @@ public class Hands {
 					if (c.get(i).suit == curSuit && c.get(i-3).suit == curSuit && c.get(i).number == 5 && c.get(i).number == 2) {
 						Card ace = new Card (14, curSuit);
 						h.add(ace);
-						h = c.subList(i-3, i);
+						for(int p = i-3; p <= i; p++) {
+							h.add(c.get(p));
+						}
 						return Arrays.asList(true, h);
 					}
 				}	
@@ -103,7 +107,9 @@ public class Hands {
 
 		for (int i = c.size() - 1; i > 2; i--) {
 			if (c.get(i).number == c.get(i-3).number) {
-				h = c.subList(i-3, i);
+				for(int p = i-3; p <= i; p++) {
+					h.add(c.get(p));
+				}
 				if (c.get(c.size()-1).number != c.get(i).number) {
 					h.add(c.get(c.size() - 1));
 				} else {
@@ -135,7 +141,9 @@ public class Hands {
 					if (c.get(i).number != num_of_K3) {
 						if (c.get(i).number == c.get(i-1).number) {
 							h.addAll(Triple);
-							h.addAll(c.subList(i-1, i));
+							for(int p = i-1; p <= i; p++) {
+								h.add(c.get(p));
+							}
 							return Arrays.asList(true, h);
 						}
 					}
@@ -158,7 +166,9 @@ public class Hands {
 
 		for (int i = c.size() - 1; i > 3; i--) {
 			if (c.get(i).suit == c.get(i - 4).suit) {
-				h = c.subList(i-4, i);
+				for(int p = i-4; p <= i; p++) {
+					h.add(c.get(p));
+				}
 				return Arrays.asList(true, h);
 			}
 		}
@@ -208,7 +218,9 @@ public class Hands {
 
 		for (int i = c.size() - 1; i > 1; i--) {
 			if (c.get(i).number == c.get(i-2).number) {
-				h = c.subList(i-2, i);
+				for(int p = i-2; p <= i; p++) {
+					h.add(c.get(p));
+				}
 				if (c.get(c.size()-1).number != c.get(i).number) {
 					h.add(c.get(c.size() - 1));
 				} else {
@@ -235,7 +247,9 @@ public class Hands {
 
 		for (int i = c.size() - 1; i > 1; i--) {
 			if (c.get(i).number == c.get(i-2).number) {
-				h = c.subList(i-2, i);
+				for(int p = i-2; p <= i; p++) {
+					h.add(c.get(p));
+				}
 				return Arrays.asList(true, h);
 			}
 		}
@@ -263,7 +277,9 @@ public class Hands {
 
 		for (int i = j; i > 0; i--) {
 			if (c.get(i).number == c.get(i-1).number) {
-				h.addAll(c.subList(i-1, i));
+				for(int p = i-1; p <= i; p++) {
+					h.add(c.get(p));
+				}
 				h.addAll(firstPair);
 				for (int k = c.size() - 1; k >= 0; k--) {
 					if (c.get(k).number != h.get(0).number && c.get(k).number != h.get(2).number) {
