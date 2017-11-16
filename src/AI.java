@@ -15,7 +15,7 @@ public class AI {
 			options.remove("Fold");
 		}
 		
-		if((((int)(Math.random() * 100)) > 15) && options.size() > 2) { 
+		if((((int)(Math.random() * 100)) > 10) && options.size() > 2) { 
 			options.remove("All-In");
 		}
 		if(Poker.curOrbit == 0) {
@@ -33,7 +33,7 @@ public class AI {
 		DisplayManager.wipeConsole();
 		System.out.println("Calculating the AI's turn...");
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
