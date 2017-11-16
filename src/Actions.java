@@ -33,7 +33,7 @@ public class Actions {
 		for(Player p : Poker.players) {
 			if(!p.stillInRound) folded++;
 		}
-		if(folded >= Poker.players.size()-2) {
+		if(folded >= Poker.players.size()-1) {
 			Poker.inRound = false; //end game since one person won.
 			System.out.println("There is only one player left. Automatic win.");
 			try {
