@@ -284,6 +284,10 @@ public class Poker {
 			e.printStackTrace();
 		}
 
+		/*
+		 * Code to decide who starts the orbit.
+		 */
+		
 		int start = 0; //get the starting person
 		for(int i = 0; i < players.size() && inRound; i++) {
 			if(curOrbit == 0) { //starting preflop round
@@ -327,6 +331,11 @@ public class Poker {
 				}
 			}
 		}
+		
+		/*
+		 * Loop through people until you reach the last person that raised, or it's back to the starting person.
+		 */
+		
 		orbitEnd = start;
 		int cur = start;
 		do { //TODO REDO WITH PREVIOUS PERSON THAT RAISED 
