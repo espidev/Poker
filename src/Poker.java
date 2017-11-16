@@ -284,7 +284,6 @@ public class Poker {
 			e.printStackTrace();
 		}
 
-		boolean exit = false;
 		int start = 0; //get the starting person
 		for(int i = 0; i < players.size() && inRound; i++) {
 			if(curOrbit == 0) { //starting preflop round
