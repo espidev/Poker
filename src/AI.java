@@ -18,8 +18,15 @@ public class AI {
 		if((((int)(Math.random() * 100)) > 15) && options.size() > 2) { 
 			options.remove("All-In");
 		}
+		if(Poker.curOrbit == 0) {
+			options.remove("All-In");
+		}
 		
-		if(((int)(Math.random() * 100)) > 40) { 
+		if(player.money < 6) {
+			options.remove("Raise");
+		}
+		
+		if(((int)(Math.random() * 100)) > 30) { 
 			options.remove("Raise");
 		}
 		

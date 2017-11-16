@@ -373,7 +373,7 @@ public class Poker {
 				});
 				hash.put("Raise", (Player p) -> {
 					if(p.isAI) {
-						int a = (int) (Math.random() * (p.money - prevBet)) + prevBet+1;
+						int a = ((int) (Math.random() * 5)) + prevBet + 1;
 						return Actions.raise(p, a);
 					}
 					else {
