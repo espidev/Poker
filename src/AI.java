@@ -21,6 +21,7 @@ public class AI {
 			if(((int)(Math.random() * 100)) > 50) {  //50% chance of folding being in the list of options
 				options.remove("Fold");
 			}
+			options.remove("Raise");
 		}
 		else {
 			if(Poker.curOrbit == 0) { //If the cards on the table haven't been shown yet, don't go all in
@@ -34,7 +35,7 @@ public class AI {
 			}
 		}
 		
-		if(player.money < 6) { //If the player doesn't have enough money to raise a lot, don't raise.
+		if(player.money-Poker.prevBet < 6) { //If the player doesn't have enough money to raise a lot, don't raise.
 			options.remove("Raise");
 		}
 		

@@ -69,6 +69,7 @@ public class Actions {
 	public static boolean allIn(Player player) {
 		player.betMoney = player.money;
 		player.money = 0;
+		
 		player.allIn = true;
 		if(player.betMoney > Poker.prevBet) {
 			Poker.prevBet = player.betMoney;
