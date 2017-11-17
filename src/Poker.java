@@ -236,6 +236,12 @@ public class Poker {
 
 	public static int getWhoStarts() {
 		int start = 0; //get the starting person
+		
+		int numOfPlayersStillIn = 0; //get number of people still in the game
+		for(Player p : players) {
+			if(p.stillInGame && p.stillInRound) numOfPlayersStillIn++;
+		}
+		
 		for(int i = 0; i < players.size() && inRound; i++) { //Loop through all of the players
 			if(curOrbit == 0) { //If it's the preflop round, get the person next to the big blind starts.
 				if(players.get(i).name.equals(bigBlind.name)) { //find big blind
@@ -245,12 +251,12 @@ public class Poker {
 					else {
 						i = i+1;
 					}
-					for(int j = i; ; j++) { //if the person next to the big blind is out, go to the next person
+					for(int j = i; ;) { //if the person next to the big blind is out, go to the next person
 						if(j == players.size()-1) {
 							j = 0;
 						}
 						else {
-							j = i+1;
+							j++;
 						}
 						if(players.get(j).stillInGame && players.get(j).stillInRound) {
 							start = j;
@@ -262,19 +268,14 @@ public class Poker {
 			}
 			else { //not preflop round
 				if(players.get(i).name.equals(smallBlind.name)) { // on every orbit except the first orbit, the small blind starts.
-					for(int j = i; ; j++) { //if the small blind is out, go to the next person
+					for(int j = i; ;) { //if the small blind is out, go to the next person
 						System.out.println("j" + j);
 
-						int numOfPlayersStillIn = 0;
-						for(Player p : players) {
-							if(p.stillInGame && p.stillInRound) numOfPlayersStillIn++;
-						}
-
-						if(j == numOfPlayersStillIn-1) {
+						if(j == players.size()-1) {
 							j = 0;
 						}
 						else {
-							j = i+1;
+							j++;
 						}
 						if(players.get(j).stillInGame && players.get(j).stillInRound) {
 							start = j;

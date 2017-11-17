@@ -15,6 +15,7 @@ public class WinManager extends Poker{
 
 	public static void displayPlayerCards() {
 		for(Player p : players) {
+			if(!p.stillInGame) continue;
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("| Player " + p.name);
 			System.out.print("Cards (including on table): ");

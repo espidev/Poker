@@ -20,22 +20,24 @@ public class DisplayManager {
 	 */
 
 	public static void displayContext(HashMap<String, String> options) {
-		
+
 		wipeConsole();
-		
+
 		List<String> prepare = new ArrayList<>(); //Prepared list of string to print after the menu is assembled.
 		List<String> pNames = new ArrayList<>(), totalMoney = new ArrayList<>(), betMoney = new ArrayList<>(); //Player names, total money, and the bet money of the corresponding players.
 		List<Integer> insertLine = new ArrayList<>(); //List of indexes for lines to be filled with a long dash (------------------)
 
 		for(Player p : Poker.players) { //Fill the arrays with data (pNames, totalMoney, betMoney)
-			if(p.stillInRound) {
-				pNames.add(p.name);
-			}
-			else {
-				pNames.add("(folded)" + p.name);
-			}
-			totalMoney.add(Integer.toString(p.money));
-			betMoney.add(p.betMoney + "");
+			if(p.stillInGame) {
+				if(p.stillInRound) {
+					pNames.add(p.name);
+				}
+				else {
+					pNames.add("(folded)" + p.name);
+				}
+				totalMoney.add(Integer.toString(p.money));
+				betMoney.add(p.betMoney + "");
+			} 
 		}
 
 		//Get the longest string length for each of the data sets (used for adding spaces)
@@ -49,9 +51,9 @@ public class DisplayManager {
 
 		prepare.add("");
 		insertLine.add(prepare.size()-1); // <- You'll see this a lot. This is to add a horizontal dash (------------------------------)
-		
+
 		prepare.add("| Console");
-		
+
 		prepare.add("");
 		insertLine.add(prepare.size()-1);
 
@@ -100,7 +102,7 @@ public class DisplayManager {
 
 		prepare.add("");
 		insertLine.add(prepare.size()-1);
-		
+
 		//Show cards that are on the table (if any)
 		if(Poker.cardsOnTable.size() == 0) {
 			prepare.add("| There are no cards on the table yet.");
