@@ -8,3 +8,9 @@ https://github.com/espidev/poker
 # How to run
 * Download a release from the release page. [link](https://github.com/espidev/poker)
 * Run the jar file from the terminal (java -jar Poker.jar).
+
+# Developers
+* espidev - Devin
+* alex4787 - Alex 
+* J2ckL1 - Jack
+* Johnnyli5555 - John

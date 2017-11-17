@@ -268,12 +268,6 @@ public class Poker {
 		for(int i = 0; i < players.size() && inRound; i++) { //Loop through all of the players
 			if(curOrbit == 0) { //If it's the preflop round, get the person next to the big blind starts.
 				if(players.get(i).name.equals(bigBlind.name)) { //find big blind
-					if(i == players.size()-1) {
-						i = 0;
-					}
-					else {
-						i = i+1;
-					}
 					for(int j = i; ;) { //if the person next to the big blind is out, go to the next person
 						if(j == players.size()-1) {
 							j = 0;

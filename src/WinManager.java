@@ -99,7 +99,7 @@ public class WinManager extends Poker{
 
 			m = parray.get(0);
 
-			System.out.println("Winners in order:");
+			System.out.println("Players in order:");
 			for(Player p : parray) {
 				System.out.println(p.name);
 				p.tempMoney = p.money;
