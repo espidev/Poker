@@ -191,7 +191,7 @@ public class Hands {
 		int highest = 0;
 		int counter = 0;
 
-		for (int i = c.size() - 1; i > 3; i--) {
+		for (int i = c.size() - 1; i > 0; i--) {
 			if (c.get(i).number == c.get(i - 1).number + 1) {
 				counter++;
 				try {
