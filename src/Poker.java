@@ -112,7 +112,7 @@ public class Poker {
 
 		while (inGame) {
 
-			//Pick cards for the players
+			//Pick cards for the players for each round.
 			for(Player p : players) {
 				if(p.stillInGame) {
 					Card c1 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
@@ -132,7 +132,7 @@ public class Poker {
 
 			//Check that everyone has enough money to play another round.
 			for(Player p : players) {
-				if(p.money < 2) {
+				if(p.money < 2 && p.stillInGame) {
 					System.out.println(p.name + " does not have enough money to continue playing.");
 					System.out.println(p.name + " has left the game.");
 					DisplayManager.globalConsole.add(p.name + " does not have enough money to continue playing.");
@@ -156,7 +156,7 @@ public class Poker {
 				System.out.println("The game has ended, since there is only one or less people left with money.");
 				for(Player p : players) {
 					if(p.stillInGame) {
-						System.out.println(p.name + " has won! ($" + p.money + ")");
+						System.out.println(p.name + " has won poker! ($" + p.money + ")");
 					}
 				}
 
@@ -164,19 +164,21 @@ public class Poker {
 				List<Player> losing = new ArrayList<>();
 
 				sleep(9000);
+				inGame = false;
 				break; //exit game loop
 			}
 
+			//Get input from user if the game should continue.
 			InputManager<String> im = new InputManager<>();
 
 			HashMap<String, Runnable> hash = new HashMap<>();
 
-			hash.put("y", () -> {
+			hash.put("y", () -> { //If the player inputed y
 				System.out.println("Okay.");
 			});
-			hash.put("n", () -> {
+			hash.put("n", () -> { //If the player inputed n
 				System.out.println("Okay.");
-				inGame = false;
+				inGame = false; //leave game (exit loop)
 			});
 
 			im.getInput("Do you want the game to continue? (y/n)", hash);
@@ -236,11 +238,6 @@ public class Poker {
 
 	public static int getWhoStarts() {
 		int start = 0; //get the starting person
-		
-		int numOfPlayersStillIn = 0; //get number of people still in the game
-		for(Player p : players) {
-			if(p.stillInGame && p.stillInRound) numOfPlayersStillIn++;
-		}
 		
 		for(int i = 0; i < players.size() && inRound; i++) { //Loop through all of the players
 			if(curOrbit == 0) { //If it's the preflop round, get the person next to the big blind starts.
@@ -410,6 +407,9 @@ public class Poker {
 									else if(input <= prevBet) {
 										System.out.println("Please enter a positive integer above 0.");
 									}
+									else if(input == p.money) {
+										System.out.println("Use all-in to bet all of your money.");
+									}
 									else {
 										return Actions.bet(p, input);
 									}
@@ -447,6 +447,9 @@ public class Poker {
 									}
 									else if(input <= 0) {
 										System.out.println("This value is too low! The bet is currently $" + prevBet + ".");
+									}
+									else if(input == p.money) {
+										System.out.println("Use all-in to bet all of your money.");
 									}
 									else {
 										return Actions.raise(p, input);
@@ -486,9 +489,6 @@ public class Poker {
 			scan.nextLine(); //when player presses enter
 			return false;
 		});
-
-		//TODO
-
 		return hash;
 	}
 
