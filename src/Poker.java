@@ -187,7 +187,7 @@ public class Poker {
 				}
 
 				//horrible algorithm but it works TODO
-				List<Player> losing = new ArrayList<>();
+				//List<Player> losing = new ArrayList<>();
 
 				sleep(9000);
 				inGame = false;

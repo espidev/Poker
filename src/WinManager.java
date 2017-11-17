@@ -54,11 +54,7 @@ public class WinManager extends Poker{
 
 			System.out.println();
 			System.out.println("——————————————————————————————————————————————————————————");
-			System.out.print("Hand: " + hand.toString().replaceAll("_", " ") + "  ");
-			for(Card z : tempHand) {
-				System.out.print(z.getCardOutput() + " " + Suit.getSuit(z.suit) + "  ");
-			}
-			System.out.println();
+			System.out.println("Hand: " + hand.toString().replaceAll("_", " ") + "  ");
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
