@@ -83,13 +83,18 @@ public class Hands {
 				curSuit = isLow_Suits.get(i);
 
 				for (int j = c.size() - 1; j > 2; j--) {
-					if (c.get(i).suit == curSuit && c.get(i-3).suit == curSuit && c.get(i).number == 5 && c.get(i).number == 2) {
-						Card ace = new Card (14, curSuit);
-						h.add(ace);
-						for(int p = i-3; p <= i; p++) {
-							h.add(c.get(p));
+					try {
+						if (c.get(i).suit == curSuit && c.get(i-3).suit == curSuit && c.get(i).number == 5 && c.get(i).number == 2) {
+							Card ace = new Card (14, curSuit);
+							h.add(ace);
+							for(int p = i-3; p <= i; p++) {
+								h.add(c.get(p));
+							}
+							return Arrays.asList(true, h);
 						}
-						return Arrays.asList(true, h);
+					}
+					catch(ArrayIndexOutOfBoundsException ex) {
+						//TODO Sometimes there's an exception thrown I dunno why...
 					}
 				}	
 			}

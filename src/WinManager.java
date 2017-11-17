@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -22,21 +23,22 @@ public class WinManager extends Poker{
 
 			List<Card> cards = new ArrayList<>();
 			List<Card> tempHand = new ArrayList<>();
+			String assemble = "| ";
+			
+			for(Card c : p.cards) {
+				cards.add(c);
+			}
 			for(Card c : cardsOnTable) {
 				cards.add(c);
 			}
-			String assemble = "| ";
-			for(Card c : p.cards) {
+			
+			Collections.sort(cards); //Sort the cards into order
+			for(Card c : cards) {
 				assemble += c.getCard();
-				cards.add(c);
 			}
 			System.out.println(assemble);
 
-			for(Card c : p.cards) {
-				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
-			}
-
-			for(Card c : cardsOnTable) {
+			for(Card c : cards) {
 				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
 			}
 
