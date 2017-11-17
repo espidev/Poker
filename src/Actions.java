@@ -36,11 +36,7 @@ public class Actions {
 		if(folded >= Poker.players.size()-1) {
 			Poker.inRound = false; //end game since one person won.
 			System.out.println("There is only one player left. Automatic win.");
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			Poker.sleep(2000);
 		}
 		
 		return true;
