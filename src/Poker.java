@@ -114,15 +114,17 @@ public class Poker {
 
 			//Pick cards for the players
 			for(Player p : players) {
-				Card c1 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-				cardsOnStack.remove(c1);
-				Card c2 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
-				cardsOnStack.remove(c2);
-				p.cards.add(c1);
-				p.cards.add(c2);
+				if(p.stillInGame) {
+					Card c1 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
+					cardsOnStack.remove(c1);
+					Card c2 = cardsOnStack.get((int) (Math.random() * cardsOnStack.size()));
+					cardsOnStack.remove(c2);
+					p.cards.add(c1);
+					p.cards.add(c2);
 
-				p.stillInGame = true;
-				p.stillInRound = true;
+					p.stillInGame = true;
+					p.stillInRound = true;
+				}
 			}
 
 			//Starts a round of poker
@@ -234,8 +236,8 @@ public class Poker {
 
 	public static int getWhoStarts() {
 		int start = 0; //get the starting person
-		for(int i = 0; i < players.size() && inRound; i++) {
-			if(curOrbit == 0) { //starting preflop round
+		for(int i = 0; i < players.size() && inRound; i++) { //Loop through all of the players
+			if(curOrbit == 0) { //If it's the preflop round, get the person next to the big blind starts.
 				if(players.get(i).name.equals(bigBlind.name)) { //find big blind
 					if(i == players.size()-1) {
 						i = 0;
@@ -262,7 +264,13 @@ public class Poker {
 				if(players.get(i).name.equals(smallBlind.name)) { // on every orbit except the first orbit, the small blind starts.
 					for(int j = i; ; j++) { //if the small blind is out, go to the next person
 						System.out.println("j" + j);
-						if(j == players.size()-1) {
+
+						int numOfPlayersStillIn = 0;
+						for(Player p : players) {
+							if(p.stillInGame && p.stillInRound) numOfPlayersStillIn++;
+						}
+
+						if(j == numOfPlayersStillIn-1) {
 							j = 0;
 						}
 						else {
@@ -436,7 +444,7 @@ public class Poker {
 									if(input > p.money) {
 										System.out.println("You don't have enough money!");
 									}
-									else if(input <= prevBet) {
+									else if(input <= 0) {
 										System.out.println("This value is too low! The bet is currently $" + prevBet + ".");
 									}
 									else {
@@ -496,6 +504,7 @@ public class Poker {
 		cardsOnStack = new ArrayList<>();
 		cardsOnTable = new ArrayList<>();	
 		inRound = false;
+		DisplayManager.globalConsole = new ArrayList<>();
 		//add all 52 cards to the deck.
 		for(int i = 2; i < 14; i++) {
 			cardsOnStack.add(new Card(i, Suit.CLOVER));
@@ -521,7 +530,6 @@ public class Poker {
 		bigBlind = null;
 		smallBlind = null;
 		numOfDead = 0;
-		DisplayManager.globalConsole = new ArrayList<>();
 	}
 
 	/*

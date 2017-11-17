@@ -11,7 +11,7 @@ public class SetupManager extends Poker{
 
 	public static void prepareGame() {
 		System.out.println("Welcome to the setup process. \nPlease answer the next few questions.");
-		sleep(2000);
+		sleep(1000);
 		int numOfPlayers;
 
 		//Use type safe input manager tool
@@ -81,7 +81,7 @@ public class SetupManager extends Poker{
 		 */
 
 		System.out.println("Now on to preparing the players.");
-		sleep(2000);
+		sleep(1000);
 
 		for(int i = 0; i < numOfPlayers; i++) {
 			System.out.println("Player " + (i+1) + ":");
