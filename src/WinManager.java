@@ -12,7 +12,7 @@ public class WinManager extends Poker{
 	/*
 	 * Displays the players's cards in the console.
 	 */
-	
+
 	public static void displayPlayerCards() {
 		for(Player p : players) {
 			System.out.println("——————————————————————————————————————————————————————————");
@@ -38,7 +38,7 @@ public class WinManager extends Poker{
 			for(Card c : cardsOnTable) {
 				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
 			}
-						
+
 			//evaluate hand
 			int f = (Integer) Evaluator.evaluateHand(cards, tempHand).get(0);
 			tempHand = (List<Card>) Evaluator.evaluateHand(cards, tempHand).get(1);
@@ -48,7 +48,7 @@ public class WinManager extends Poker{
 					hand = h;
 				}
 			}
-			
+
 			System.out.println();
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.print("Hand: " + hand.toString().replaceAll("_", " ") + "  ");
@@ -84,7 +84,7 @@ public class WinManager extends Poker{
 				parray.remove(i);
 			}
 		}
-		
+
 		//Bubble sort the players by their "hand".
 
 		try {
@@ -103,6 +103,7 @@ public class WinManager extends Poker{
 			System.out.println("Winners in order:");
 			for(Player p : parray) {
 				System.out.println(p.name);
+				p.tempMoney = p.money;
 			}
 			//TODO
 			win(m);
@@ -116,20 +117,16 @@ public class WinManager extends Poker{
 	 */
 
 	public static void win(Player p) {
-		try {
-			System.out.println("And the winner of this round is...");
-			for(int i = 0; i < 3; i++) {
-				Thread.sleep(1000);
-				System.out.println(".");
-			}
-			Thread.sleep(1000);
-			System.out.println(p.name + "!");
-			p.money += getPot();
-			Thread.sleep(500);
-			System.out.println("This player has won $" + getPot() + "!");
+		System.out.println("And the winner of this round is...");
+		for(int i = 0; i < 3; i++) {
+			sleep(1000);
+			System.out.println(".");
 		}
-		catch(InterruptedException e) {
-			e.printStackTrace();
-		}
+		sleep(1000);
+		System.out.println(p.name + "!");
+		p.money += pot;
+		p.tempMoney = p.money;
+		sleep(500);
+		System.out.println("This player has won $" + pot + "!");
 	}
 }

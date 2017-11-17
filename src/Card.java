@@ -16,6 +16,10 @@ public class Card implements Comparable<Card>{
 		this.suit = suit;
 	}
 
+	/*
+	 * Fix the card output (1 is A, 11 is J, 12 is Q and 13 is K)
+	 */
+	
 	public String getCardOutput() {
 		if(number <= 10) {
 			return number + "";
@@ -28,6 +32,8 @@ public class Card implements Comparable<Card>{
 	
 	/*
 	 * Get the unicode value for the card.
+	 * This is for displaying in the player menu.
+	 * 
 	 * https://en.wikipedia.org/wiki/Playing_cards_in_Unicode
 	 * http://www.russellcottrell.com/greek/utilities/SurrogatePairCalculator.htm
 	 * ughhhhhhhhhhhhhhhhhhhh
@@ -113,7 +119,11 @@ public class Card implements Comparable<Card>{
 		return "";
 	}
 	
-	public int compareTo(Card o) {                 //implement comparing for Collections.sort
+	/*
+	 * Implement comparing for Collections.sort
+	 */
+
+	public int compareTo(Card o) { 
 		if (mode) {                            //Sort by number, then suit
 			if (number > o.number) {
 				return 1;

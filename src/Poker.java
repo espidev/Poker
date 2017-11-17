@@ -6,7 +6,7 @@ import java.util.Scanner;
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Poker class: The main method for the game
+ * Poker class: The main class for the game
  */
 
 
@@ -19,7 +19,7 @@ public class Poker {
 
 	public static Player bigBlind = null, smallBlind = null;
 
-	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0, prevBet = 0, startingBalance = 50;
+	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0, prevBet = 0, startingBalance = 50, pot = 0;
 
 	public static boolean inRound = false, inGame = false, defaultStarting = true;
 
@@ -34,18 +34,6 @@ public class Poker {
 		catch(InterruptedException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/*
-	 * Calculate the amount of money in the pot.
-	 */
-
-	public static int getPot() {
-		int sum = 0;
-		for(Player p : players) {
-			sum += p.betMoney;
-		}
-		return sum;
 	}
 
 	/*
@@ -306,6 +294,7 @@ public class Poker {
 			sleep(2000);
 			break;
 		case 1:
+			prevBet = 0; //Reset the bet.
 			printRoundMessage("Flop");
 			//add cards to table from stack
 			for(int i = 0; i < 3; i++) addCardToTable();
@@ -313,6 +302,7 @@ public class Poker {
 			sleep(2000);
 			break;
 		case 2:
+			prevBet = 0; //Reset the bet.
 			printRoundMessage("Turn");
 			//add card to table from stack
 			addCardToTable();
@@ -321,6 +311,7 @@ public class Poker {
 			sleep(2000);
 			break;
 		case 3:
+			prevBet = 0; //Reset the bet.
 			printRoundMessage("River");
 			//add card to table from stack
 			addCardToTable();
@@ -338,7 +329,7 @@ public class Poker {
 
 		orbitEnd = start;
 		int cur = start;
-		do { //TODO REDO WITH PREVIOUS PERSON THAT RAISED 
+		do {
 			curPlayer = cur;
 			if(players.get(curPlayer).stillInGame && players.get(curPlayer).stillInRound) {
 				//Player's turn
@@ -361,6 +352,13 @@ public class Poker {
 			}
 		}
 		while(cur != orbitEnd && inRound);
+
+		//move the money to the pot.
+		for(Player p : players) {
+			pot += p.betMoney;
+			p.betMoney = 0;
+			p.tempMoney = p.money;
+		}
 	}
 
 	/*
@@ -374,37 +372,84 @@ public class Poker {
 			return Actions.fold(p);
 		});
 
-		if(!player.allIn) { 
+		if(!player.allIn) {
 			if(player.money + player.betMoney > Poker.prevBet) {
-				hash.put("Call", (Player p) -> {
-					return Actions.call(p);
-				});
-				hash.put("Raise", (Player p) -> {
-					if(p.isAI) {
-						int a = ((int) (Math.random() * 5)) + prevBet + 1;
-						return Actions.raise(p, a);
-					}
-					else {
-						while(true) {
-							try {
-								System.out.println("What do you want to raise the bet to?");
-								int input = Integer.parseInt(scan.nextLine());
-								if(input > p.money + p.betMoney) {
-									System.out.println("You don't have enough money!");
+				if(prevBet == 0) {
+					hash.put("Check", (Player p) -> {
+						return Actions.check(p);
+					});
+					hash.put("Bet", (Player p) -> {
+						if(p.isAI) {
+							int a = ((int) (Math.random() * 5)) + 1;
+							return Actions.bet(p, a);
+						}
+						else {
+							while(true) {
+								try {
+									System.out.println("How much do you want to bet? (c to cancel)");
+									String in = scan.nextLine();
+
+									if(in.equalsIgnoreCase("c")) {
+										System.out.println("Okay. Exiting bet.");
+										return false; //cancel the action
+									}
+
+									int input = Integer.parseInt(in);
+									if(input > p.money) {
+										System.out.println("You don't have enough money!");
+									}
+									else if(input <= prevBet) {
+										System.out.println("Please enter a positive integer above 0.");
+									}
+									else {
+										return Actions.bet(p, input);
+									}
 								}
-								else if(input <= prevBet) {
-									System.out.println("This value is too low! The bet is currently $" + prevBet + ".");
+								catch(Exception e) {
+									System.out.println("Error. Try again.");
 								}
-								else {
-									return Actions.raise(p, input);
-								}
-							}
-							catch(Exception e) {
-								System.out.println("Error. Try again.");
 							}
 						}
-					}
-				});
+					});
+				}
+				else {
+					hash.put("Call", (Player p) -> {
+						return Actions.call(p);
+					});
+					hash.put("Raise", (Player p) -> {
+						if(p.isAI) {
+							int a = ((int) (Math.random() * 5)) + 1;
+							return Actions.raise(p, a);
+						}
+						else {
+							while(true) {
+								try {
+									System.out.println("How much do you want to raise the bet by? (c to cancel)");
+									String in = scan.nextLine();
+
+									if(in.equalsIgnoreCase("c")) {
+										System.out.println("Okay. Exiting raise.");
+										return false; //cancel the action
+									}
+
+									int input = Integer.parseInt(in);
+									if(input > p.money) {
+										System.out.println("You don't have enough money!");
+									}
+									else if(input <= prevBet) {
+										System.out.println("This value is too low! The bet is currently $" + prevBet + ".");
+									}
+									else {
+										return Actions.raise(p, input);
+									}
+								}
+								catch(Exception e) {
+									System.out.println("Error. Try again.");
+								}
+							}
+						}
+					});
+				}
 			}
 			hash.put("All-In", (Player p) -> {
 				return Actions.allIn(p);
@@ -447,6 +492,7 @@ public class Poker {
 		curPlayer = 0;
 		orbitEnd = 0;
 		prevBet = 0;
+		pot = 0;
 		cardsOnStack = new ArrayList<>();
 		cardsOnTable = new ArrayList<>();	
 		inRound = false;
@@ -488,7 +534,7 @@ public class Poker {
 			contextAssemble.put(i + "", new ArrayList<>(options.keySet()).get(i));
 		}
 
-		DisplayManager.displayContextRedo(contextAssemble); //show the console prompt (the menu when it's a human player's turn)
+		DisplayManager.displayContext(contextAssemble); //show the console prompt (the menu when it's a human player's turn)
 
 		boolean notFound = true, showCards = false; //notFound is true if the input was not found, and showCards is true when the player wants to reveal cards.
 
@@ -512,7 +558,7 @@ public class Poker {
 			if(notFound) { //if the input was not found.
 				if(showCards) { //if the player wanted to reveal cards, wipe the screen and display the context menu again.
 					DisplayManager.wipeConsole();
-					DisplayManager.displayContextRedo(contextAssemble);
+					DisplayManager.displayContext(contextAssemble);
 					showCards = false;
 				}
 				else { //incorrect input

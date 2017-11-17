@@ -1,7 +1,7 @@
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Action Class: A list of action that the AI and the 
+ * Action Class: A list of actions that the AI and the 
  *               player can do.
  */
 
@@ -13,13 +13,13 @@ public class Actions {
 		return true;
 	}
 	
-	@Deprecated //not ever called
 	public static boolean bet(Player player, int money) {
 		player.betMoney += money;
-		player.money -= money;
 		Poker.prevBet = player.betMoney;
-		System.out.println("You have bet $" + money + ".");
-		DisplayManager.globalConsole.add(player.name + " has bet.");
+		player.money = player.tempMoney - Poker.prevBet;
+		Poker.orbitEnd = Poker.players.indexOf(player);
+		System.out.println("You have bet $" + Poker.prevBet + ".");
+		DisplayManager.globalConsole.add(player.name + " has bet $" + Poker.prevBet + ".");
 		return true;
 	}
 	
@@ -36,6 +36,12 @@ public class Actions {
 		if(folded >= Poker.players.size()-1) {
 			Poker.inRound = false; //end game since one person won.
 			System.out.println("There is only one player left. Automatic win.");
+			
+			for(Player p : Poker.players) { //Move money to pot.
+				Poker.pot += p.betMoney;
+				p.betMoney = 0;
+			}
+			
 			Poker.sleep(2000);
 		}
 		
@@ -51,17 +57,17 @@ public class Actions {
 	}
 	
 	public static boolean raise(Player player, int money) {
-		player.money = player.money - money + player.betMoney;
-		player.betMoney = money;
+		player.betMoney = Poker.prevBet + money;
 		Poker.prevBet = player.betMoney;
+		player.money = player.tempMoney - Poker.prevBet;
 		Poker.orbitEnd = Poker.players.indexOf(player);
-		System.out.println("You've raised the bet to $" + money + ".");
-		DisplayManager.globalConsole.add(player.name + " has raised the bet to $" + money + ".");
+		System.out.println("You've raised the bet to $" + Poker.prevBet + ".");
+		DisplayManager.globalConsole.add(player.name + " has raised the bet to $" + Poker.prevBet + ".");
 		return true;
 	}
 	
 	public static boolean allIn(Player player) {
-		player.betMoney += player.money;
+		player.betMoney = player.money;
 		player.money = 0;
 		player.allIn = true;
 		if(player.betMoney > Poker.prevBet) {
