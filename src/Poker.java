@@ -12,15 +12,42 @@ import java.util.Scanner;
 
 public class Poker {
 
+	/*
+	 * cardsOnStack: list of cards that is in the deck (not in play)
+	 * cardsOnTable: list of cards that are shown and on the table
+	 * players: list of player objects
+	 */
+	
 	public static List<Card> cardsOnStack = new ArrayList<>(), cardsOnTable = new ArrayList<>();
 	public static List<Player> players = new ArrayList<>();
 
 	public static Scanner scan = new Scanner(System.in);
 
+	/*
+	 * bigBlind: player object that is the big blind
+	 * smallBlind: player object that is the small blind
+	 */
+	
 	public static Player bigBlind = null, smallBlind = null;
 
+	/*
+	 * curPlayer: the index of the current player
+	 * curOrbit: the index of the current orbit
+	 * numOfDead: number of players that are out of the game
+	 * orbitEnd: The index of the player at which the orbit will end (changed when someone raises or bets)
+	 * prevBet: The highest previous bet
+	 * startingBalance: The amount of money each player starts with
+	 * pot: amount of money in the pot
+	 */
+	
 	public static int curPlayer, curOrbit, numOfDead = 0, orbitEnd = 0, prevBet = 0, startingBalance = 50, pot = 0;
 
+	/*
+	 * inRound: true if the game is in a round
+	 * inGame: true if the game is in progress
+	 * defaultStarting: true if there will be a default starting balance.
+	 */
+	
 	public static boolean inRound = false, inGame = false, defaultStarting = true;
 
 	/*
@@ -41,13 +68,13 @@ public class Poker {
 	 */
 
 	public static void setBlinds() {
-		if(bigBlind == null || smallBlind == null || (bigBlind == null && smallBlind == null)) {
+		if(bigBlind == null || smallBlind == null || (bigBlind == null && smallBlind == null)) { //if the big blind and the small blind haven't been set yet
 			int rand = (int) (Math.random()*players.size());
 			int n2 = (rand == players.size()-1) ? 0 : rand+1 ;
-			bigBlind = players.get(rand);
-			smallBlind = players.get(n2);
+			bigBlind = players.get(rand); //get a random big blind
+			smallBlind = players.get(n2); //the small blind is the person after
 		}
-		else {
+		else { //the big blind and small blind will go to the people next to the current ones
 			int next = 0, cur = 0;
 			for(int i = 0; i < players.size(); i++) { //searches the list for the big blind
 				if(players.get(i).name.equals(bigBlind.name)) { //goes to the next person to set as big blind
@@ -122,7 +149,6 @@ public class Poker {
 					p.cards.add(c1);
 					p.cards.add(c2);
 
-					p.stillInGame = true;
 					p.stillInRound = true;
 				}
 			}
@@ -344,10 +370,10 @@ public class Poker {
 				DisplayManager.globalConsole.add(players.get(curPlayer).name + "'s turn.");
 
 				if(players.get(curPlayer).isAI) {
-					AI.calculateTurn(players.get(curPlayer), options);
+					AI.calculateTurn(players.get(curPlayer), options); //go to AI calculate turn if the player is an AI
 				}
 				else {
-					playerTurn(players.get(curPlayer), options);
+					playerTurn(players.get(curPlayer), options); //go to player turn if the player is not an AI
 				}
 			}
 			if(cur == players.size()-1) { //go from array size back to zero (to loop around players)
@@ -359,7 +385,7 @@ public class Poker {
 		}
 		while(cur != orbitEnd && inRound);
 
-		//move the money to the pot.
+		//move the money to the pot at the end of an orbits.
 		for(Player p : players) {
 			pot += p.betMoney;
 			p.betMoney = 0;
@@ -372,15 +398,16 @@ public class Poker {
 	 */
 
 	public static HashMap<String, BooleanOperation> getOptions(Player player) {
-		HashMap<String, BooleanOperation> hash = new HashMap<>();
+		HashMap<String, BooleanOperation> hash = new HashMap<>(); //List of options that the player can do (name, option)
 
+		//the player can fold whenever
 		hash.put("Fold", (Player p) -> { //lambda list 
 			return Actions.fold(p);
 		});
 
-		if(!player.allIn) {
-			if(player.money + player.betMoney > Poker.prevBet) {
-				if(prevBet == 0) {
+		if(!player.allIn) { //if the player isn't all-in
+			if(player.money + player.betMoney > Poker.prevBet) { //if the player has enough money to call or raise
+				if(prevBet == 0) { //if no one has betted yet
 					hash.put("Check", (Player p) -> {
 						return Actions.check(p);
 					});
@@ -421,7 +448,7 @@ public class Poker {
 						}
 					});
 				}
-				else {
+				else { //if people have already bet
 					hash.put("Call", (Player p) -> {
 						return Actions.call(p);
 					});
@@ -463,16 +490,17 @@ public class Poker {
 					});
 				}
 			}
-			hash.put("All-In", (Player p) -> {
+			hash.put("All-In", (Player p) -> { //player should be able to go all-in
 				return Actions.allIn(p);
 			});
 		}
-		else {
+		else { //the player has already went all-in
 			hash.put("Check", (Player p) -> {
 				return Actions.check(p);
 			});
 		}
 
+		//add show cards to allow human players to show their cards (AI's don't need this option)
 		hash.put("Show Cards", (Player p) -> {
 			System.out.println("Press enter to hide the cards.");
 			String assemble = "";

@@ -2,7 +2,7 @@
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Suit enum: An enum to stor the suits of the cards.
+ * Suit enum: An enum to store the suits of the cards.
  */
 
 
