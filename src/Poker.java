@@ -131,7 +131,7 @@ public class Poker {
 		resetGame(); //Reset the game before starting.
 		SetupManager.prepareGame(); //Start the preparation process.
 
-		System.out.println("Starting game...");
+		System.out.println("\n\nStarting game...");
 
 		sleep(2000);
 

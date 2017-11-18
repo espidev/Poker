@@ -32,10 +32,8 @@ public class Evaluator {
 		List<Card> c1 = new ArrayList<>(), c2 = new ArrayList<>();
 		c1.addAll(Poker.cardsOnTable);
 		c1.addAll(p1.cards);
-		System.out.println(c1.size());
 		c2.addAll(Poker.cardsOnTable);
 		c2.addAll(p2.cards);
-		System.out.println(c2.size());
 		
 		//TODO REDO THIS CODE AND GET 5 CARDS OF POSSIBILITIES FROM 7
 		
