@@ -43,8 +43,8 @@ public class WinManager extends Poker{
 			}
 
 			//evaluate hand
-			int f = (Integer) Evaluator.evaluateHand(cards, tempHand).get(0);
-			tempHand = (List<Card>) Evaluator.evaluateHand(cards, tempHand).get(1);
+			int f = Evaluator.evaluateHand(cards);
+			tempHand = Evaluator.getHand(cards);
 			Evaluator.Hand hand = null;
 			for(Evaluator.Hand h : Evaluator.Hand.values()) {
 				if(h.ordinal()+1 == f) {
