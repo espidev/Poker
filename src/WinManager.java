@@ -36,7 +36,7 @@ public class WinManager extends Poker{
 			for(Card c : cards) {
 				assemble += c.getCard();
 			}
-			System.out.print(assemble + "  ");
+			System.out.print(assemble + "    ");
 
 			for(Card c : cards) {
 				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
@@ -58,7 +58,7 @@ public class WinManager extends Poker{
 			for(Card c : tempHand) {
 				assemble2 += c.getCard();
 			}
-			System.out.print(assemble2 + "  ");
+			System.out.print(assemble2 + "    ");
 			
 			for (Card c : tempHand) {
 				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
