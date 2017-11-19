@@ -6,12 +6,12 @@ import java.util.List;
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Hands class: To find which poker hand a certain list of cards comprises of
+ * Hands class: To find which poker hand a certain list of cards comprises of and return the hand in which it is located
  */
 
 public class Hands {
 
-	/*
+	/* Hands ranked from least to greatest:
 	 * 	1 = High Card / HC
 	 * 	2 = One Pair / P1
 	 * 	3 = Two Pairs / PP
@@ -24,7 +24,14 @@ public class Hands {
 	 *  10 = Royal Flush / RF
 	 */
 
-	public static List<Object> RF (List<Card> c, List<Card> h) {
+	/*
+	 * All of the following checker methods also return a 5-card hand
+	 */
+	
+	//Checks for a royal flush
+	public static List<Object> RF (List<Card> c) {
+		List<Card> h = new ArrayList<>();
+
 		if (c.size() < 5) {
 			return Arrays.asList(false, h);
 		}
@@ -44,7 +51,9 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> SF (List<Card> c, List<Card> h) {
+	//Checks for a straight flush
+	public static List<Object> SF (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
 			return Arrays.asList(false, h);
 		}
@@ -60,50 +69,66 @@ public class Hands {
 			}
 		}
 
-		//Checks if Special Case (A, 2, 3, 4, 5) is present
+		//Checks for the low straight flush (A, 2, 3, 4, 5)
+		List<Card> temp = new ArrayList<>();
+		Card ace = new Card (14, c.get(c.size() - 1).suit);
+		boolean[] hasLow = new boolean[5];
+		Arrays.fill(hasLow, false);
+		int low = 0;
+		h.clear();
+
 		List<Suit> isLow_Suits = new ArrayList<>();
 		int num_of_Aces = 0;
-		boolean isLow = false;
 
 		for (int i = 0; i < c.size(); i++) {
-			if (c.get(i).number == 13) {
+			if (c.get(i).number == 14) {
 				isLow_Suits.add(c.get(i).suit);
 				num_of_Aces++;
-				isLow = true;
 			}
 			if (num_of_Aces >= 4) {
 				break;
 			}
 		}
 
-		if (isLow) {
-			Suit curSuit;
+		for (Suit z : isLow_Suits) {
+			for (int i = c.size() - 1; i >= 0; i--) {
+				if (c.get(i).number == 14 && (!hasLow[0]) && c.get(i).suit == z) {
+					low++;
+					hasLow[0] = true;
+					ace = c.get(i);
+				} else if ((c.get(i).number == 2 && (!hasLow[1])) && c.get(i).suit == z) {
+					low++;
+					hasLow[1] = true;
+					temp.add(c.get(i));
+				} else if ((c.get(i).number == 3 && (!hasLow[2])) && c.get(i).suit == z) {
+					low++;
+					hasLow[2] = true;
+					temp.add(c.get(i));
+				} else if ((c.get(i).number == 4 && (!hasLow[3])) && c.get(i).suit == z) {
+					low++;
+					hasLow[3] = true;
+					temp.add(c.get(i));
+				} else if ((c.get(i).number == 5 && (!hasLow[4])) && c.get(i).suit == z) {
+					low++;
+					hasLow[4] = true;
+					temp.add(c.get(i));
+				}
+				if(low == 5) {
+					sortCards(temp, true);
+					h.add(ace);
+					h.addAll(temp);
 
-			for (int i = 0; i < isLow_Suits.size(); i++) {
-				curSuit = isLow_Suits.get(i);
-
-				for (int j = c.size() - 1; j > 2; j--) {
-					try {
-						if (c.get(i).suit == curSuit && c.get(i-3).suit == curSuit && c.get(i).number == 5 && c.get(i).number == 2) {
-							Card ace = new Card (14, curSuit);
-							h.add(ace);
-							for(int p = i-3; p <= i; p++) {
-								h.add(c.get(p));
-							}
-							return Arrays.asList(true, h);
-						}
-					}
-					catch(ArrayIndexOutOfBoundsException ex) {
-						//TODO Sometimes there's an exception thrown I dunno why...
-					}
-				}	
+					return Arrays.asList(true, h); 
+				}
 			}
 		}
 
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> K4 (List<Card> c, List<Card> h) {
+	//Checks for a 4 of a Kind
+	public static List<Object> K4 (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 4) {
 			return Arrays.asList(false, h);
 		}
@@ -127,42 +152,50 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> FH (List<Card> c, List<Card> h) {
+	//Checks for a Full House
+	public static List<Object> FH (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
 			return Arrays.asList(false, h);
 		}
 
 		List<Card> Triple = new ArrayList<>();
-		boolean isTriple = (Boolean)K3Triple(c, Triple).get(0);
-
+		boolean isTriple = false;
 		int num_of_K3;
-		try {
-			if (isTriple) {
-				num_of_K3 = Triple.get(0).number;
 
-				sortCards(c, true);
+		for (int i = c.size() - 1; i > 1; i--) {
+			if (c.get(i).number == c.get(i-2).number) {
+				for(int p = i-2; p <= i; p++) {
+					Triple.add(c.get(p));
+				}
+				isTriple = true;
 
-				for (int i = c.size() - 1; i > 0; i--) {
-					if (c.get(i).number != num_of_K3) {
-						if (c.get(i).number == c.get(i-1).number) {
-							h.addAll(Triple);
-							for(int p = i-1; p <= i; p++) {
-								h.add(c.get(p));
-							}
-							return Arrays.asList(true, h);
+			}
+		}
+		if (isTriple) {
+			num_of_K3 = Triple.get(0).number;
+
+			sortCards(c, true);
+
+			for (int i = c.size() - 1; i > 0; i--) {
+				if (c.get(i).number != num_of_K3) {
+					if (c.get(i).number == c.get(i-1).number) {
+						h.addAll(Triple);
+						for(int p = i-1; p <= i; p++) {
+							h.add(c.get(p));
 						}
+						return Arrays.asList(true, h);
 					}
 				}
 			}
-		}
-		catch(IndexOutOfBoundsException e) {
-			//yikes TODO
 		}
 
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> FL (List<Card> c, List<Card> h) {
+	//Checks for a flush
+	public static List<Object> FL (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
 			return Arrays.asList(false, h);
 		}
@@ -181,25 +214,23 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> ST (List<Card> c, List<Card> h) {
+	//Checks for a straight
+	public static List<Object> ST (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
 			return Arrays.asList(false, h);
 		}
 
 		sortCards(c, true);
 
-		int highest = 0;
 		int counter = 0;
+		int highest = 0;
 
 		for (int i = c.size() - 1; i > 0; i--) {
 			if (c.get(i).number == c.get(i - 1).number + 1) {
 				counter++;
-				try {
-					h.add(c.get(i + highest));
-				}
-				catch(NullPointerException e) {
-					//welp whatever
-				}
+				h.add(c.get(i + highest));
+				highest = 0;
 			} else if (c.get(i).number == c.get(i - 1).number) {
 				highest++;
 			} else {
@@ -207,14 +238,58 @@ public class Hands {
 				h = new ArrayList<>();
 			}
 			if (counter == 4) {
+				h.add(c.get(i-1));
+				Collections.reverse(h);
 				return Arrays.asList(true, h);
+			}
+		}
+
+		
+		//Checks for low straight (A, 2, 3, 4, 5)
+		List<Card> temp = new ArrayList<>();
+		Card ace = new Card (14, c.get(c.size() - 1).suit);
+		boolean[] hasLow = new boolean[5];
+		Arrays.fill(hasLow, false);
+		int low = 0;
+		h.clear();
+
+		for (int i = c.size() - 1; i >= 0; i--) {
+			if (c.get(i).number == 14 && (!hasLow[0])) {
+				low++;
+				hasLow[0] = true;
+				ace = c.get(i);
+			} else if ((c.get(i).number == 2 && (!hasLow[1]))) {
+				low++;
+				hasLow[1] = true;
+				temp.add(c.get(i));
+			} else if ((c.get(i).number == 3 && (!hasLow[2]))) {
+				low++;
+				hasLow[2] = true;
+				temp.add(c.get(i));
+			} else if ((c.get(i).number == 4 && (!hasLow[3]))) {
+				low++;
+				hasLow[3] = true;
+				temp.add(c.get(i));
+			} else if ((c.get(i).number == 5 && (!hasLow[4]))) {
+				low++;
+				hasLow[4] = true;
+				temp.add(c.get(i));
+			}
+			if(low == 5) {
+				sortCards(temp, true);
+				h.add(ace);
+				h.addAll(temp);
+
+				return Arrays.asList(true, h); 
 			}
 		}
 
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> K3 (List<Card> c, List<Card> h) {
+	//Checks for a 3 of a Kind
+	public static List<Object> K3 (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 3) {
 			return Arrays.asList(false, h);
 		}
@@ -243,26 +318,9 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> K3Triple (List<Card> c, List<Card> h) {
-		if (c.size() < 3) {
-			return Arrays.asList(false, h);
-		}
-
-		sortCards(c, true);
-
-		for (int i = c.size() - 1; i > 1; i--) {
-			if (c.get(i).number == c.get(i-2).number) {
-				for(int p = i-2; p <= i; p++) {
-					h.add(c.get(p));
-				}
-				return Arrays.asList(true, h);
-			}
-		}
-
-		return Arrays.asList(false, h);
-	}
-
-	public static List<Object> PP (List<Card> c, List<Card> h) {
+	//Checks for a two pairs
+	public static List<Object> PP (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 4) {
 			return Arrays.asList(false, h);
 		}
@@ -289,6 +347,7 @@ public class Hands {
 				for (int k = c.size() - 1; k >= 0; k--) {
 					if (c.get(k).number != h.get(0).number && c.get(k).number != h.get(2).number) {
 						h.add(c.get(k));
+						break;
 					}
 				}
 				return Arrays.asList(true, h);
@@ -298,7 +357,9 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Object> P1 (List<Card> c, List<Card> h) {
+	//Checks for one pair
+	public static List<Object> P1 (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		if (c.size() < 2) {
 			return Arrays.asList(false, h);
 		}
@@ -326,7 +387,9 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
-	public static List<Card> HC (List<Card> c, List<Card> h) {
+	//Method that returns a hand with a high card (if all other hands are not present)
+	public static List<Card> HC (List<Card> c) {
+		List<Card> h = new ArrayList<>();
 		sortCards(c, true);
 		List<Card> kickers = new ArrayList<>();
 		h.add(c.get(c.size() - 1));
@@ -344,6 +407,7 @@ public class Hands {
 		return h;
 	}
 
+	//Helper method to sort cards
 	public static void sortCards(List<Card> i, boolean m) {
 		//True: Number, then Suit
 		//False: Suit, then Number

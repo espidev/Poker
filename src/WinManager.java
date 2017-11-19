@@ -19,7 +19,7 @@ public class WinManager extends Poker{
 			if(!p.stillInGame) continue;
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("| Player " + p.name);
-			System.out.print("Cards (including on table): ");
+			System.out.print("| Cards (including on table): ");
 
 			List<Card> cards = new ArrayList<>();
 			List<Card> tempHand = new ArrayList<>();
@@ -32,20 +32,21 @@ public class WinManager extends Poker{
 				cards.add(c);
 			}
 			
-			Collections.sort(cards); //Sort the cards into order
+			Hands.sortCards(cards, true); //Sort the cards into order
 			for(Card c : cards) {
 				assemble += c.getCard();
 			}
-			System.out.println(assemble);
+			System.out.print(assemble + "    ");
 
 			for(Card c : cards) {
 				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
 			}
 
 			//evaluate hand
-			int f = (Integer) Evaluator.evaluateHand(cards, tempHand).get(0);
-			tempHand = (List<Card>) Evaluator.evaluateHand(cards, tempHand).get(1);
+			int f = Evaluator.evaluateHand(cards);
+			tempHand = Evaluator.getHand(cards);
 			Evaluator.Hand hand = null;
+			String assemble2 = "| ";
 			for(Evaluator.Hand h : Evaluator.Hand.values()) {
 				if(h.ordinal()+1 == f) {
 					hand = h;
@@ -53,8 +54,16 @@ public class WinManager extends Poker{
 			}
 
 			System.out.println();
-			System.out.println("——————————————————————————————————————————————————————————");
-			System.out.println("Hand: " + hand.toString().replaceAll("_", " ") + "  ");
+			System.out.print("| Hand: " + hand.toString().replaceAll("_", " ") + "  ");
+			for(Card c : tempHand) {
+				assemble2 += c.getCard();
+			}
+			System.out.print(assemble2 + "    ");
+			
+			for (Card c : tempHand) {
+				System.out.print(c.getCardOutput() + " " + Suit.getSuit(c.suit) + "  ");
+			}
+			System.out.println();
 			System.out.println("——————————————————————————————————————————————————————————");
 			System.out.println("\n\n");
 			try {
@@ -70,7 +79,6 @@ public class WinManager extends Poker{
 	 */
 
 	public static void calculateWinners() {
-		Player m = null;
 
 		ArrayList<Player> parray = new ArrayList<>();
 		parray.addAll(players);
@@ -84,6 +92,8 @@ public class WinManager extends Poker{
 			}
 		}
 
+		ArrayList<Player> tiedArray = new ArrayList<>();
+		
 		//Bubble sort the players by their "hand".
 
 		try {
@@ -96,16 +106,33 @@ public class WinManager extends Poker{
 					}
 				}
 			}
-
-			m = parray.get(0);
-
+			
 			System.out.println("Players in order:");
 			for(Player p : parray) {
 				System.out.println(p.name);
 				p.tempMoney = p.money;
 			}
-			//TODO
-			win(m);
+			
+			boolean tie = false;
+			ArrayList<Player> tied = new ArrayList<>();
+			tied.add(parray.get(0));
+			
+			for (int i = 1; i < parray.size(); i++) {
+				if (Evaluator.comparePlayers(parray.get(0), parray.get(i)) == null) {
+					tie = true;
+					tied.add(parray.get(i));
+				} else {
+					break;
+				}
+			}
+			
+			if (tie) {
+				win(tied);
+			} else {
+				Player m = parray.get(0);
+				win(m);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -127,5 +154,30 @@ public class WinManager extends Poker{
 		p.tempMoney = p.money;
 		sleep(500);
 		System.out.println("This player has won $" + pot + "!");
+	}
+	
+	//Handles the cases in which a tie is detected
+	public static void win(ArrayList<Player> p) {
+		System.out.println("And the winners of this round are...");
+		for(int i = 0; i < 3; i++) {
+			sleep(1000);
+			System.out.println(".");
+		}
+		sleep(1000);
+		
+		for (int i = 0; i < p.size(); i++) {
+			if (i == p.size() - 1) {
+				System.out.print("and " + p.get(i) + "!");
+			} else {
+				System.out.print(p.get(i) + ", ");
+			}
+		}
+
+		for (Player z : p) {
+			z.money += pot/p.size();
+			z.tempMoney = z.money;
+		}
+		sleep(500);
+		System.out.println("These players have each won $" + (pot/p.size()) + "!");
 	}
 }

@@ -11,7 +11,8 @@ public class SetupManager extends Poker{
 
 	public static void prepareGame() {
 		System.out.println("Welcome to the setup process. \nPlease answer the next few questions.");
-		sleep(1000);
+		sleep(2000);
+		DisplayManager.wipeConsole();
 		int numOfPlayers;
 
 		//Use type safe input manager tool
@@ -42,6 +43,7 @@ public class SetupManager extends Poker{
 			}
 		}, 1);
 
+		System.out.println("\n\n");
 		
 		/*
 		 * Default starting balance
@@ -80,11 +82,12 @@ public class SetupManager extends Poker{
 		 * Prepare players in the game.
 		 */
 
-		System.out.println("Now on to preparing the players.");
-		sleep(1000);
+		System.out.println("\n\nNow on to preparing the players.");
+		sleep(2000);
+		DisplayManager.wipeConsole();
 
 		for(int i = 0; i < numOfPlayers; i++) {
-			System.out.println("Player " + (i+1) + ":");
+			System.out.println("\n\nPlayer " + (i+1) + ":");
 			sleep(500);
 
 			String name = null;
@@ -103,7 +106,7 @@ public class SetupManager extends Poker{
 				sleep(300);
 
 				//Choose a random name for the AI
-				List<String> names = new ArrayList<>(Arrays.asList("Joe", "Bob", "Mark", "Jill", "Peter", "Cosmo", "Stalin", "Kim Jong Un", "Mao Zedong", "Fidel Castro", "Donald Trump"));
+				List<String> names = new ArrayList<>(Arrays.asList("Joe", "Bob", "Mark", "Jill", "Peter", "Cosmo", "John", "Michael", "Alpha", "Tony"));
 
 				int j = 0;
 				String rand = "";
@@ -207,7 +210,7 @@ public class SetupManager extends Poker{
 				
 			}
 		}
-		System.out.println("Setup process complete!");
+		System.out.println("\n\nSetup process complete!");
 		sleep(1000);
 	}
 }
