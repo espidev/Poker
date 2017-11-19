@@ -224,6 +224,8 @@ public class Poker {
 			orbit(); //4 orbits per round.
 		}
 
+		DisplayManager.wipeConsole();
+		
 		System.out.println("The round has now ended. Now showing all of the players's cards.");
 		sleep(3000);
 
@@ -286,8 +288,7 @@ public class Poker {
 			else { //not preflop round
 				if(players.get(i).name.equals(smallBlind.name)) { // on every orbit except the first orbit, the small blind starts.
 					for(int j = i; ;) { //if the small blind is out, go to the next person
-						System.out.println("j" + j);
-
+						
 						if(j == players.size()-1) {
 							j = 0;
 						}

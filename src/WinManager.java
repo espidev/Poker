@@ -91,8 +91,6 @@ public class WinManager extends Poker{
 				parray.remove(i);
 			}
 		}
-
-		ArrayList<Player> tiedArray = new ArrayList<>();
 		
 		//Bubble sort the players by their "hand".
 
