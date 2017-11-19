@@ -9,9 +9,6 @@ https://github.com/espidev/poker
 * Download a release from the release page. [link](https://github.com/espidev/poker)
 * Run the jar file from the terminal (java -jar Poker.jar).
 
-# Known bug
-Straights don't work. :/
-
 # Developers
 * espidev - Devin
 * alex4787 - Alex 
