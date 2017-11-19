@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Player implements Comparable<Player>{
 	
+	//All the variables required for a player
 	List<Card> cards = new ArrayList<>();
 	int money, tempMoney, betMoney = 0, orderOfDeath;
 	String name;
@@ -21,6 +22,7 @@ public class Player implements Comparable<Player>{
 		this.isAI = isAI;
 	}
 	
+	//Implements sorting of players based on money as well as whether or not they are still in game
 	public int compareTo(Player p) {
 		if (stillInGame) {
 			if(p.stillInGame) {

@@ -6,12 +6,12 @@ import java.util.List;
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Hands class: To find which poker hand a certain list of cards comprises of
+ * Hands class: To find which poker hand a certain list of cards comprises of and return the hand in which it is located
  */
 
 public class Hands {
 
-	/*
+	/* Hands ranked from least to greatest:
 	 * 	1 = High Card / HC
 	 * 	2 = One Pair / P1
 	 * 	3 = Two Pairs / PP
@@ -24,6 +24,11 @@ public class Hands {
 	 *  10 = Royal Flush / RF
 	 */
 
+	/*
+	 * All of the following checker methods also return a 5-card hand
+	 */
+	
+	//Checks for a royal flush
 	public static List<Object> RF (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 
@@ -46,6 +51,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for a straight flush
 	public static List<Object> SF (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
@@ -63,6 +69,7 @@ public class Hands {
 			}
 		}
 
+		//Checks for the low straight flush (A, 2, 3, 4, 5)
 		List<Card> temp = new ArrayList<>();
 		Card ace = new Card (14, c.get(c.size() - 1).suit);
 		boolean[] hasLow = new boolean[5];
@@ -119,6 +126,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for a 4 of a Kind
 	public static List<Object> K4 (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 4) {
@@ -144,6 +152,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for a Full House
 	public static List<Object> FH (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
@@ -184,6 +193,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for a flush
 	public static List<Object> FL (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
@@ -204,6 +214,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for a straight
 	public static List<Object> ST (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 5) {
@@ -233,6 +244,8 @@ public class Hands {
 			}
 		}
 
+		
+		//Checks for low straight (A, 2, 3, 4, 5)
 		List<Card> temp = new ArrayList<>();
 		Card ace = new Card (14, c.get(c.size() - 1).suit);
 		boolean[] hasLow = new boolean[5];
@@ -274,6 +287,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for a 3 of a Kind
 	public static List<Object> K3 (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 3) {
@@ -304,6 +318,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for a two pairs
 	public static List<Object> PP (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 4) {
@@ -342,6 +357,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Checks for one pair
 	public static List<Object> P1 (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		if (c.size() < 2) {
@@ -371,6 +387,7 @@ public class Hands {
 		return Arrays.asList(false, h);
 	}
 
+	//Method that returns a hand with a high card (if all other hands are not present)
 	public static List<Card> HC (List<Card> c) {
 		List<Card> h = new ArrayList<>();
 		sortCards(c, true);
@@ -390,6 +407,7 @@ public class Hands {
 		return h;
 	}
 
+	//Helper method to sort cards
 	public static void sortCards(List<Card> i, boolean m) {
 		//True: Number, then Suit
 		//False: Suit, then Number

@@ -6,12 +6,12 @@ import java.util.List;
 /*
  * POKER PROGRAM
  * Names: Alex, John, Jack, Devin
- * Evaluator class: An evaluator to calculate the score of the poker hand
+ * Evaluator class: An evaluator to calculate and deal with scores, rankings and poker hands
  */
 
 public class Evaluator {
 	
-	/*
+	/* Hands ranked from least to greatest:
 	 * 	1 = High Card / HC
 	 * 	2 = One Pair / P1
 	 * 	3 = Two Pairs / PP
@@ -24,19 +24,19 @@ public class Evaluator {
 	 *  10 = Royal Flush / RF
 	 */
 	
+	//An enum for all of the possible hands
 	public enum Hand {
 		High_Card, One_Pair, Two_Pairs, Three_of_a_Kind, Straight, Flush, Full_House, Four_of_a_Kind, Straight_Flush, Royal_Flush;
 	}
-
+	
+	//Implements comparing the scores of different players
 	public static Object comparePlayers(Player p1, Player p2) {
 		List<Card> c1 = new ArrayList<>(), c2 = new ArrayList<>();
 		c1.addAll(Poker.cardsOnTable);
 		c1.addAll(p1.cards);
 		c2.addAll(Poker.cardsOnTable);
 		c2.addAll(p2.cards);
-		
-		//TODO REDO THIS CODE AND GET 5 CARDS OF POSSIBILITIES FROM 7
-		
+				
 		if(compareHands(c1, c2) == 1) {
 			return true;
 		}
@@ -48,7 +48,7 @@ public class Evaluator {
 		}
 	}
 	
-	/* Compares the scores of two different lists of cards.
+	/* Helper method that compares the scores of two different lists of cards
 	 * Returns: 
 	 * 1 (card01 wins)
 	 * 0 (card01 loses)
@@ -81,7 +81,6 @@ public class Evaluator {
 		List<Card> tempCard = new ArrayList<>();
 		tempCard.addAll(card);
 
-		
 		score[0] = evaluateHand(tempCard);	
 		score[1] = evaluateScore(score[0], getHand(card));
 		
@@ -151,6 +150,7 @@ public class Evaluator {
 		}
 	}
 	
+	//Implements getting the five-card hand within a list of cards
 	public static List<Card> getHand (List<Card> card) {
 		if ((Boolean)Hands.RF(card).get(0)) {
 			return (List<Card>)Hands.RF(card).get(1);

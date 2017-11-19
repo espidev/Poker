@@ -156,6 +156,7 @@ public class WinManager extends Poker{
 		System.out.println("This player has won $" + pot + "!");
 	}
 	
+	//Handles the cases in which a tie is detected
 	public static void win(ArrayList<Player> p) {
 		System.out.println("And the winners of this round are...");
 		for(int i = 0; i < 3; i++) {
