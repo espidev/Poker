@@ -165,11 +165,12 @@ public class WinManager extends Poker{
 		
 		for (int i = 0; i < p.size(); i++) {
 			if (i == p.size() - 1) {
-				System.out.print("and " + p.get(i) + "!");
+				System.out.print("and " + p.get(i).name + "!");
 			} else {
-				System.out.print(p.get(i) + ", ");
+				System.out.print(p.get(i).name + ", ");
 			}
 		}
+		System.out.println();
 
 		for (Player z : p) {
 			z.money += pot/p.size();
